@@ -66,7 +66,8 @@
 	$("#tracking-kid-info-edit").click(function() {
 		$('#tracking-add-kid-modal').modal('toggle');
 		$('#tracking-add-kid-form\\:input-name').val($('#tracking-kid-info-name').val());
-		$('#tracking-add-kid-form\\:input-dob').val($('#tracking-kid-info-dob').val());
+		var parts = $('#tracking-kid-info-dob').val().split('/');
+		$('#tracking-add-kid-form\\:input-dob').val(parts[2]+"-"+parts[1]+"-"+parts[0]);
 		$('#tracking-add-kid-form\\:input-gender').val($('#tracking-kid-info-gender').val());
 		$('#weight-row').hide();
 		$('#height-row').hide();
