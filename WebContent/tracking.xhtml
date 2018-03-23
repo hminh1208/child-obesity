@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<f:metadata>
+	<f:event type="preRenderView" listener="#{kidMangedBean.loadKids()}" />
+</f:metadata>
+
+<h:head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+	<!-- Bootstrap CSS -->
+
+	<h:outputStylesheet library="css" name="bootstrap.min.css" />
+	
+	<h:outputStylesheet library="css" name="jquery-ui.min.css" />
+
+	<h:outputStylesheet library="css" name="mycss.css" />
+
+	<title>Tracking BMI page</title>
+</h:head>
+
+<h:body>
+	<!-- Top Menu -->
+	<div
+		class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+		<h5 class="my-0 mr-md-auto font-weight-normal">Child Obesity</h5>
+		<nav class="my-2 my-md-0 mr-md-3"> <a class="p-2 text-dark"
+			href="tracking.xhtml">Tracking</a> <a class="p-2 text-dark" href="#">Features</a>
+		<a class="p-2 text-dark" href="#">About</a> <a class="p-2 text-dark"
+			href="#">Contact</a> </nav>
+		<a class="btn btn-outline-primary" href="#">Sign up</a>
+	</div>
+	<!-- End Top Menu -->
+
+	<div class="container">
+
+		<h1>Tracking BMI</h1>
+
+		<div class="row">
+			<div class="alert col-lg-12" id="tracking-kid-list">
+				<div class="gavatar all">ALL</div>
+				<div class="gavatar plus" id="tracking-add-kid">+</div>
+				<ui:repeat var="o" value="#{kidMangedBean.kids}" varStatus="status">
+					<div class="gavatar boy" id="#{o.id}">#{o.nameLabel}</div>
+				</ui:repeat>
+			</div>
+		</div>
+
+		<div class="tracking-bottom row">
+			<div class="col-lg-5">
+				<div class="row kid-info">
+					<div class="col-xs-12 col-md-12">
+						<div styleClass="form-vertical">
+
+							<h:inputHidden styleClass="form-control" value=""
+								id="tracking-kid-info-id" a:readonly="true"></h:inputHidden>
+
+							<div class="form-group row">
+								<div class="col-4">Name</div>
+								<div class="col-8">
+									<h:inputText styleClass="form-control" value=""
+										id="tracking-kid-info-name" a:readonly="true"></h:inputText>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-4">Gender</div>
+								<div class="col-8">
+									<!-- <h:inputText styleClass="form-control" value=""
+										id="tracking-kid-info-gender" a:readonly="true"></h:inputText> -->
+									<h:selectOneMenu value="" styleClass="form-control"
+										id="tracking-kid-info-gender" a:disabled="true">
+										<f:selectItem itemValue="0" itemLabel="Boy" />
+										<f:selectItem itemValue="1" itemLabel="Girl" />
+										<f:selectItem itemValue="2" itemLabel="" a:selected="true" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-4">Date of Birth</div>
+								<div class="col-8">
+									<h:inputText styleClass="form-control" value=""
+										id="tracking-kid-info-dob" a:readonly="true"></h:inputText>
+								</div>
+							</div>
+							<div class="row form-group">
+								<div class="col-4"></div>
+								<div class="col-4">
+									<button class="form-control btn btn-outline-primary" value=""
+										id="tracking-kid-info-edit">Edit</button>
+								</div>
+								<div class="col-4">
+									<button class="form-control btn btn-outline-danger" value=""
+										id="tracking-kid-info-delete">Delete</button>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="row kid-bmi alert alert-success"></div>
+			</div>
+			<div class="col-lg-7 alert alert-danger">
+				<div class="row bmi-historical-chart alert alert-success"></div>
+				<div class="row bmi-historical-table alert alert-success"></div>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" tabindex="-1" role="dialog"
+		id="tracking-add-kid-modal">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Adding new Kid</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<h:form styleClass="form-vertical needs-validation"
+					id="tracking-add-kid-form" a:novalidate="novalidate">
+					<div class="modal-body">
+
+						<div class="form-group row">
+							<div class="col-4">Full name</div>
+							<div class="col-8">
+								<h:inputText styleClass="form-control" a:required="true"
+									id="input-name" value='#{kid.name}'></h:inputText>
+								<div class="invalid-feedback">Name cannot be empty.</div>
+							</div>
+						</div>
+						<div class="form-group row">
+							<div class="col-4">Date of Birth</div>
+							<div class="col-8">
+								<h:inputText class="form-control" value="#{kid.dob}" a:type="date"
+									a:required="true" id="input-dob">
+								</h:inputText>
+								<div class="invalid-feedback">Date of Birth must be in dd/MM/yyyy format.</div>
+							</div>
+						</div>
+						<div class="form-group row">
+							<div class="col-4">Gender</div>
+							<div class="col-8">
+								<!-- <h:inputText styleClass="form-control" value="#{kid.gender}"
+									a:required="true" id="input-gender"></h:inputText> -->
+								<h:selectOneMenu value="" styleClass="form-control"
+									id="input-gender">
+									<f:selectItem itemValue="0" itemLabel="Boy" selected="true" />
+									<f:selectItem itemValue="1" itemLabel="Girl" />
+								</h:selectOneMenu>
+								<div class="invalid-feedback">Gender cannot be empty.</div>
+							</div>
+						</div>
+						<div class="form-group row" id="weight-row">
+							<div class="col-4">Current weight (kg)</div>
+							<div class="col-8">
+								<h:inputText class="form-control" value="#{kid.weight}"
+									a:type="number" a:required="true" id="input-weight" a:min="1"
+									a:max="100.0" a:step="0.1"></h:inputText>
+								<div class="invalid-feedback">Current weight must larger
+									than 1 and round to one precision number</div>
+							</div>
+						</div>
+						<div class="form-group row" id="height-row">
+							<div class="col-4">Current height (cm)</div>
+							<div class="col-8">
+								<div>
+									<h:inputText type="text" class="form-control" a:required='true'
+										value="#{kid.height}" id="input-height" a:type="number"
+										a:min="1" a:max="100.0" a:step="0.1">
+									</h:inputText>
+									<div class="invalid-feedback">Current height must larger
+										than 1 and round to one precision number.</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<h:commandButton value="Add" styleClass="btn btn-primary"
+							action="#{kidMangedBean.addKid(kid)}"
+							id="tracking-kid-info-modal-addbtn" />
+						<h:commandButton value="Save" styleClass="btn btn-primary"
+							action="#{kidMangedBean.saveKid(kid)}"
+							id="tracking-kid-info-modal-savebtn" />
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">Close</button>
+					</div>
+				</h:form>
+			</div>
+		</div>
+	</div>
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<h:outputScript library="js" name="jquery-3.3.1.min.js" />
+
+	<h:outputScript library="js" name="bootstrap.min.js" />
+
+	<h:outputScript library="js" name="jquery-ui.min.js" />
+
+	<h:outputScript library="js" name="tracking.js" />
+
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+
+
+
+
+</h:body>
+
+</html>
