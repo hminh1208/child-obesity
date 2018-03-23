@@ -55,9 +55,23 @@ public class KidMangedBean {
 	}
 
 	public String addKid(Kid newKid) {
-		logger.log(Level.SEVERE, "New kids" + newKid.getName() );
 		try {
 			KidDbUtil.getInstance().addKid(newKid);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
+		return viewId + "?faces-redirect=true";
+	}
+
+	public String saveKid(Kid newKid) {
+		try {
+			KidDbUtil.getInstance().updateKid(newKid);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -68,7 +68,7 @@ public class KidDbUtil {
 
 		return kids;
 	}
-	
+
 	public Kid getKidById(int id) throws SQLException {
 
 		Connection conn = null;
@@ -80,11 +80,12 @@ public class KidDbUtil {
 			String sql = "select * from kid where id = ?";
 			myStmt = conn.prepareStatement(sql);
 			myStmt.setInt(1, id);
-			
+
 			result = myStmt.executeQuery();
 
 			if (result.next()) {
-				return new Kid(result.getInt("id"), result.getString("name"), result.getInt("gender"), result.getDate("dob"));
+				return new Kid(result.getInt("id"), result.getString("name"), result.getInt("gender"),
+						result.getDate("dob"));
 			}
 		} finally {
 			close(conn, myStmt, result);
@@ -105,7 +106,7 @@ public class KidDbUtil {
 
 			// set params
 			myStmt.setString(1, newKid.getName());
-			DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+			DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
 			Date startDate = null;
 			try {
 				startDate = new Date(df.parse(newKid.getDob()).getTime());
@@ -120,6 +121,39 @@ public class KidDbUtil {
 			myStmt.execute();
 		} finally {
 			close(myConn, myStmt, null);
+		}
+	}
+
+	public void updateKid(Kid newKid) throws SQLException {
+		Connection conn = null;
+		PreparedStatement myStmt = null;
+
+		try {
+			conn = getConnection();
+
+			String sql = "update kid set name = ?, dob = ?, gender = ? where id = ?";
+			myStmt = conn.prepareStatement(sql);
+
+			// set params
+			myStmt.setString(1, newKid.getName());
+
+			DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+			Date startDate = null;
+			try {
+				startDate = new Date(df.parse(newKid.getDob()).getTime());
+				myStmt.setDate(2, startDate);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+
+			myStmt.setInt(3, newKid.getGender());
+
+			myStmt.setInt(4, newKid.getId());
+			// default parent id for testing
+			System.out.println("Testing " + newKid.getId() + " " + newKid.getName());
+			myStmt.execute();
+		} finally {
+			close(conn, myStmt, null);
 		}
 	}
 

@@ -19,7 +19,7 @@
 	<!-- Bootstrap CSS -->
 
 	<h:outputStylesheet library="css" name="bootstrap.min.css" />
-	
+
 	<h:outputStylesheet library="css" name="jquery-ui.min.css" />
 
 	<h:outputStylesheet library="css" name="mycss.css" />
@@ -121,7 +121,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">Adding new Kid</h5>
-					<button type="button" class="close" data-dismiss="modal"
+					<button type="button" class="close" data-dismiss="#tracking-add-kid-modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -129,7 +129,8 @@
 				<h:form styleClass="form-vertical needs-validation"
 					id="tracking-add-kid-form" a:novalidate="novalidate">
 					<div class="modal-body">
-
+						<h:inputHidden styleClass="form-control" a:required="true"
+							id="input-id" value='#{kid.id}'></h:inputHidden>
 						<div class="form-group row">
 							<div class="col-4">Full name</div>
 							<div class="col-8">
@@ -141,10 +142,11 @@
 						<div class="form-group row">
 							<div class="col-4">Date of Birth</div>
 							<div class="col-8">
-								<h:inputText class="form-control" value="#{kid.dob}" a:type="date"
-									a:required="true" id="input-dob">
+								<h:inputText class="form-control" value="#{kid.dob}"
+									a:type="date" a:required="true" id="input-dob">
 								</h:inputText>
-								<div class="invalid-feedback">Date of Birth must be in dd/MM/yyyy format.</div>
+								<div class="invalid-feedback">Date of Birth must be in
+									dd/MM/yyyy format.</div>
 							</div>
 						</div>
 						<div class="form-group row">
@@ -152,8 +154,8 @@
 							<div class="col-8">
 								<!-- <h:inputText styleClass="form-control" value="#{kid.gender}"
 									a:required="true" id="input-gender"></h:inputText> -->
-								<h:selectOneMenu value="" styleClass="form-control"
-									id="input-gender">
+								<h:selectOneMenu styleClass="form-control"
+									value="#{kid.gender}" id="input-gender">
 									<f:selectItem itemValue="0" itemLabel="Boy" selected="true" />
 									<f:selectItem itemValue="1" itemLabel="Girl" />
 								</h:selectOneMenu>
@@ -189,6 +191,63 @@
 						<h:commandButton value="Add" styleClass="btn btn-primary"
 							action="#{kidMangedBean.addKid(kid)}"
 							id="tracking-kid-info-modal-addbtn" />
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">Close</button>
+					</div>
+				</h:form>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" tabindex="-1" role="dialog"
+		id="tracking-edit-kid-modal">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Editing Kid</h5>
+					<button type="button" class="close" data-dismiss="#tracking-edit-kid-modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<h:form styleClass="form-vertical needs-validation"
+					id="tracking-edit-kid-form" a:novalidate="novalidate">
+					<div class="modal-body">
+						<h:inputHidden styleClass="form-control" a:required="true"
+							id="input-id" value='#{kid.id}'></h:inputHidden>
+						<div class="form-group row">
+							<div class="col-4">Full name</div>
+							<div class="col-8">
+								<h:inputText styleClass="form-control" a:required="true"
+									id="input-name" value='#{kid.name}'></h:inputText>
+								<div class="invalid-feedback">Name cannot be empty.</div>
+							</div>
+						</div>
+						<div class="form-group row">
+							<div class="col-4">Date of Birth</div>
+							<div class="col-8">
+								<h:inputText class="form-control" value="#{kid.dob}"
+									a:type="date" a:required="true" id="input-dob">
+								</h:inputText>
+								<div class="invalid-feedback">Date of Birth must be in
+									dd/MM/yyyy format.</div>
+							</div>
+						</div>
+						<div class="form-group row">
+							<div class="col-4">Gender</div>
+							<div class="col-8">
+								<!-- <h:inputText styleClass="form-control" value="#{kid.gender}"
+									a:required="true" id="input-gender"></h:inputText> -->
+								<h:selectOneMenu styleClass="form-control"
+									value="#{kid.gender}" id="input-gender">
+									<f:selectItem itemValue="0" itemLabel="Boy" selected="true" />
+									<f:selectItem itemValue="1" itemLabel="Girl" />
+								</h:selectOneMenu>
+								<div class="invalid-feedback">Gender cannot be empty.</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
 						<h:commandButton value="Save" styleClass="btn btn-primary"
 							action="#{kidMangedBean.saveKid(kid)}"
 							id="tracking-kid-info-modal-savebtn" />

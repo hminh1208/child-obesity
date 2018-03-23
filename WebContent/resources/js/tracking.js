@@ -20,6 +20,9 @@
 		});
 	}, false);
 	
+	$('#tracking-kid-info-edit').prop('disabled', true);
+	$('#tracking-kid-info-delete').prop('disabled', true);
+	
 	$('#tracking-add-kid-modal').on(
 			'hidden.bs.modal',
 			function(e) {
@@ -35,10 +38,6 @@
 
 	$("#tracking-add-kid").click(function() {
 		$('#tracking-add-kid-modal').modal('toggle');
-		$('#weight-row').show();
-		$('#height-row').show();
-		$('#tracking-add-kid-form\\:tracking-kid-info-modal-savebtn').hide();
-		$('#tracking-add-kid-form\\:tracking-kid-info-modal-addbtn').show();
 		console.log('modal222');
 	});
 	
@@ -60,20 +59,18 @@
 				$('#tracking-kid-info-name').val(data.name);
 				$('#tracking-kid-info-dob').val(data.dob);
 				$('#tracking-kid-info-gender').val(data.gender);
+				$('#tracking-kid-info-edit').prop('disabled', false);
+				$('#tracking-kid-info-delete').prop('disabled', false);
 			});
 	});
 	
 	$("#tracking-kid-info-edit").click(function() {
-		$('#tracking-add-kid-modal').modal('toggle');
-		$('#tracking-add-kid-form\\:input-name').val($('#tracking-kid-info-name').val());
+		$('#tracking-edit-kid-modal').modal('toggle');
+		$('#tracking-edit-kid-form\\:input-id').val($('#tracking-kid-info-id').val());
+		$('#tracking-edit-kid-form\\:input-name').val($('#tracking-kid-info-name').val());
 		var parts = $('#tracking-kid-info-dob').val().split('/');
-		$('#tracking-add-kid-form\\:input-dob').val(parts[2]+"-"+parts[1]+"-"+parts[0]);
-		$('#tracking-add-kid-form\\:input-gender').val($('#tracking-kid-info-gender').val());
-		$('#weight-row').hide();
-		$('#height-row').hide();
-		$('#tracking-add-kid-form\\:tracking-kid-info-modal-addbtn').hide();
-		$('#tracking-add-kid-form\\:tracking-kid-info-modal-savebtn').show();
-		
+		$('#tracking-edit-kid-form\\:input-dob').val(parts[2]+"-"+parts[1]+"-"+parts[0]);
+		$('#tracking-edit-kid-form\\:input-gender').val($('#tracking-kid-info-gender').val());
 	});
 	
 })();
