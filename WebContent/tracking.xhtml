@@ -121,8 +121,8 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">Adding new Kid</h5>
-					<button type="button" class="close" data-dismiss="#tracking-add-kid-modal"
-						aria-label="Close">
+					<button type="button" class="close"
+						data-dismiss="#tracking-add-kid-modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
@@ -154,8 +154,8 @@
 							<div class="col-8">
 								<!-- <h:inputText styleClass="form-control" value="#{kid.gender}"
 									a:required="true" id="input-gender"></h:inputText> -->
-								<h:selectOneMenu styleClass="form-control"
-									value="#{kid.gender}" id="input-gender">
+								<h:selectOneMenu styleClass="form-control" value="#{kid.gender}"
+									id="input-gender">
 									<f:selectItem itemValue="0" itemLabel="Boy" selected="true" />
 									<f:selectItem itemValue="1" itemLabel="Girl" />
 								</h:selectOneMenu>
@@ -198,15 +198,15 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="modal fade" tabindex="-1" role="dialog"
 		id="tracking-edit-kid-modal">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">Editing Kid</h5>
-					<button type="button" class="close" data-dismiss="#tracking-edit-kid-modal"
-						aria-label="Close">
+					<button type="button" class="close"
+						data-dismiss="#tracking-edit-kid-modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
@@ -238,8 +238,8 @@
 							<div class="col-8">
 								<!-- <h:inputText styleClass="form-control" value="#{kid.gender}"
 									a:required="true" id="input-gender"></h:inputText> -->
-								<h:selectOneMenu styleClass="form-control"
-									value="#{kid.gender}" id="input-gender">
+								<h:selectOneMenu styleClass="form-control" value="#{kid.gender}"
+									id="input-gender">
 									<f:selectItem itemValue="0" itemLabel="Boy" selected="true" />
 									<f:selectItem itemValue="1" itemLabel="Girl" />
 								</h:selectOneMenu>
@@ -255,6 +255,25 @@
 							data-dismiss="modal">Close</button>
 					</div>
 				</h:form>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Confirmation</h5>
+					<button type="button" class="close"
+						data-dismiss="mi-modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" id="modal-btn-si">Yes</button>
+					<button type="button" class="btn btn-primary" id="modal-btn-no">No</button>
+				</div>
 			</div>
 		</div>
 	</div>

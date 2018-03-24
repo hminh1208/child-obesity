@@ -156,6 +156,24 @@ public class KidDbUtil {
 			close(conn, myStmt, null);
 		}
 	}
+	
+	public void deleteKid(int id) throws SQLException {
+		Connection conn = null;
+		PreparedStatement myStmt = null;
+
+		try {
+			conn = getConnection();
+
+			String sql = "Delete From kid where id = ?";
+			myStmt = conn.prepareStatement(sql);
+
+			// set params
+			myStmt.setInt(1, id);
+			myStmt.execute();
+		} finally {
+			close(conn, myStmt, null);
+		}
+	}
 
 	private void close(Connection conn, Statement st, ResultSet re) {
 		// TODO Auto-generated method stub

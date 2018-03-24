@@ -37,4 +37,11 @@ public class KidService {
 		return new Gson().toJson(KidDbUtil.getInstance().getKidById(id));
 	}
 
+	@GET
+	@Path("/delete/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public void deleteKidById(@PathParam("id") int id) throws SQLException, NamingException {
+		KidDbUtil.getInstance().deleteKid(id);
+	}
+	
 }
