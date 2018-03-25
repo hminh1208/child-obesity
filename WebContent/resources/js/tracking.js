@@ -45,7 +45,7 @@
 	// console.log(data.name);
 	// });
 
-	//Init DataTable
+	// Init DataTable
 	var table = $('#tracking-bmi-historical-table').DataTable( {
 		"language": {
 			"zeroRecords": "Nothing found - sorry"
@@ -59,7 +59,7 @@
 		    labels: [],
 		    datasets: [{ 
 		        data: [],
-		        label: "BMI historical",
+		        label: "BMI progress",
 		        borderColor: "#3e95cd",
 		        fill: false
 		      }]
@@ -67,7 +67,7 @@
 		  options: {
 		    title: {
 		      display: true,
-		      text: 'BMI historical chart'
+		      text: 'BMI progress chart'
 		    }
 		  }
 		});
@@ -78,6 +78,7 @@
 		
 		// Set up for Add BMI record
 		$('#tracking-add-bmi-form\\:input-add-bmi-kid-id').val(id);
+		
 		
 		if (id == 'tracking-add-kid' || id == 'tracking-add-all') {
 			return;
@@ -112,6 +113,7 @@
 			console.log(data.name);
 			$('#tracking-kid-info-id').val(data.id);
 			$('#tracking-kid-info-name').val(data.name);
+			$('#progress-title').text(data.name+"'s Progress");
 			$('#tracking-kid-info-dob').val(data.dob);
 			$('#tracking-kid-info-gender').val(data.gender);
 			$('#tracking-kid-info-edit').prop('disabled', false);
@@ -143,7 +145,7 @@
 				    labels: labels,
 				    datasets: [{ 
 				        data: dataLine,
-				        label: "BMI historical",
+				        label: "BMI progress",
 				        borderColor: "#3e95cd",
 				        fill: false
 				      }
@@ -152,7 +154,7 @@
 				  options: {
 				    title: {
 				      display: true,
-				      text: 'BMI historical chart'
+				      text: 'BMI progress chart'
 				    }
 				  }
 				});

@@ -118,7 +118,7 @@ public class BMIDbUtil {
 			myStmt.setFloat(2, record.getWeight());
 			myStmt.setFloat(3, record.getHeight());
 
-			DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+			DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
 			Date inputDate = null;
 			try {
 				inputDate = new Date(df.parse(record.getInputDate()).getTime());
