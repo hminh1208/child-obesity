@@ -3,6 +3,7 @@ package monash.pinwheel.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.naming.Context;
@@ -17,6 +18,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 
+import monash.pinwheel.entity.BMI;
 import monash.pinwheel.entity.Kid;
 
 public class KidDbUtil {
@@ -93,16 +95,17 @@ public class KidDbUtil {
 		return null;
 	}
 
-	public void addKid(Kid newKid) throws SQLException {
+	public void addKid(Kid newKid) throws SQLException, NamingException {
 		Connection myConn = null;
 		PreparedStatement myStmt = null;
 
 		try {
 			myConn = getConnection();
 
+			// insert record to kid table
 			String sql = "insert into kid (name, dob, gender, parent_id) values (?, ?, ?, ?)";
 
-			myStmt = myConn.prepareStatement(sql);
+			myStmt = myConn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
 			// set params
 			myStmt.setString(1, newKid.getName());
@@ -118,7 +121,16 @@ public class KidDbUtil {
 			// default parent id for testing
 			myStmt.setInt(4, 1);
 
-			myStmt.execute();
+			myStmt.executeUpdate();
+			ResultSet rs = myStmt.getGeneratedKeys();
+			if (rs.next()) {
+			    int kidID = rs.getInt(1);
+			    BMIDbUtil.getInstance().addBMI(new BMI(kidID, newKid.getWeight(), newKid.getHeight(),
+						new java.sql.Date(Calendar.getInstance().getTime().getTime())));
+			}
+			myConn.commit();
+			// insert record to bmirecord table
+			
 		} finally {
 			close(myConn, myStmt, null);
 		}
@@ -152,11 +164,12 @@ public class KidDbUtil {
 			// default parent id for testing
 			System.out.println("Testing " + newKid.getId() + " " + newKid.getName());
 			myStmt.execute();
+			conn.commit();
 		} finally {
 			close(conn, myStmt, null);
 		}
 	}
-	
+
 	public void deleteKid(int id) throws SQLException {
 		Connection conn = null;
 		PreparedStatement myStmt = null;
@@ -170,6 +183,7 @@ public class KidDbUtil {
 			// set params
 			myStmt.setInt(1, id);
 			myStmt.execute();
+			conn.commit();
 		} finally {
 			close(conn, myStmt, null);
 		}

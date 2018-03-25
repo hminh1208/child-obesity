@@ -22,6 +22,7 @@
 
 	$('#tracking-kid-info-edit').prop('disabled', true);
 	$('#tracking-kid-info-delete').prop('disabled', true);
+	$('#tracking-kid-info-add-bmi').prop('disabled', true);
 
 	$('#tracking-add-kid-modal').on('hidden.bs.modal', function(e) {
 		$('#tracking-add-kid-form')[0].reset();
@@ -44,8 +45,66 @@
 	// console.log(data.name);
 	// });
 
+	//Init DataTable
+	var table = $('#tracking-bmi-historical-table').DataTable( {
+		"language": {
+			"zeroRecords": "Nothing found - sorry"
+	    }});
+	
+	// Init Chart
+	var ctx = document.getElementById("myChart").getContext('2d');
+	var myChart = new Chart(ctx, {
+		  type: 'line',
+		  data: {
+		    labels: [],
+		    datasets: [{ 
+		        data: [],
+		        label: "BMI historical",
+		        borderColor: "#3e95cd",
+		        fill: false
+		      }]
+		  },
+		  options: {
+		    title: {
+		      display: true,
+		      text: 'BMI historical chart'
+		    }
+		  }
+		});
+	
 	$('.gavatar').click(function() {
 		console.log($(this).attr('id'));
+		var id = $(this).attr('id');
+		
+		// Set up for Add BMI record
+		$('#tracking-add-bmi-form\\:input-add-bmi-kid-id').val(id);
+		
+		if (id == 'tracking-add-kid' || id == 'tracking-add-all') {
+			return;
+		}
+		
+		if(table != null)
+			table.destroy();
+		
+		// AJAX call for kid historical table
+		table = $('#tracking-bmi-historical-table').DataTable( {
+			"bRetrieve" : true,
+			"language": {
+				"zeroRecords": "Nothing found - sorry"
+		    },
+	        "ajax": {
+	            "url": "rest/bmiservice/bmis/"+ id,
+	            "cache": "true",
+	            "dataSrc": ""
+	          },
+	        "columns": [
+	        	 { "data": "weight" },
+	        	 { "data": "height" },
+	        	 { "data": "inputDate" }
+	        ]
+	    });
+		
+		// AJAX call for kid info
 		$.ajax({
 			url : "rest/kidservice/kid/" + $(this).attr('id'),
 			context : document.body
@@ -57,7 +116,48 @@
 			$('#tracking-kid-info-gender').val(data.gender);
 			$('#tracking-kid-info-edit').prop('disabled', false);
 			$('#tracking-kid-info-delete').prop('disabled', false);
+			$('#tracking-kid-info-add-bmi').prop('disabled', false);
 		});
+		
+		// AJAX call for chart data
+		$.ajax({
+			url : "rest/bmiservice/bmis/"+ id,
+			context : document.body
+		}).done(function(data) {
+			
+			var labels = [];
+			var dataLine = [];
+			
+			labels.push(0);
+			dataLine.push(0);
+			
+			$.each(data, function(index) {
+	            labels.push(data[index].inputDate);
+				dataLine.push(data[index].weight / data[index].height /data[index].height * 10000);
+	        });
+			
+			var ctx = document.getElementById("myChart").getContext('2d');
+			var myChart = new Chart(ctx, {	
+				  type: 'line',
+				  data: {
+				    labels: labels,
+				    datasets: [{ 
+				        data: dataLine,
+				        label: "BMI historical",
+				        borderColor: "#3e95cd",
+				        fill: false
+				      }
+				    ]
+				  },
+				  options: {
+				    title: {
+				      display: true,
+				      text: 'BMI historical chart'
+				    }
+				  }
+				});
+		});
+			
 	});
 
 	$("#tracking-kid-info-edit").click(
@@ -112,5 +212,10 @@
 		$('#tracking-kid-info-dob').val("");
 		$('#tracking-kid-info-gender').val(2);
 	}
+
+	//
+	$("#tracking-kid-info-add-bmi").click(function() {
+		$('#tracking-add-bmi-modal').modal('toggle');
+	});
 
 })();

@@ -2,6 +2,7 @@ package monash.pinwheel.managedbean;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,7 +13,9 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.naming.NamingException;
 
+import monash.pinwheel.dao.BMIDbUtil;
 import monash.pinwheel.dao.KidDbUtil;
+import monash.pinwheel.entity.BMI;
 import monash.pinwheel.entity.Kid;
 
 @ManagedBean
@@ -86,6 +89,9 @@ public class KidMangedBean {
 	
 	public String deleteKid(int id) {
 		try {
+			// Delete all BMI records relate to the kid
+			BMIDbUtil.getInstance().deleteBMIRecordByKidId(id);
+			// Delete the did
 			KidDbUtil.getInstance().deleteKid(id);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
