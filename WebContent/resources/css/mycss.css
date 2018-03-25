@@ -118,3 +118,11 @@ input[type=date]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
+
+iframe{
+	width:50%;
+	min-width:500px;
+}
+
+hr{
+	border-width: 2px}

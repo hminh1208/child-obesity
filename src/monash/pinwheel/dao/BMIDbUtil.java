@@ -144,7 +144,7 @@ public class BMIDbUtil {
 			String sql = "Select * from bmirecord where input_date = ?";
 			myStmt = conn.prepareStatement(sql);
 
-			DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+			DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 			Date inputDate = null;
 			try {
 				inputDate = new Date(df.parse(checkDate).getTime());

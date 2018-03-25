@@ -42,87 +42,104 @@
 	</div>
 	<!-- End Top Menu -->
 
-	<div class="container">
+	<div class="container-fluid">
 
-		<h1>Tracking BMI</h1>
-
+		<h1>Track your child</h1>
+		<h6>Add or Select child</h6>
 		<div class="row">
-			<div class="alert col-lg-12" id="tracking-kid-list">
-				<div class="gavatar all" id="tracking-add-all">ALL</div>
-				<div class="gavatar plus" id="tracking-add-kid">+</div>
+			<div class="alert col-lg-12 alert alert-info" id="tracking-kid-list">
 				<ui:repeat var="o" value="#{kidMangedBean.kids}" varStatus="status">
 					<div class="gavatar boy" id="#{o.id}">#{o.nameLabel}</div>
 				</ui:repeat>
+				<div class="gavatar plus" id="tracking-add-kid">+</div>
 			</div>
 		</div>
 
-		<div class="tracking-bottom row">
-			<div class="col-lg-5">
-				<div class="row kid-info">
-					<div class="col-xs-12 col-md-12">
-						<div styleClass="form-vertical">
+		<hr />
 
-							<h:inputHidden styleClass="form-control" value=""
-								id="tracking-kid-info-id" a:readonly="true"></h:inputHidden>
+		<div class="row">
+			<div class="form-vertical" style="width: 100%">
 
-							<div class="form-group row">
-								<div class="col-4">Name</div>
-								<div class="col-8">
-									<h:inputText styleClass="form-control" value=""
-										id="tracking-kid-info-name" a:readonly="true"></h:inputText>
-								</div>
-							</div>
-							<div class="form-group row">
-								<div class="col-4">Gender</div>
-								<div class="col-8">
-									<!-- <h:inputText styleClass="form-control" value=""
-										id="tracking-kid-info-gender" a:readonly="true"></h:inputText> -->
-									<h:selectOneMenu value="" styleClass="form-control"
-										id="tracking-kid-info-gender" a:disabled="true">
-										<f:selectItem itemValue="0" itemLabel="Boy" />
-										<f:selectItem itemValue="1" itemLabel="Girl" />
-										<f:selectItem itemValue="2" itemLabel="" a:selected="true" />
-									</h:selectOneMenu>
-								</div>
-							</div>
-							<div class="form-group row">
-								<div class="col-4">Date of Birth</div>
-								<div class="col-8">
-									<h:inputText styleClass="form-control" value=""
-										id="tracking-kid-info-dob" a:readonly="true"></h:inputText>
-								</div>
-							</div>
-							<div class="row form-group">
-								<div class="col-4"></div>
-								<div class="col-4">
-									<button class="form-control btn btn-outline-primary" value=""
-										id="tracking-kid-info-edit">Edit</button>
-								</div>
-								<div class="col-4">
-									<button class="form-control btn btn-outline-danger" value=""
-										id="tracking-kid-info-delete">Delete</button>
-								</div>
-							</div>
+				<div class="form-group row justify-content-center text-center">
+					<h3>Child information</h3>
+				</div>
 
-						</div>
+				<h:inputHidden styleClass="form-control" value=""
+					id="tracking-kid-info-id" a:readonly="true"></h:inputHidden>
+
+				<div class="form-group row justify-content-center text-right">
+					<div class="col-1">Name</div>
+					<div class="col-4">
+						<h:inputText styleClass="form-control" value=""
+							id="tracking-kid-info-name" a:readonly="true"></h:inputText>
 					</div>
 				</div>
-				<div class="row kid-bmi"></div>
+				<div class="form-group row justify-content-center text-right">
+					<div class="col-1">Gender</div>
+					<div class="col-4">
+						<!-- <h:inputText styleClass="form-control" value=""
+										id="tracking-kid-info-gender" a:readonly="true"></h:inputText> -->
+						<h:selectOneMenu value="" styleClass="form-control"
+							id="tracking-kid-info-gender" a:disabled="true">
+							<f:selectItem itemValue="0" itemLabel="Boy" />
+							<f:selectItem itemValue="1" itemLabel="Girl" />
+							<f:selectItem itemValue="2" itemLabel="" a:selected="true" />
+						</h:selectOneMenu>
+					</div>
+				</div>
+				<div class="form-group row justify-content-center text-right">
+					<div class="col-1">Date of Birth</div>
+					<div class="col-4">
+						<h:inputText styleClass="form-control" value=""
+							id="tracking-kid-info-dob" a:readonly="true"></h:inputText>
+					</div>
+				</div>
+				<div class="row form-group justify-content-center text-center">
+					<div class="col-1"></div>
+					<div class="col-2">
+						<button class="form-control btn btn-outline-primary" value=""
+							id="tracking-kid-info-edit">Edit</button>
+					</div>
+					<div class="col-2">
+						<button class="form-control btn btn-outline-danger" value=""
+							id="tracking-kid-info-delete">Delete</button>
+					</div>
+				</div>
 			</div>
-			<div class="col-lg-7 ">
+
+		</div>
+		<hr />
+		<div class="row">
+			<div class="form-vertical" style="width: 100%">
+				<div class="form-group row justify-content-center text-center">
+					<h3>BMI Age Percentiles</h3>
+				</div>
+				<div class="form-group row justify-content-center text-center">
+					<iframe src="https://yke13.shinyapps.io/bmi_chart_v2/"></iframe>
+				</div>
+			</div>
+		</div>
+		<hr/>
+		<div class="row">
+			<div class="col-lg-6 ">
 
 				<!-- Start BMI historical chart section -->
+				<h1>BMI historal chart</h1>
 				<div class="row bmi-historical-chart">
 					<canvas id="myChart"></canvas>
 				</div>
+			</div>
+			<div class="col-lg-6">
 				<!-- End BMI historical chart section -->
 
 				<!-- Start BMI historical table section -->
+				<h1>BMI historal table</h1>
 				<div class="row bmi-historical-table form-group">
 					<div class="row" style="width: 100%">
 						<div class='col-5'>
 							<button class="form-control btn btn-outline-success" value=""
-								id="tracking-kid-info-add-bmi" disabled="disabled">Add BMI record</button>
+								id="tracking-kid-info-add-bmi" disabled="disabled">Add
+								BMI record</button>
 						</div>
 					</div>
 
@@ -143,7 +160,7 @@
 		</div>
 	</div>
 
-<!--  -->
+	<!--  -->
 	<div class="modal fade" tabindex="-1" role="dialog"
 		id="tracking-add-kid-modal">
 		<div class="modal-dialog" role="document">
@@ -229,7 +246,7 @@
 	</div>
 	<!--  -->
 
-<!--  -->
+	<!--  -->
 	<div class="modal fade" tabindex="-1" role="dialog"
 		id="tracking-edit-kid-modal">
 		<div class="modal-dialog" role="document">
@@ -306,12 +323,13 @@
 				<h:form styleClass="form-vertical needs-validation"
 					id="tracking-add-bmi-form" a:novalidate="novalidate">
 					<div class="modal-body">
-					<h:inputHidden id="input-add-bmi-kid-id" value="#{bMI.kidId}"></h:inputHidden>
+						<h:inputHidden id="input-add-bmi-kid-id" value="#{bMI.kidId}"></h:inputHidden>
 						<div class="form-group row">
 							<div class="col-4">Record date</div>
 							<div class="col-8">
-								<h:inputText styleClass="form-control" a:required="true" a:type="date"
-									id="input-add-bmi-input-date" value='#{bMI.inputDate}'></h:inputText>
+								<h:inputText styleClass="form-control" a:required="true"
+									a:type="date" id="input-add-bmi-input-date"
+									value='#{bMI.inputDate}'></h:inputText>
 								<div class="invalid-feedback">Record date cannot be empty.</div>
 							</div>
 						</div>
@@ -319,8 +337,8 @@
 							<div class="col-4">Weight (kg)</div>
 							<div class="col-8">
 								<h:inputText class="form-control" value="#{kid.weight}"
-									a:type="number" a:required="true" id="input-add-bmi-weight" a:min="1"
-									a:max="200.0" a:step="0.1"></h:inputText>
+									a:type="number" a:required="true" id="input-add-bmi-weight"
+									a:min="1" a:max="200.0" a:step="0.1"></h:inputText>
 								<div class="invalid-feedback">Current weight must larger
 									than 1 and round to one precision number</div>
 							</div>
@@ -330,8 +348,8 @@
 							<div class="col-8">
 								<div>
 									<h:inputText type="text" class="form-control" a:required='true'
-										value="#{bMI.height}" id="input-add-bmi-height" a:type="number"
-										a:min="1" a:max="200.0" a:step="0.1">
+										value="#{bMI.height}" id="input-add-bmi-height"
+										a:type="number" a:min="1" a:max="200.0" a:step="0.1">
 									</h:inputText>
 									<div class="invalid-feedback">Current height must larger
 										than 1 and round to one precision number.</div>
@@ -341,7 +359,7 @@
 					</div>
 					<div class="modal-footer">
 						<h:commandButton value="Save" styleClass="btn btn-primary"
-						action="#{bMIManagedBean.addBMIRecord(bMI)}"
+							action="#{bMIManagedBean.addBMIRecord(bMI)}"
 							id="tracking-kid-info-modal-savebtn" />
 						<button type="button" class="btn btn-secondary"
 							data-dismiss="modal">Close</button>
