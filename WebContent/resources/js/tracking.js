@@ -2,6 +2,28 @@
  * 
  */
 
+
+var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};
+
+Date.prototype.toDateInputValue = (function() {
+    var local = new Date(this);
+    local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+    return local.toJSON().slice(0,10);
+});
+
 (function() {
 	'use strict';
 	window.addEventListener('load', function() {
@@ -48,7 +70,7 @@
 	// Init DataTable
 	var table = $('#tracking-bmi-historical-table').DataTable( {
 		"language": {
-			"zeroRecords": "Nothing found - sorry"
+			"zeroRecords": "There are no BMI record. Try to add 1"
 	    }});
 	
 	// Init Chart
@@ -79,6 +101,13 @@
 		// Set up for Add BMI record
 		$('#tracking-add-bmi-form\\:input-add-bmi-kid-id').val(id);
 		
+		var oldSelect = $(this).parent().find('.selected');
+		oldSelect.removeClass('selected');
+		oldSelect.addClass('default');
+		$(this).removeClass('default');
+		$(this).addClass('selected');
+		
+		
 		
 		if (id == 'tracking-add-kid' || id == 'tracking-add-all') {
 			return;
@@ -91,7 +120,7 @@
 		table = $('#tracking-bmi-historical-table').DataTable( {
 			"bRetrieve" : true,
 			"language": {
-				"zeroRecords": "Nothing found - sorry"
+				"zeroRecords": "There are no BMI record. Try to add 1"
 		    },
 	        "ajax": {
 	            "url": "rest/bmiservice/bmis/"+ id,
@@ -134,7 +163,8 @@
 			dataLine.push(0);
 			
 			$.each(data, function(index) {
-	            labels.push(data[index].inputDate);
+				var date = data[index].inputDate;
+	            labels.push(date.substring(0,6)+date.substring(8,10));
 				dataLine.push(data[index].weight / data[index].height /data[index].height * 10000);
 	        });
 			
@@ -147,7 +177,9 @@
 				        data: dataLine,
 				        label: "BMI progress",
 				        borderColor: "#3e95cd",
-				        fill: false
+				        fill: false,
+				        borderWidth: 0,
+				        backgroundColor: '#3e95cd'
 				      }
 				    ]
 				  },
@@ -155,7 +187,11 @@
 				    title: {
 				      display: true,
 				      text: 'BMI progress chart'
-				    }
+				    },
+				    legend: {
+			            display: true,
+			            fillStyle: '#3e95cd',
+			        }
 				  }
 				});
 		});
@@ -209,15 +245,27 @@
 		}
 	});
 
-	window.onload = function() {
-		$('#tracking-kid-info-name').val("");
-		$('#tracking-kid-info-dob').val("");
-		$('#tracking-kid-info-gender').val(2);
-	}
-
 	//
 	$("#tracking-kid-info-add-bmi").click(function() {
 		$('#tracking-add-bmi-modal').modal('toggle');
 	});
+	
+	$("#iFrame").attr("src", "https://yke13.shinyapps.io/bmi_chart_v2/");
 
+	var kidId = getUrlParameter('id');
+	if (kidId != null) {
+		$('#'+kidId).click();
+	}else{
+		$('#tracking-kid-info-name').val("");
+		$('#tracking-kid-info-dob').val("");
+		$('#tracking-kid-info-gender').val(2);
+	}
+	
+	$('#tracking-add-bmi-form\\:input-add-bmi-input-date').prop('max', function(){
+        return new Date().toJSON().split('T')[0];
+    });
+	
+	$('#tracking-add-bmi-form\\:input-add-bmi-input-date').val(new Date().toDateInputValue());
+	
 })();
+

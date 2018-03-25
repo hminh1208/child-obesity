@@ -31,6 +31,6 @@ public class BMIManagedBean {
 		}
 
 		String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
-		return viewId + "?faces-redirect=true";
+		return viewId + "?faces-redirect=true&id="+bmiRecord.getKidId();
 	}
 }

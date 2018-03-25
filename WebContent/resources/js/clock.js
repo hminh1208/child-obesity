@@ -2,7 +2,7 @@
  * 
  */
 
-var targetData = new Date("Mar 24, 2018 00:00:00").getTime();
+var targetData = new Date("Mar 31, 2018 00:00:00").getTime();
 
 var x = setInterval(function() {
 
@@ -28,6 +28,10 @@ var x = setInterval(function() {
 	// If the count down is finished, write some text
 	if (distance < 0) {
 		clearInterval(x);
+		$('#days').text('0');
+		$('#hours').text('0');
+		$('#minutes').text('0');
+		$('#seconds').text('0');
 	}
 	
 }, 1000);

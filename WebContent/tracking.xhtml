@@ -35,6 +35,7 @@
 		class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
 		<h5 class="my-0 mr-md-auto font-weight-normal">Child Obesity</h5>
 		<nav class="my-2 my-md-0 mr-md-3"> <a class="p-2 text-dark"
+			href="index.xhtml">Home</a><a class="p-2 text-dark"
 			href="tracking.xhtml">Tracking</a> <a class="p-2 text-dark" href="#">Features</a>
 		<a class="p-2 text-dark" href="#">About</a> <a class="p-2 text-dark"
 			href="#">Contact</a> </nav>
@@ -47,9 +48,11 @@
 		<h1>Track your child's BMI</h1>
 		<h6>Add or Select child</h6>
 		<div class="row">
-			<div class="alert col-lg-12 alert alert-info" id="tracking-kid-list">
+			<div class="col col-lg-12 alert alert-info" id="tracking-kid-list"
+				style="margin-left: 10px; margin-right: 10px">
 				<ui:repeat var="o" value="#{kidMangedBean.kids}" varStatus="status">
-					<div class="gavatar boy" id="#{o.id}">#{o.nameLabel}</div>
+					<div class="gavatar default" id="#{o.id}"
+						style="border-color: white; border-width: 30px">#{o.nameLabel}</div>
 				</ui:repeat>
 				<div class="gavatar plus" id="tracking-add-kid">+</div>
 			</div>
@@ -58,7 +61,7 @@
 		<hr />
 
 		<div class="row">
-			<div class="form-vertical" style="width: 100%">
+			<div class="form-vertical" style="width: 100%; margin-left: 10px; margin-right: 10px">
 
 				<div class="form-group row" style="margin-left: 10px">
 					<h2>Child information</h2>
@@ -68,15 +71,15 @@
 					id="tracking-kid-info-id" a:readonly="true"></h:inputHidden>
 
 				<div class="form-group row justify-content-center text-right">
-					<div class="col-1">Name</div>
-					<div class="col-4">
-						<h:inputText styleClass="form-control" value=""
-							id="tracking-kid-info-name" a:readonly="true"></h:inputText>
-					</div>
+						<div class="col col-2">Name</div>
+						<div class="col col-sm-4">
+							<h:inputText styleClass="form-control" value=""
+								id="tracking-kid-info-name" a:readonly="true"></h:inputText>
+						</div>
 				</div>
 				<div class="form-group row justify-content-center text-right">
-					<div class="col-1">Gender</div>
-					<div class="col-4">
+					<div class="col col-2">Gender</div>
+					<div class="col col-sm-4">
 						<!-- <h:inputText styleClass="form-control" value=""
 										id="tracking-kid-info-gender" a:readonly="true"></h:inputText> -->
 						<h:selectOneMenu value="" styleClass="form-control"
@@ -88,19 +91,19 @@
 					</div>
 				</div>
 				<div class="form-group row justify-content-center text-right">
-					<div class="col-1">Date of Birth</div>
-					<div class="col-4">
+					<div class="col col-2">Date of Birth</div>
+					<div class="col col-sm-4">
 						<h:inputText styleClass="form-control" value=""
 							id="tracking-kid-info-dob" a:readonly="true"></h:inputText>
 					</div>
 				</div>
 				<div class="row form-group justify-content-center text-center">
-					<div class="col-1"></div>
-					<div class="col-2">
+					<div class="col col-2"></div>
+					<div class="col col-md-2">
 						<button class="form-control btn btn-outline-primary" value=""
 							id="tracking-kid-info-edit">Edit</button>
 					</div>
-					<div class="col-2">
+					<div class="col col-md-2">
 						<button class="form-control btn btn-outline-danger" value=""
 							id="tracking-kid-info-delete">Delete</button>
 					</div>
@@ -115,7 +118,7 @@
 					<h2>BMI Age Percentiles</h2>
 				</div>
 				<div class="form-group row justify-content-center text-center">
-					<iframe src="https://yke13.shinyapps.io/bmi_chart_v2/"></iframe>
+					<iframe src="#" id="iFrame"></iframe>
 				</div>
 			</div>
 		</div>
@@ -125,43 +128,43 @@
 				<div class="form-group row " style="margin-left: 10px">
 					<h2 id="progress-title">Child Progress</h2>
 				</div>
-				<div class="form-group row justify-content-center text-center">
-					<div class="col-lg-1 "></div>
-					<div class="col-lg-5 ">
+				<div class="row ">
+
+					<div class="col-lg-6">
 
 						<!-- Start BMI historical chart section -->
-						<div class="row bmi-historical-chart">
+						<div class="col-12 bmi-historical-chart">
 							<canvas id="myChart"></canvas>
 						</div>
 					</div>
-					<div class="col-lg-5">
+					<div class="col-lg-6">
 						<!-- End BMI historical chart section -->
 
 						<!-- Start BMI historical table section -->
 						<div class="row bmi-historical-table form-group">
-							<div class="row" style="width: 100%">
+							<div class="col-12" style="width: 100%">
 								<div class='col-5'>
 									<button class="form-control btn btn-outline-success" value=""
 										id="tracking-kid-info-add-bmi" disabled="disabled">Add
 										BMI record</button>
 								</div>
 							</div>
-
-							<table id="tracking-bmi-historical-table" style="width: 100%"
-								class="table table-striped table-bordered">
-								<thead>
-									<tr>
-										<th>Weight (kg)</th>
-										<th>Height (cm)</th>
-										<th>Date</th>
-									</tr>
-								</thead>
-							</table>
+							<div class="col-12">
+								<table id="tracking-bmi-historical-table"
+									class="table table-striped table-bordered" style="width: 100%">
+									<thead>
+										<tr>
+											<th>Weight (kg)</th>
+											<th>Height (cm)</th>
+											<th>Date</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
 						</div>
 						<!-- End BMI historical table section -->
 
 					</div>
-					<div class="col-lg-1 "></div>
 				</div>
 			</div>
 		</div>

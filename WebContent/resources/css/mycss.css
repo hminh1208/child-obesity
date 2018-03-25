@@ -37,7 +37,7 @@ body .container {
 	color: #777;
 }
 
-.gavatar.boy {
+.gavatar.default {
 	color: rgb(255, 255, 255);
 	background-color: #008000;
 	display: inline-block;
@@ -51,9 +51,9 @@ body .container {
 	text-align: center;
 }
 
-.gavatar.girl {
+.gavatar.selected {
 	color: rgb(255, 255, 255);
-	background-color: #ff80c0;
+	background-color: #0080c0;
 	display: inline-block;
 	font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 	font-size: 20px;
@@ -161,6 +161,6 @@ hr {
 	border-width: 2px
 }
 
-h2{
+h2 {
 	color: dimgrey !important;
 }
