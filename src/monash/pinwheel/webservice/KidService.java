@@ -14,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 import com.google.gson.Gson;
 import com.sun.faces.config.DbfFactory;
 
+import monash.pinwheel.dao.BMIDbUtil;
 import monash.pinwheel.dao.KidDbUtil;
 import monash.pinwheel.entity.Kid;
 
@@ -41,6 +42,7 @@ public class KidService {
 	@Path("/delete/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public void deleteKidById(@PathParam("id") int id) throws SQLException, NamingException {
+		BMIDbUtil.getInstance().deleteBMIRecordByKidId(id);
 		KidDbUtil.getInstance().deleteKid(id);
 	}
 	

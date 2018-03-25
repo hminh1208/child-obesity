@@ -101,17 +101,15 @@ Date.prototype.toDateInputValue = (function() {
 		// Set up for Add BMI record
 		$('#tracking-add-bmi-form\\:input-add-bmi-kid-id').val(id);
 		
+		if (id == 'tracking-add-kid' || id == 'tracking-add-all') {
+			return;
+		}
+		
 		var oldSelect = $(this).parent().find('.selected');
 		oldSelect.removeClass('selected');
 		oldSelect.addClass('default');
 		$(this).removeClass('default');
 		$(this).addClass('selected');
-		
-		
-		
-		if (id == 'tracking-add-kid' || id == 'tracking-add-all') {
-			return;
-		}
 		
 		if(table != null)
 			table.destroy();
@@ -165,11 +163,12 @@ Date.prototype.toDateInputValue = (function() {
 			$.each(data, function(index) {
 				var date = data[index].inputDate;
 	            labels.push(date.substring(0,6)+date.substring(8,10));
-				dataLine.push(data[index].weight / data[index].height /data[index].height * 10000);
+	            var bmi = data[index].weight / data[index].height /data[index].height * 10000;
+				dataLine.push(bmi.toFixed(2));
 	        });
 			
-			var ctx = document.getElementById("myChart").getContext('2d');
-			var myChart = new Chart(ctx, {	
+//			var ctx = document.getElementById("myChart").getContext('2d');
+			myChart = new Chart(ctx, {	
 				  type: 'line',
 				  data: {
 				    labels: labels,
@@ -250,19 +249,34 @@ Date.prototype.toDateInputValue = (function() {
 		$('#tracking-add-bmi-modal').modal('toggle');
 	});
 	
+	$('#tracking-edit-kid-modal').on('hidden.bs.modal', function (e) {
+		myChart.update();
+		});
+	
+	$('#tracking-add-bmi-modal').on('hidden.bs.modal', function (e) {
+		myChart.update();
+		});
+	
+	$('#tracking-edit-kid-modal').on('show.bs.modal', function (e) {
+		myChart.update();
+		});
+	
+	$('#tracking-add-bmi-modal').on('show.bs.modal', function (e) {
+		myChart.update();
+		});
+	
 	$("#iFrame").attr("src", "https://yke13.shinyapps.io/bmi_chart_v2/");
 
 	var kidId = getUrlParameter('id');
-	if (kidId != null) {
+	$('#tracking-kid-info-name').val("");
+	$('#tracking-kid-info-dob').val("");
+	$('#tracking-kid-info-gender').val(2);
+	if (kidId != null) {	
 		$('#'+kidId).click();
-	}else{
-		$('#tracking-kid-info-name').val("");
-		$('#tracking-kid-info-dob').val("");
-		$('#tracking-kid-info-gender').val(2);
 	}
 	
 	$('#tracking-add-bmi-form\\:input-add-bmi-input-date').prop('max', function(){
-        return new Date().toJSON().split('T')[0];
+		return new Date().toDateInputValue();
     });
 	
 	$('#tracking-add-bmi-form\\:input-add-bmi-input-date').val(new Date().toDateInputValue());

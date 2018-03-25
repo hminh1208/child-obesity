@@ -84,7 +84,7 @@ public class KidMangedBean {
 		}
 		
 		String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
-		return viewId + "?faces-redirect=true";
+		return viewId + "?faces-redirect=true&id="+newKid.getId();
 	}
 	
 	public String deleteKid(int id) {
@@ -102,7 +102,7 @@ public class KidMangedBean {
 		}
 		
 		String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
-		return viewId + "?faces-redirect=true";
+		return viewId + "?faces-redirect=true&";
 	}
 	
 	private void addErrorMessage(Exception exc) {

@@ -105,19 +105,23 @@ public class BMIDbUtil {
 		Connection conn = null;
 		PreparedStatement myStmt = null;
 
-		if (checkExistRecord(record.getInputDate())) {
+		if (checkExistRecord(record.getKidId(), record.getInputDate())) {
 			return updateBMIRecord(record);
 		}
-		
+
 		try {
 			conn = getConnection();
 			String sql = "Insert Into bmirecord(kid_id, weight, height, input_date) values(?, ?, ?, ?)";
-			System.out.println("Mina"+sql);
+			System.out.println("Mina" + sql);
 			myStmt = conn.prepareStatement(sql);
 			myStmt.setInt(1, record.getKidId());
 			myStmt.setFloat(2, record.getWeight());
 			myStmt.setFloat(3, record.getHeight());
 
+			String[] date = record.getInputDate().split("/");
+			if (date.length == 3) {
+				record.setInputDate(date[2] + "-" + date[1] + "-" + date[0]);
+			}
 			DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
 			Date inputDate = null;
 			try {
@@ -134,17 +138,24 @@ public class BMIDbUtil {
 		}
 	}
 
-	public boolean checkExistRecord(String checkDate) throws SQLException {
+	public boolean checkExistRecord(int kidId, String checkDate) throws SQLException {
 		Connection conn = null;
 		PreparedStatement myStmt = null;
 		ResultSet result = null;
 
 		try {
 			conn = getConnection();
-			String sql = "Select * from bmirecord where input_date = ?";
+			String sql = "Select * from bmirecord where input_date = ? AND kid_id = ?";
 			myStmt = conn.prepareStatement(sql);
 
-			DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+			System.out.println("checkExistRecord" + checkDate);
+
+			String[] date = checkDate.split("/");
+			if (date.length == 3) {
+				System.out.println("length " + date.length);
+				checkDate = date[2] + "-" + date[1] + "-" + date[0];
+			}
+			DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
 			Date inputDate = null;
 			try {
 				inputDate = new Date(df.parse(checkDate).getTime());
@@ -152,6 +163,8 @@ public class BMIDbUtil {
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
+
+			myStmt.setInt(2, kidId);
 
 			if (myStmt.executeQuery().next()) {
 				return true;
@@ -162,7 +175,7 @@ public class BMIDbUtil {
 			close(conn, myStmt, result);
 		}
 	}
-	
+
 	public boolean updateBMIRecord(BMI record) throws SQLException {
 		Connection conn = null;
 		PreparedStatement myStmt = null;
@@ -173,7 +186,11 @@ public class BMIDbUtil {
 			String sql = "Update bmirecord set weight = ?, height = ? where input_date = ? AND kid_id = ?";
 			myStmt = conn.prepareStatement(sql);
 
-			DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+			String[] date = record.getInputDate().split("/");
+			if (date.length == 3) {
+				record.setInputDate(date[2] + "-" + date[1] + "-" + date[0]);
+			}
+			DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
 			Date inputDate = null;
 			try {
 				myStmt.setFloat(1, record.getWeight());
@@ -185,14 +202,14 @@ public class BMIDbUtil {
 				e.printStackTrace();
 			}
 
-			myStmt.executeQuery();
+			myStmt.execute();
 			conn.commit();
 			return true;
 		} finally {
 			close(conn, myStmt, result);
 		}
 	}
-	
+
 	public boolean deleteBMIRecordByKidId(int kidId) throws SQLException {
 		Connection conn = null;
 		PreparedStatement myStmt = null;
@@ -210,8 +227,8 @@ public class BMIDbUtil {
 			close(conn, myStmt, null);
 		}
 	}
-	
-	public boolean deleteBMIRecordByKidIdAndDate(int kidId, String date) throws SQLException {
+
+	public boolean deleteBMIRecordByKidIdAndDate(int kidId, String dateInput) throws SQLException {
 		Connection conn = null;
 		PreparedStatement myStmt = null;
 
@@ -220,11 +237,15 @@ public class BMIDbUtil {
 			String sql = "Delete From bmirecord Where kid_id = ? and input_date = ?";
 			myStmt = conn.prepareStatement(sql);
 			myStmt.setInt(1, kidId);
-			
-			DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+
+			String[] date = dateInput.split("/");
+			if (date.length == 3) {
+				dateInput = date[2] + "-" + date[1] + "-" + date[0];
+			}
+			DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
 			Date inputDate = null;
 			try {
-				inputDate = new Date(df.parse(date).getTime());
+				inputDate = new Date(df.parse(dateInput).getTime());
 				myStmt.setDate(2, inputDate);
 			} catch (ParseException e) {
 				e.printStackTrace();
