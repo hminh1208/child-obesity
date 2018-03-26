@@ -258,4 +258,72 @@ public class BMIDbUtil {
 			close(conn, myStmt, null);
 		}
 	}
+
+	public int checkBMI(float month, float weight, float height, int gender) throws SQLException {
+
+		Connection conn = null;
+		PreparedStatement myStmt = null;
+		ResultSet result = null;
+		int status;
+
+		try {
+			conn = getConnection();
+			String sql = "";
+			
+			
+
+			if (gender == 0) {
+				sql = "Select * From cleaned_boy_bmi Where age_months = ? ORDER BY value";
+			} else {
+				sql = "Select * From cleaned_girl_bmi Where age_months = ? ORDER BY value";
+			}
+			myStmt = conn.prepareStatement(sql);
+
+			while (month % 1 != 0.5) {
+				month += 0.1;	
+			}
+			
+			myStmt.setFloat(1, month);
+
+			result = myStmt.executeQuery();
+
+			String group = "";
+			float currentBMI = weight / height / height * 10000;
+			System.out.println(month + " " + currentBMI);
+
+			while (result.next()) {
+				System.out.println(result.getFloat("value") + " " + currentBMI);
+				if (result.getFloat("value") <= currentBMI) {
+					group = result.getString("group");
+				} else {
+					if (group.equals("")) {
+						group = "underweight";
+					}
+					break;
+				}
+			}
+
+			System.out.println(month + " " + currentBMI + " " + group);
+			
+			switch (group) {
+			case "underweight":
+				status = 1;
+				break;
+			case "normal":
+				status = 2;
+				break;
+			case "overweight":
+			case "obese":
+				status = 3;
+				break;
+			default:
+				status = -1;
+			}
+		} finally {
+			close(conn, myStmt, null);
+		}
+
+		return status;
+
+	}
 }

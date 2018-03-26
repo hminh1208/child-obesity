@@ -1,0 +1,107 @@
+#mapid {
+	height: 500px;
+}
+
+html,body{ margin:0; padding:0; height:100%; width:100%; }
+
+input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner-spin-button
+	{
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+input[type=number] {
+	-moz-appearance: textfield;
+}
+
+input[type=date]::-webkit-outer-spin-button, input[type=date]::-webkit-inner-spin-button
+	{
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+iframe {
+	min-width: 100%;
+	min-height: 100%;
+}
+
+hr {
+	border-width: 2px
+}
+
+h2 {
+	color: dimgrey !important;
+}
+
+blockquote{
+    border-left:none
+}
+
+.quote-badge{
+    background-color: rgba(0, 0, 0, 0.2);   
+}
+
+.quote-box{
+    
+    overflow: hidden;
+    margin-top: -50px;
+    padding-top: -100px;
+    border-radius: 17px;
+    background-color: #4ADFCC;
+    margin-top: 25px;
+    color:white;
+    width: 325px;
+    box-shadow: 2px 2px 2px 2px #E0E0E0;
+    
+}
+
+.quote-figure{
+    
+    overflow: hidden;
+    margin-top: -50px;
+    padding-top: -100px;
+    border-radius: 17px;
+    background-color: #ffc300;
+    margin-top: 25px;
+    color:white;
+    width: 325px;
+    box-shadow: 2px 2px 2px 2px #E0E0E0;
+    
+}
+
+.quotation-mark{
+    
+    margin-top: -30px;
+    margin-left: 30px;
+    font-weight: bold;
+    font-size:100px;
+    color:white;
+    font-family: "Times New Roman", Georgia, Serif;
+    
+}
+
+.quotation-mark-text{
+    margin-top: 10px;
+    margin-left: 30px;
+    font-weight: bold;
+    font-size: 45px;
+    color:white;
+    font-family: "Times New Roman", Georgia, Serif;
+}
+
+.quote-text-new{
+    margin-left: 30px;
+    font-size: 25px;
+    margin-top: -20px;
+}
+
+.quote-text{
+    margin-left: 30px;
+    font-size: 25px;
+    margin-top: -65px;
+}
+
+.blog-post-bottom{
+	position: relative;
+	bottom: -40px;
+}

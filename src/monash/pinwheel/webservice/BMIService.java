@@ -24,4 +24,12 @@ public class BMIService {
 		return new Gson().toJson(BMIDbUtil.getInstance().getKidBMIs(kidId));
 	}
 
+	@GET
+	@Path("/check/{month}/{weight}/{height}/{gender}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String checkKid(@PathParam("month") float month, @PathParam("weight") float weight,
+			@PathParam("height") float height, @PathParam("gender") int gender) throws SQLException, NamingException {
+		return new Gson().toJson(BMIDbUtil.getInstance().checkBMI(month, weight, height, gender));
+	}
+
 }
