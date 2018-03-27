@@ -152,7 +152,7 @@ input[type=date]::-webkit-outer-spin-button, input[type=date]::-webkit-inner-spi
 }
 
 iframe {
-	width: 40%;
+	width: 50%;
 	min-width: 300px;
 	min-height: 800px;
 }

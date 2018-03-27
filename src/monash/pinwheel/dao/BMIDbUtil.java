@@ -84,7 +84,7 @@ public class BMIDbUtil {
 
 		try {
 			conn = getConnection();
-			String sql = "select * from bmirecord where kid_id = ?";
+			String sql = "select * from bmirecord where kid_id = ? Order By input_date";
 			myStmt = conn.prepareStatement(sql);
 			myStmt.setInt(1, kidId);
 			result = myStmt.executeQuery();

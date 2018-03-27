@@ -69,8 +69,14 @@ Date.prototype.toDateInputValue = (function() {
 
 	// Init DataTable
 	var table = $('#tracking-bmi-historical-table').DataTable( {
-		"language": {
-			"zeroRecords": "There are no BMI record. Try to add 1"
+		"oLanguage": {
+			"sZeroRecords": "There are no BMI record. Try to add 1",
+			"sLengthMenu": 'Display <select class="form-control form-control-sm">'+
+			'<option value="5" selected="selected">5 records</option>'+
+	        '<option value="10">10 records</option>'+
+	        '<option value="-1">All</option>'+
+	        '</select>',
+	        "sSearch": "Search in table: _INPUT_"
 	    }});
 	
 	// Init Chart
@@ -117,8 +123,14 @@ Date.prototype.toDateInputValue = (function() {
 		// AJAX call for kid historical table
 		table = $('#tracking-bmi-historical-table').DataTable( {
 			"bRetrieve" : true,
-			"language": {
-				"zeroRecords": "There are no BMI record. Try to add 1"
+			"oLanguage": {
+				"sZeroRecords": "There are no BMI record. Try to add 1",
+				"sLengthMenu": 'Display <select class="form-control form-control-sm">'+
+				'<option value="5" selected="selected">5 records</option>'+
+		        '<option value="10">10 records</option>'+
+		        '<option value="-1">All</option>'+
+		        '</select>',
+		        "sSearch": "Search in table: _INPUT_"
 		    },
 	        "ajax": {
 	            "url": "rest/bmiservice/bmis/"+ id,
@@ -126,9 +138,9 @@ Date.prototype.toDateInputValue = (function() {
 	            "dataSrc": ""
 	          },
 	        "columns": [
+	        	{ "data": "inputDate" },
 	        	 { "data": "weight" },
 	        	 { "data": "height" },
-	        	 { "data": "inputDate" }
 	        ]
 	    });
 		
@@ -194,6 +206,8 @@ Date.prototype.toDateInputValue = (function() {
 				  }
 				});
 		});
+		
+		$("#iFrame").attr("src", "https://yke13.shinyapps.io/bmi_chart_v2/?id="+id);
 			
 	});
 
@@ -264,8 +278,6 @@ Date.prototype.toDateInputValue = (function() {
 	$('#tracking-add-bmi-modal').on('show.bs.modal', function (e) {
 		myChart.update();
 		});
-	
-	$("#iFrame").attr("src", "https://yke13.shinyapps.io/bmi_chart_v2/");
 
 	var kidId = getUrlParameter('id');
 	$('#tracking-kid-info-name').val("");

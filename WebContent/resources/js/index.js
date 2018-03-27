@@ -23,7 +23,43 @@ function numberofDate(month, birthYear) {
 	}
 }
 
+(function() {
+	'use strict';
+	window.addEventListener('load', function() {
+		// Fetch all the forms we want to apply custom Bootstrap validation
+		// styles to
+		var forms = document.getElementsByClassName('needs-validation');
+		// Loop over them and prevent submission
+		var validation = Array.prototype.filter.call(forms, function(form) {
+			form.addEventListener('submit', function(event) {
+				if (form.checkValidity() === false) {
+					event.preventDefault();
+					event.stopPropagation();
+				}
+				form.classList.add('was-validated');
+			}, false);
+		});
+	}, false)})();
+
+
 $(function() {
+	
+	'use strict';
+	window.addEventListener('load', function() {
+		// Fetch all the forms we want to apply custom Bootstrap validation
+		// styles to
+		var forms = document.getElementsByClassName('needs-validation');
+		// Loop over them and prevent submission
+		var validation = Array.prototype.filter.call(forms, function(form) {
+			form.addEventListener('submit', function(event) {
+				if (form.checkValidity() === false) {
+					event.preventDefault();
+					event.stopPropagation();
+				}
+				form.classList.add('was-validated');
+			}, false);
+		});
+	}, false);
 	
 	$("hidden-summary").fadeOut('slow');
 	
@@ -35,6 +71,30 @@ $(function() {
 	        scrollTop: $("#bottom-iframe").offset().top},
 	        'slow');
 	});
+	
+	$("form[name='check-bmi-kid']").validate({
+	    // Specify validation rules
+		rules: {
+            dob:{required: true},
+            weight:{required: true},
+            height:{required: true}
+        },
+	    // Specify validation error messages
+	    messages: {
+	    	dob: "Please enter your firstname",
+	    	weight: "Please enter your lastname",
+	    	height: "Please provide a password"
+	     
+	    },
+	    errorPlacement: function(error, element) {
+            error.appendTo( element.parent("td").next("td") );
+        },
+	    // Make sure the form is submitted to the destination defined
+	    // in the "action" attribute of the form when valid
+	    submitHandler: function(form) {
+	      form.submit();
+	    }
+	  });
 	
 	$('#input-check').click(
 			function() {
