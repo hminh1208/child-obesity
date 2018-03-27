@@ -104,6 +104,8 @@ Date.prototype.toDateInputValue = (function() {
 		console.log($(this).attr('id'));
 		var id = $(this).attr('id');
 		
+		window.history.replaceState(null, null, "?id="+id);
+		
 		// Set up for Add BMI record
 		$('#tracking-add-bmi-form\\:input-add-bmi-kid-id').val(id);
 		
@@ -123,10 +125,11 @@ Date.prototype.toDateInputValue = (function() {
 		// AJAX call for kid historical table
 		table = $('#tracking-bmi-historical-table').DataTable( {
 			"bRetrieve" : true,
+			"iDisplayLength": 5,
 			"oLanguage": {
 				"sZeroRecords": "There are no BMI record. Try to add 1",
 				"sLengthMenu": 'Display <select class="form-control form-control-sm">'+
-				'<option value="5" selected="selected">5 records</option>'+
+				'<option value="5">5 records</option>'+
 		        '<option value="10">10 records</option>'+
 		        '<option value="-1">All</option>'+
 		        '</select>',
@@ -141,7 +144,12 @@ Date.prototype.toDateInputValue = (function() {
 	        	{ "data": "inputDate" },
 	        	 { "data": "weight" },
 	        	 { "data": "height" },
-	        ]
+	        ],
+	        "columnDefs": [ {
+	            "targets": 3,
+	            "data": null,
+	            "defaultContent": "<input type='button' class='btn btn-outline-danger w-100 w-sm-50 delete-bmi' value='Delete'/>"
+	        } ]
 	    });
 		
 		// AJAX call for kid info
@@ -179,9 +187,10 @@ Date.prototype.toDateInputValue = (function() {
 				dataLine.push(bmi.toFixed(2));
 	        });
 			
-//			var ctx = document.getElementById("myChart").getContext('2d');
+// var ctx = document.getElementById("myChart").getContext('2d');
 			myChart = new Chart(ctx, {	
 				  type: 'line',
+				  responsive: true,
 				  data: {
 				    labels: labels,
 				    datasets: [{ 
@@ -226,11 +235,11 @@ Date.prototype.toDateInputValue = (function() {
 			});
 
 	var modalConfirm = function(callback) {
-
+		
 		$("#tracking-kid-info-delete").on("click", function() {
 			$("#mi-modal").modal('show');
 		});
-
+		
 		$("#modal-btn-si").on("click", function() {
 			callback(true);
 			$("#mi-modal").modal('hide');
@@ -258,6 +267,8 @@ Date.prototype.toDateInputValue = (function() {
 		}
 	});
 
+		
+
 	//
 	$("#tracking-kid-info-add-bmi").click(function() {
 		$('#tracking-add-bmi-modal').modal('toggle');
@@ -272,6 +283,10 @@ Date.prototype.toDateInputValue = (function() {
 		});
 	
 	$('#tracking-edit-kid-modal').on('show.bs.modal', function (e) {
+		myChart.update();
+		});
+	
+	$('#bmi-confirm-modal').on('show.bs.modal', function (e) {
 		myChart.update();
 		});
 	
@@ -292,6 +307,46 @@ Date.prototype.toDateInputValue = (function() {
     });
 	
 	$('#tracking-add-bmi-form\\:input-add-bmi-input-date').val(new Date().toDateInputValue());
+	
+	$( window ).resize(function() {
+		myChart.update();
+		});
+	
+	var bmiDeleteConfirm = function(callback, id) {
+		
+		var id;
+		
+		$('#tracking-bmi-historical-table tbody').on( 'click', 'input', function () {
+	        id = table.row( $(this).parents('tr') ).data().id;
+	        $("#bmi-confirm-modal").modal('show');
+	    } );
+		
+		$("#modal-btn-bmi-yes").on("click", function() {
+			callback(true, id);
+			$("#bmi-confirm-modal").modal('hide');
+		});
+
+		$("#modal-btn-bmi-no").on("click", function() {
+			callback(false);
+			$("#bmi-confirm-modal").modal('hide');
+		});
+	};
+
+	bmiDeleteConfirm(function(confirm, id) {
+		if (confirm) {
+			console.log("rest/bmiservice/bmis/delete/"+ id);
+			$.ajax(
+					{
+						url : "rest/bmiservice/bmis/delete/"
+								+ id,
+						context : document.body
+					}).done(function(data) {
+						alert('Delete successfully');
+					window.location.reload();
+			});
+		} else {
+		}
+	});
 	
 })();
 

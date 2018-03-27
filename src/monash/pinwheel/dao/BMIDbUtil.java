@@ -227,6 +227,24 @@ public class BMIDbUtil {
 			close(conn, myStmt, null);
 		}
 	}
+	
+	public boolean deleteBMIRecordById(int id) throws SQLException {
+		Connection conn = null;
+		PreparedStatement myStmt = null;
+
+		try {
+			conn = getConnection();
+			String sql = "Delete From bmirecord Where id = ?";
+			myStmt = conn.prepareStatement(sql);
+			myStmt.setInt(1, id);
+
+			myStmt.execute();
+			conn.commit();
+			return true;
+		} finally {
+			close(conn, myStmt, null);
+		}
+	}
 
 	public boolean deleteBMIRecordByKidIdAndDate(int kidId, String dateInput) throws SQLException {
 		Connection conn = null;

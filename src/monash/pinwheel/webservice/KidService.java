@@ -28,7 +28,6 @@ public class KidService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getKids() throws SQLException, NamingException {
 		return new Gson().toJson(KidDbUtil.getInstance().getKids());
-
 	}
 
 	@GET

@@ -32,4 +32,11 @@ public class BMIService {
 		return new Gson().toJson(BMIDbUtil.getInstance().checkBMI(month, weight, height, gender));
 	}
 
+	@GET
+	@Path("/bmis/delete/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String deleteBMI(@PathParam("id") int bmiId) throws SQLException, NamingException {
+		return new Gson().toJson(BMIDbUtil.getInstance().deleteBMIRecordById(bmiId));
+	}
+	
 }
