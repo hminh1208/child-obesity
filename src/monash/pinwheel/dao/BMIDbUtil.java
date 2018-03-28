@@ -23,11 +23,29 @@ import javax.sql.DataSource;
 import monash.pinwheel.entity.BMI;
 import monash.pinwheel.entity.Kid;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class BMIDbUtil will contains all functions that relate to BMI Entity in
+ * Database. This class is designed based on Singleton design pattern
+ */
 public class BMIDbUtil {
+
+	/** The static class instance. */
 	private static BMIDbUtil instance;
+
+	/** The data source. */
 	private DataSource dataSource;
+
+	/** The jndi name. */
 	private String jndiName = "java:comp/env/jdbc/child_obesity";
 
+	/**
+	 * Gets the singleton instance of the class.
+	 *
+	 * @return single instance of BMIDbUtil
+	 * @throws NamingException
+	 *             the naming exception
+	 */
 	public static BMIDbUtil getInstance() throws NamingException {
 		if (instance == null) {
 			instance = new BMIDbUtil();
@@ -36,10 +54,23 @@ public class BMIDbUtil {
 		return instance;
 	}
 
+	/**
+	 * Instantiates a new BMIDbUtil instance.
+	 *
+	 * @throws NamingException
+	 *             the naming exception
+	 */
 	private BMIDbUtil() throws NamingException {
 		dataSource = getDataSource();
 	}
 
+	/**
+	 * Gets the data source.
+	 *
+	 * @return the data source
+	 * @throws NamingException
+	 *             the naming exception
+	 */
 	private DataSource getDataSource() throws NamingException {
 		Context context = new InitialContext();
 
@@ -48,6 +79,16 @@ public class BMIDbUtil {
 		return dataSource;
 	}
 
+	/**
+	 * Close connection to Database.
+	 *
+	 * @param conn
+	 *            the connection to database
+	 * @param st
+	 *            the statement
+	 * @param re
+	 *            the result set
+	 */
 	private void close(Connection conn, Statement st, ResultSet re) {
 		// TODO Auto-generated method stub
 		try {
@@ -68,6 +109,13 @@ public class BMIDbUtil {
 		}
 	}
 
+	/**
+	 * Gets the connection.
+	 *
+	 * @return the connection to the Database
+	 * @throws SQLException
+	 *             the SQL exception
+	 */
 	private Connection getConnection() throws SQLException {
 		// TODO Auto-generated method stub
 		Connection theConn = dataSource.getConnection();
@@ -75,6 +123,15 @@ public class BMIDbUtil {
 		return theConn;
 	}
 
+	/**
+	 * Gets the kid BMI by their Id.
+	 *
+	 * @param kidId
+	 *            the kid id
+	 * @return the list of BMI records of that kid id
+	 * @throws SQLException
+	 *             the SQL exception
+	 */
 	public List<BMI> getKidBMIs(int kidId) throws SQLException {
 		List<BMI> bmiRecords = new ArrayList<>();
 
@@ -100,6 +157,15 @@ public class BMIDbUtil {
 		return bmiRecords;
 	}
 
+	/**
+	 * Adds new the BMI.
+	 *
+	 * @param record
+	 *            the BMI record
+	 * @return true, if successful
+	 * @throws SQLException
+	 *             the SQL exception
+	 */
 	public boolean addBMI(BMI record) throws SQLException {
 
 		Connection conn = null;
@@ -122,15 +188,17 @@ public class BMIDbUtil {
 			if (date.length == 3) {
 				record.setInputDate(date[2] + "-" + date[1] + "-" + date[0]);
 			}
-			DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			Date inputDate = null;
 			try {
+				System.out.println("test " + record.getInputDate());
 				inputDate = new Date(df.parse(record.getInputDate()).getTime());
 				myStmt.setDate(4, inputDate);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 			myStmt.execute();
+			System.out.println("test 1" + myStmt.toString());
 			conn.commit();
 			return true;
 		} finally {
@@ -138,6 +206,17 @@ public class BMIDbUtil {
 		}
 	}
 
+	/**
+	 * Check exist BMI record by kidId and input date
+	 *
+	 * @param kidId
+	 *            the kid id
+	 * @param checkDate
+	 *            the check input date
+	 * @return true, if successful
+	 * @throws SQLException
+	 *             the SQL exception
+	 */
 	public boolean checkExistRecord(int kidId, String checkDate) throws SQLException {
 		Connection conn = null;
 		PreparedStatement myStmt = null;
@@ -155,7 +234,7 @@ public class BMIDbUtil {
 				System.out.println("length " + date.length);
 				checkDate = date[2] + "-" + date[1] + "-" + date[0];
 			}
-			DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			Date inputDate = null;
 			try {
 				inputDate = new Date(df.parse(checkDate).getTime());
@@ -176,6 +255,15 @@ public class BMIDbUtil {
 		}
 	}
 
+	/**
+	 * Update BMI record.
+	 *
+	 * @param record
+	 *            the BMI record
+	 * @return true, if successful
+	 * @throws SQLException
+	 *             the SQL exception
+	 */
 	public boolean updateBMIRecord(BMI record) throws SQLException {
 		Connection conn = null;
 		PreparedStatement myStmt = null;
@@ -190,7 +278,7 @@ public class BMIDbUtil {
 			if (date.length == 3) {
 				record.setInputDate(date[2] + "-" + date[1] + "-" + date[0]);
 			}
-			DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			Date inputDate = null;
 			try {
 				myStmt.setFloat(1, record.getWeight());
@@ -210,6 +298,15 @@ public class BMIDbUtil {
 		}
 	}
 
+	/**
+	 * Delete BMI record by kid id.
+	 *
+	 * @param kidId
+	 *            the kid id
+	 * @return true, if successful
+	 * @throws SQLException
+	 *             the SQL exception
+	 */
 	public boolean deleteBMIRecordByKidId(int kidId) throws SQLException {
 		Connection conn = null;
 		PreparedStatement myStmt = null;
@@ -227,7 +324,16 @@ public class BMIDbUtil {
 			close(conn, myStmt, null);
 		}
 	}
-	
+
+	/**
+	 * Delete BMI record by id.
+	 *
+	 * @param id
+	 *            the BMI id
+	 * @return true, if successful
+	 * @throws SQLException
+	 *             the SQL exception
+	 */
 	public boolean deleteBMIRecordById(int id) throws SQLException {
 		Connection conn = null;
 		PreparedStatement myStmt = null;
@@ -246,6 +352,17 @@ public class BMIDbUtil {
 		}
 	}
 
+	/**
+	 * Delete BMI record by kid id and date.
+	 *
+	 * @param kidId
+	 *            the kid id
+	 * @param dateInput
+	 *            the date input
+	 * @return true, if successful
+	 * @throws SQLException
+	 *             the SQL exception
+	 */
 	public boolean deleteBMIRecordByKidIdAndDate(int kidId, String dateInput) throws SQLException {
 		Connection conn = null;
 		PreparedStatement myStmt = null;
@@ -260,7 +377,7 @@ public class BMIDbUtil {
 			if (date.length == 3) {
 				dateInput = date[2] + "-" + date[1] + "-" + date[0];
 			}
-			DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			Date inputDate = null;
 			try {
 				inputDate = new Date(df.parse(dateInput).getTime());
@@ -277,6 +394,22 @@ public class BMIDbUtil {
 		}
 	}
 
+	/**
+	 * Calculate BMI.
+	 *
+	 * @param month
+	 *            the month
+	 * @param weight
+	 *            the weight
+	 * @param height
+	 *            the height
+	 * @param gender
+	 *            the gender
+	 * @return the status of calculation return 1, underweight. 2, normal. 3,
+	 *         overweight and -1 if not found
+	 * @throws SQLException
+	 *             the SQL exception
+	 */
 	public int checkBMI(float month, float weight, float height, int gender) throws SQLException {
 
 		Connection conn = null;
@@ -287,8 +420,6 @@ public class BMIDbUtil {
 		try {
 			conn = getConnection();
 			String sql = "";
-			
-			
 
 			if (gender == 0) {
 				sql = "Select * From cleaned_boy_bmi Where age_months = ? ORDER BY value";
@@ -298,9 +429,9 @@ public class BMIDbUtil {
 			myStmt = conn.prepareStatement(sql);
 
 			while (month % 1 != 0.5) {
-				month += 0.1;	
+				month += 0.1;
 			}
-			
+
 			myStmt.setFloat(1, month);
 
 			result = myStmt.executeQuery();
@@ -322,7 +453,7 @@ public class BMIDbUtil {
 			}
 
 			System.out.println(month + " " + currentBMI + " " + group);
-			
+
 			switch (group) {
 			case "underweight":
 				status = 1;

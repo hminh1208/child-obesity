@@ -21,11 +21,27 @@ import java.sql.PreparedStatement;
 import monash.pinwheel.entity.BMI;
 import monash.pinwheel.entity.Kid;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class KidDbUtil will contains all functions relate to Kid Entity in Database. This class designed based on Singleton design pattern
+ */
 public class KidDbUtil {
+	
+	/** The singleton instance. */
 	private static KidDbUtil instance;
+	
+	/** The data source. */
 	private DataSource dataSource;
+	
+	/** The jndi name. */
 	private String jndiName = "java:comp/env/jdbc/child_obesity";
 
+	/**
+	 * Gets the single instance of KidDbUtil.
+	 *
+	 * @return single instance of KidDbUtil
+	 * @throws NamingException the naming exception
+	 */
 	public static KidDbUtil getInstance() throws NamingException {
 		if (instance == null) {
 			instance = new KidDbUtil();
@@ -34,10 +50,21 @@ public class KidDbUtil {
 		return instance;
 	}
 
+	/**
+	 * Instantiates a new kid db util.
+	 *
+	 * @throws NamingException the naming exception
+	 */
 	private KidDbUtil() throws NamingException {
 		dataSource = getDataSource();
 	}
 
+	/**
+	 * Gets the data source.
+	 *
+	 * @return the data source
+	 * @throws NamingException the naming exception
+	 */
 	private DataSource getDataSource() throws NamingException {
 		Context context = new InitialContext();
 
@@ -46,6 +73,12 @@ public class KidDbUtil {
 		return dataSource;
 	}
 
+	/**
+	 * Gets all the kids in database.
+	 *
+	 * @return the list of kids
+	 * @throws SQLException the SQL exception
+	 */
 	public List<Kid> getKids() throws SQLException {
 		List<Kid> kids = new ArrayList<>();
 
@@ -71,6 +104,13 @@ public class KidDbUtil {
 		return kids;
 	}
 
+	/**
+	 * Gets the kid information by kid id.
+	 *
+	 * @param id the kid id
+	 * @return the kid information
+	 * @throws SQLException the SQL exception
+	 */
 	public Kid getKidById(int id) throws SQLException {
 
 		Connection conn = null;
@@ -95,6 +135,13 @@ public class KidDbUtil {
 		return null;
 	}
 
+	/**
+	 * Adds the kid.
+	 *
+	 * @param newKid the new kid instance
+	 * @throws SQLException the SQL exception
+	 * @throws NamingException the naming exception
+	 */
 	public void addKid(Kid newKid) throws SQLException, NamingException {
 		Connection myConn = null;
 		PreparedStatement myStmt = null;
@@ -109,7 +156,7 @@ public class KidDbUtil {
 
 			// set params
 			myStmt.setString(1, newKid.getName());
-			DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			Date startDate = null;
 			try {
 				startDate = new Date(df.parse(newKid.getDob()).getTime());
@@ -136,6 +183,12 @@ public class KidDbUtil {
 		}
 	}
 
+	/**
+	 * Update kid.
+	 *
+	 * @param newKid the update kid instance
+	 * @throws SQLException the SQL exception
+	 */
 	public void updateKid(Kid newKid) throws SQLException {
 		Connection conn = null;
 		PreparedStatement myStmt = null;
@@ -149,7 +202,7 @@ public class KidDbUtil {
 			// set params
 			myStmt.setString(1, newKid.getName());
 
-			DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			Date startDate = null;
 			try {
 				startDate = new Date(df.parse(newKid.getDob()).getTime());
@@ -170,6 +223,12 @@ public class KidDbUtil {
 		}
 	}
 
+	/**
+	 * Delete kid by kid id.
+	 *
+	 * @param id the kid id to be deleted
+	 * @throws SQLException the SQL exception
+	 */
 	public void deleteKid(int id) throws SQLException {
 		Connection conn = null;
 		PreparedStatement myStmt = null;
@@ -189,6 +248,13 @@ public class KidDbUtil {
 		}
 	}
 
+	/**
+	 * Close connection to database.
+	 *
+	 * @param conn the connection to database
+	 * @param st the statement
+	 * @param re the resultset
+	 */
 	private void close(Connection conn, Statement st, ResultSet re) {
 		// TODO Auto-generated method stub
 		try {
@@ -209,6 +275,12 @@ public class KidDbUtil {
 		}
 	}
 
+	/**
+	 * Gets the connection to database.
+	 *
+	 * @return the connection to database
+	 * @throws SQLException the SQL exception
+	 */
 	private Connection getConnection() throws SQLException {
 		// TODO Auto-generated method stub
 		Connection theConn = dataSource.getConnection();

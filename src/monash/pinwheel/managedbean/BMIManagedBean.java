@@ -10,14 +10,27 @@ import javax.naming.NamingException;
 import monash.pinwheel.dao.BMIDbUtil;
 import monash.pinwheel.entity.BMI;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class BMIManagedBean.
+ */
 @ManagedBean
 @SessionScoped
 public class BMIManagedBean {
 	
+	/**
+	 * Instantiates a new BMI managed bean.
+	 */
 	public BMIManagedBean() {
 		// TODO Auto-generated constructor stub
 	}
 	
+	/**
+	 * Adds the BMI record.
+	 *
+	 * @param bmiRecord the bmi record
+	 * @return the string
+	 */
 	public String addBMIRecord(BMI bmiRecord) {
 		try {
 			// Insert all BMI records relate to the kid

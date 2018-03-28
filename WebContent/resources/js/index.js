@@ -72,30 +72,6 @@ $(function() {
 	        'slow');
 	});
 	
-	$("form[name='check-bmi-kid']").validate({
-	    // Specify validation rules
-		rules: {
-            dob:{required: true},
-            weight:{required: true},
-            height:{required: true}
-        },
-	    // Specify validation error messages
-	    messages: {
-	    	dob: "Please enter your firstname",
-	    	weight: "Please enter your lastname",
-	    	height: "Please provide a password"
-	     
-	    },
-	    errorPlacement: function(error, element) {
-            error.appendTo( element.parent("td").next("td") );
-        },
-	    // Make sure the form is submitted to the destination defined
-	    // in the "action" attribute of the form when valid
-	    submitHandler: function(form) {
-	      form.submit();
-	    }
-	  });
-	
 	$('#input-check').click(
 			function() {
 				var month = []

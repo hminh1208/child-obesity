@@ -22,7 +22,7 @@
 
 	<h:outputStylesheet library="css" name="jquery-ui.min.css" />
 
-	<h:outputStylesheet library="css" name="datatables.css" />
+	<h:outputStylesheet library="css" name="datatables.min.css" />
 
 	<h:outputStylesheet library="css" name="mycss.css" />
 
@@ -34,12 +34,8 @@
 	<div
 		class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
 		<h5 class="my-0 mr-md-auto font-weight-normal">Child Obesity</h5>
-		<nav class="my-2 my-md-0 mr-md-3"> <a class="p-2 text-dark"
-			href="index.xhtml">Home</a> <a class="p-2 text-dark"
-			href="tracking.xhtml">Tracking</a> <a class="p-2 text-dark" href="#">Features</a>
-		<a class="p-2 text-dark" href="#">About</a> <a class="p-2 text-dark"
-			href="#">Contact</a> </nav>
-		<a class="btn btn-outline-primary" href="#">Sign up</a>
+		<nav class="my-2 my-md-0 mr-md-3"><a class="p-2 text-dark"
+			href="tracking.xhtml">Tracking</a></nav>
 	</div>
 	<!-- End Top Menu -->
 
@@ -119,8 +115,8 @@
 				<div class="form-group row" style="margin-left: 10px">
 					<h2>BMI Age Percentiles</h2>
 				</div>
-				<div class="form-group row justify-content-center text-center">
-					<iframe src="#" id="iFrame"></iframe>
+				<div class="form-group row justify-content-center text-center ">
+					<iframe src="#" id="iFrame" class="w-100 m-2 h-100" style="border: 0px" scrolling="no"></iframe>
 				</div>
 			</div>
 		</div>
@@ -186,7 +182,7 @@
 					</button>
 				</div>
 				<h:form styleClass="form-vertical needs-validation"
-					id="tracking-add-kid-form" a:novalidate="novalidate">
+					id="tracking-add-kid-form" a:novalidate="novalidate" >
 					<div class="modal-body">
 						<h:inputHidden styleClass="form-control" a:required="true"
 							id="input-id" value='#{kid.id}'></h:inputHidden>
@@ -204,8 +200,7 @@
 								<h:inputText class="form-control" value="#{kid.dob}"
 									a:type="date" a:required="true" id="input-dob">
 								</h:inputText>
-								<div class="invalid-feedback">Date of Birth must be in
-									dd/mm/yyyy format.</div>
+								<div class="invalid-feedback">Date of Birth is not valid.</div>
 							</div>
 						</div>
 						<div class="form-group row">
@@ -272,7 +267,7 @@
 					</button>
 				</div>
 				<h:form styleClass="form-vertical needs-validation"
-					id="tracking-edit-kid-form" a:novalidate="novalidate">
+					id="tracking-edit-kid-form" a:novalidate="novalidate" >
 					<div class="modal-body">
 						<h:inputHidden styleClass="form-control" a:required="true"
 							id="input-id" value='#{kid.id}'></h:inputHidden>
@@ -290,8 +285,7 @@
 								<h:inputText class="form-control" value="#{kid.dob}"
 									a:type="date" a:required="true" id="input-dob">
 								</h:inputText>
-								<div class="invalid-feedback">Date of Birth must be in
-									dd/MM/yyyy format.</div>
+								<div class="invalid-feedback">Date of Birth is not valid.</div>
 							</div>
 						</div>
 						<div class="form-group row">
@@ -384,8 +378,7 @@
 	<!-- End Add BMI record Modal  -->
 
 	<!-- Start Delete Kid Confirmation Modal -->
-	<div class="modal fade" tabindex="-1" role="dialog"
-		aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
+	<div class="modal fade" tabindex="-1" role="dialog" id="mi-modal">
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-header">

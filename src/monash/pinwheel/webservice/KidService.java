@@ -18,10 +18,21 @@ import monash.pinwheel.dao.BMIDbUtil;
 import monash.pinwheel.dao.KidDbUtil;
 import monash.pinwheel.entity.Kid;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class KidService.
+ */
 @Path("/kidservice")
 
 public class KidService {
 
+	/**
+	 * Gets the all kids in the database.
+	 *
+	 * @return the list of kids
+	 * @throws SQLException the SQL exception
+	 * @throws NamingException the naming exception
+	 */
 	// This method is called if TEXT_PLAIN is request
 	@GET
 	@Path("/kids")
@@ -30,6 +41,14 @@ public class KidService {
 		return new Gson().toJson(KidDbUtil.getInstance().getKids());
 	}
 
+	/**
+	 * Gets the kid by id.
+	 *
+	 * @param id the id
+	 * @return the kid by id
+	 * @throws SQLException the SQL exception
+	 * @throws NamingException the naming exception
+	 */
 	@GET
 	@Path("/kid/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -37,6 +56,13 @@ public class KidService {
 		return new Gson().toJson(KidDbUtil.getInstance().getKidById(id));
 	}
 
+	/**
+	 * Delete kid by id.
+	 *
+	 * @param id the id
+	 * @throws SQLException the SQL exception
+	 * @throws NamingException the naming exception
+	 */
 	@GET
 	@Path("/delete/{id}")
 	@Produces(MediaType.APPLICATION_JSON)

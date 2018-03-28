@@ -13,9 +13,21 @@ import com.google.gson.Gson;
 
 import monash.pinwheel.dao.BMIDbUtil;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class BMIService is Webservice class.
+ */
 @Path("/bmiservice")
 public class BMIService {
 
+	/**
+	 * Gets the kids.
+	 *
+	 * @param kidId the kid id
+	 * @return the list of kids in JSON format
+	 * @throws SQLException the SQL exception
+	 * @throws NamingException the naming exception
+	 */
 	// This method is called if TEXT_PLAIN is request
 	@GET
 	@Path("/bmis/{id}")
@@ -24,6 +36,17 @@ public class BMIService {
 		return new Gson().toJson(BMIDbUtil.getInstance().getKidBMIs(kidId));
 	}
 
+	/**
+	 * Check kid's BMI based on date of birth, weight, height and gender
+	 *
+	 * @param month the month
+	 * @param weight the weight
+	 * @param height the height
+	 * @param gender the gender
+	 * @return the string
+	 * @throws SQLException the SQL exception
+	 * @throws NamingException the naming exception
+	 */
 	@GET
 	@Path("/check/{month}/{weight}/{height}/{gender}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -32,6 +55,14 @@ public class BMIService {
 		return new Gson().toJson(BMIDbUtil.getInstance().checkBMI(month, weight, height, gender));
 	}
 
+	/**
+	 * Delete BMI records.
+	 *
+	 * @param bmiId the bmi id
+	 * @return the string
+	 * @throws SQLException the SQL exception
+	 * @throws NamingException the naming exception
+	 */
 	@GET
 	@Path("/bmis/delete/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
