@@ -277,6 +277,8 @@ $(document)
 				function() {
 					
 					$('#feature-page').css('display','none');
+					
+					$('#summary').css('display','none');
 
 					$("#check-bmi-kid")
 							.validate(
@@ -399,6 +401,7 @@ $(document)
 											var bmi = weight / height / height * 10000;
 
 											$('#feature-page').css('display','block');
+											$('#summary').css('display','block');
 											
 											$("#iFrame").attr(
 													"src",
