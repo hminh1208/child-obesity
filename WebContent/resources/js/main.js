@@ -433,4 +433,9 @@ $(document)
 						$("#check-bmi-kid").validate().resetForm();
 					});
 
+					$('li').click(function(){
+						$('li').removeClass('active');
+						$(this).addClass('active');
+					})
+					
 				});

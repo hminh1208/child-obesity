@@ -62,6 +62,7 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li class="active" id="check-bmi"><a href="#home-page">Check BMI</a></li>
 				<li id="summary"><a href="#feature-page">Summary</a></li>
+				<li id="sport-facility"><a href="#facility-page">Facility</a></li>
 			</ul>
 			</nav>
 		</div>
@@ -150,6 +151,7 @@
 	</header>
 	<!--Header-area/-->
 
+	<!-- BMI chart area - Summary section -->
 	<section class="section-padding" id="feature-page">
 	<div class="container full-height">
 		<div class="col-12 full-height">
@@ -157,6 +159,27 @@
 		</div>
 	</div>
 	</section>
+	<!-- End BMI chart area - End Summary section -->
+	
+	<!-- Sport facilities sections -->
+	<section class="section-padding" id="facility-page">
+	<div class="container full-height">
+	
+		<!-- Map Section  -->
+		<div class="col-xs-12 col-md-6" style="height: 85%">
+			<input id="pac-input" class="controls form-control" type="text" style="width: 50% !important; margin: 20px !important"/>
+			<div id="map" class="" style="height: 100%"></div>
+		</div>
+		<!-- End Map Section  -->
+		
+		<!-- Filter section  -->
+		<div class="col-xs-12 col-md-6">
+			
+		</div>
+		<!-- End Filter Section  -->
+	</div>
+	</section>
+	<!-- End sport facilities sections -->
 
 	<!--Vendor-JS-->
 	<h:outputScript library="js" name="jquery-1.12.4.min.js" />
@@ -171,6 +194,11 @@
 	<h:outputScript library="js" name="jquery.validate.min.js" />
 	<!--Main-active-JS-->
 	<h:outputScript library="js" name="main.js" />
+	<!--Js file for Google Map section-->
+	<h:outputScript library="js" name="g-map.js" />
+	<script async="async defer" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4h0hNg9UtSxtO6cLXzTNB4dI-MihXpsA&amp;v=3&amp;libraries=places&amp;callback=initMap">
+    </script>
+	
 </h:body>
 
 </html>
