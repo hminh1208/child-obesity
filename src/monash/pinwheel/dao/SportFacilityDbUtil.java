@@ -215,7 +215,6 @@ public class SportFacilityDbUtil {
 			if (list.get(i).getId().equals(id)) {
 				return i;
 			}
-			
 		}
 		
 		return -1;
