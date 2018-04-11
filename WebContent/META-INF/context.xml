@@ -6,4 +6,11 @@
 					username="root" password="1kikJQpS0m33"
 					driverClassName="com.mysql.jdbc.Driver"
 					url="jdbc:mysql://35.189.11.78:3306/child_obesity?relaxAutoCommit=true" />
+					
+	<Resource name="jdbc/sport_fac"
+				auth="Container" type="javax.sql.DataSource"
+					maxActive="20" maxIdle="5" maxWait="10000"
+					username="root" password="1kikJQpS0m33"
+					driverClassName="com.mysql.jdbc.Driver"
+					url="jdbc:mysql://35.189.11.78:3306/sport_fac?relaxAutoCommit=true" />		
 </Context>
