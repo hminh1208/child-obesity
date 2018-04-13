@@ -1,7 +1,8 @@
-var select;
+var selectSport;
+var selectSuburb;
 var map;
 var autocomplete;
-var searchInput = document.getElementById('pac-input');
+var searchInput = document.getElementById('pac-card');
 
 var sportFacilitiesList = [];
 var sportFacilitiesMarker = [];
@@ -11,14 +12,85 @@ var infowindow;
 var selectData = [];
 
 $(document).ready(function() {
-	select = new SlimSelect({
-		select : '#selectedMultiple'
+	
+	jQuery.ajax({
+		url : "rest/facility/all/suburb",
+		dataType : 'json',
+		success : function(response) {
+			$('#selectedMultiple').empty();
+			for (var i = 0; i < response.length; i++) {
+				selectData = response;
+				$('#suburbSelect').append('<option value="'+selectData[i].suburbName+'_'+selectData[i].postCode+'">'+selectData[i].suburbName+', ' + selectData[i].postCode + '</option>');
+			}
+			
+			selectSuburb = new SlimSelect({
+				select : '#suburbSelect'
+			});
+		}
+	});
+	
+	selectSport = new SlimSelect({
+		select : '#selectedMultiple',
+		placeholder: 'Please select the suburb before using this function'
+	});
+	
+	selectSport.disable();
+	
+	$('#suburbSelect').change(function(){
+		jQuery.ajax({
+			url : "https://maps.googleapis.com/maps/api/geocode/json?&address=" + selectSuburb.selected()+'&key=AIzaSyA4h0hNg9UtSxtO6cLXzTNB4dI-MihXpsA',
+			dataType : 'json',
+			success : function(response) {
+				if(response.status == "OK"){
+					console.log(response.results[0].geometry.location);
+					
+					var place = response.results[0];
+
+					sportFacilitiesList = [];
+
+					// clear marker before loading new suburb
+					clearMarker();
+					sportFacilitiesMarker = [];
+
+					// close info window before loading new suburb
+					if (infowindow) {
+						infowindow.close();
+					}
+
+					var suburb;
+					var postCode;
+					
+					for (var i = 0; i < place.address_components.length; i++) {
+						if(place.address_components[i].types[0] == "postal_code"){
+							postCode = place.address_components[i].long_name;
+						}else if(place.address_components[i].types[0] == "locality"){
+							suburb = place.address_components[i].long_name;
+						}
+					}
+					
+					loadingSportFacilities(suburb, postCode);
+
+					if (!place.geometry) {
+						// User entered the name of a Place that was not suggested and
+						// pressed the Enter key, or the Place Details request failed.
+						window
+								.alert("No details available for input: '" + place.name
+										+ "'");
+						return;
+					}
+
+					// If the place has a geometry, then present it on a map.
+						map.setCenter(place.geometry.location);
+						map.setZoom(13); // Why 17? Because it looks good.
+				}
+			}
+		});
 	});
 	
 	$('#selectedMultiple').change(function(){
 		//reflect marker on the map based on selection
 		if($('#selectedMultiple :selected').length != 0){
-			loadingMarkerToMap(select.selected());
+			loadingMarkerToMap(selectSport.selected());
 		}else{
 			loadingMarkerToMap(null);
 		}
@@ -28,15 +100,17 @@ $(document).ready(function() {
 			$('#selectedMultiple option').not(':selected').each(function(){
 				$(this).attr( "disabled",'disabled' );
 			});
-			select = new SlimSelect({
-				select : '#selectedMultiple'
+			selectSport = new SlimSelect({
+				select : '#selectedMultiple',
+				placeholder: 'Please select upto 3 sports to view on the map'
 			});
 		}else if($('#selectedMultiple :selected').length < 3){
 			$('#selectedMultiple option').not(':selected').each(function(){
 				$(this).removeAttr( "disabled");
 			});
-			select = new SlimSelect({
-				select : '#selectedMultiple'
+			selectSport = new SlimSelect({
+				select : '#selectedMultiple',
+				placeholder: 'Please select upto 3 sports to view on the map'
 			});
 		}
 	});
@@ -64,45 +138,7 @@ function initMap() {
 		}
 	};
 
-	autocomplete = new google.maps.places.Autocomplete(searchInput, options);
-
 	map.controls[google.maps.ControlPosition.TOP_LEFT].push(searchInput);
-
-	autocomplete.addListener('place_changed', function() {
-		var place = autocomplete.getPlace();
-
-		sportFacilitiesList = [];
-
-		// clear marker before loading new suburb
-		clearMarker();
-		sportFacilitiesMarker = [];
-
-		// close info window before loading new suburb
-		if (infowindow) {
-			infowindow.close();
-		}
-
-		loadingSportFacilities(place.address_components[0].long_name,
-				place.address_components[4].long_name);
-
-		if (!place.geometry) {
-			// User entered the name of a Place that was not suggested and
-			// pressed the Enter key, or the Place Details request failed.
-			window
-					.alert("No details available for input: '" + place.name
-							+ "'");
-			return;
-		}
-
-		// If the place has a geometry, then present it on a map.
-		if (place.geometry.viewport) {
-			map.fitBounds(place.geometry.viewport);
-		} else {
-			map.setCenter(place.geometry.location);
-			map.setZoom(17); // Why 17? Because it looks good.
-		}
-
-	});
 }
 
 function loadingSportFacilities(suburb, postCode) {
@@ -136,6 +172,12 @@ function loadingSportFacilities(suburb, postCode) {
 		}
 	});
 
+	selectSport = new SlimSelect({
+		select : '#selectedMultiple',
+		placeholder: 'Please select upto 3 sports to view on the map'
+	});
+	selectSport.enable();
+	
 }
 
 function refreshSelectList(){

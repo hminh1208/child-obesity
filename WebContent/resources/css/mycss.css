@@ -165,148 +165,139 @@ h2 {
 	color: dimgrey !important;
 }
 
-blockquote{
-    border-left:none
+blockquote {
+	border-left: none
 }
 
-.quote-badge{
-    background-color: rgba(0, 0, 0, 0.2);   
+.quote-badge {
+	background-color: rgba(0, 0, 0, 0.2);
 }
 
-.quote-box{
-    
-    overflow: hidden;
-    margin-top: -50px;
-    padding-top: -100px;
-    border-radius: 17px;
-    background-color: #4ADFCC;
-    margin-top: 25px;
-    color:white;
-    width: 325px;
-    box-shadow: 2px 2px 2px 2px #E0E0E0;
-    
+.quote-box {
+	overflow: hidden;
+	margin-top: -50px;
+	padding-top: -100px;
+	border-radius: 17px;
+	background-color: #4ADFCC;
+	margin-top: 25px;
+	color: white;
+	width: 325px;
+	box-shadow: 2px 2px 2px 2px #E0E0E0;
 }
 
-.quote-figure{
-    
-    overflow: hidden;
-    margin-top: -50px;
-    padding-top: -100px;
-    border-radius: 17px;
-    background-color: #ffc300;
-    margin-top: 25px;
-    color:white;
-    width: 325px;
-    box-shadow: 2px 2px 2px 2px #E0E0E0;
-    
+.quote-figure {
+	overflow: hidden;
+	margin-top: -50px;
+	padding-top: -100px;
+	border-radius: 17px;
+	background-color: #ffc300;
+	margin-top: 25px;
+	color: white;
+	width: 325px;
+	box-shadow: 2px 2px 2px 2px #E0E0E0;
 }
 
-.quotation-mark{
-    
-    margin-top: -30px;
-    margin-left: 30px;
-    font-weight: bold;
-    font-size:100px;
-    color:white;
-    font-family: "Times New Roman", Georgia, Serif;
-    
+.quotation-mark {
+	margin-top: -30px;
+	margin-left: 30px;
+	font-weight: bold;
+	font-size: 100px;
+	color: white;
+	font-family: "Times New Roman", Georgia, Serif;
 }
 
-.quotation-mark-text{
-    margin-top: 10px;
-    margin-left: 30px;
-    font-weight: bold;
-    font-size: 45px;
-    color:white;
-    font-family: "Times New Roman", Georgia, Serif;
+.quotation-mark-text {
+	margin-top: 10px;
+	margin-left: 30px;
+	font-weight: bold;
+	font-size: 45px;
+	color: white;
+	font-family: "Times New Roman", Georgia, Serif;
 }
 
-.quote-text-new{
-    margin-left: 30px;
-    font-size: 25px;
-    margin-top: -20px;
+.quote-text-new {
+	margin-left: 30px;
+	font-size: 25px;
+	margin-top: -20px;
 }
 
-.quote-text{
-    margin-left: 30px;
-    font-size: 25px;
-    margin-top: -65px;
+.quote-text {
+	margin-left: 30px;
+	font-size: 25px;
+	margin-top: -65px;
 }
 
+#description {
+	font-family: Roboto;
+	font-size: 15px;
+	font-weight: 300;
+}
 
+#infowindow-content .title {
+	font-weight: bold;
+}
 
+#infowindow-content {
+	display: none;
+}
 
+#map #infowindow-content {
+	display: inline;
+}
 
-      #description {
-        font-family: Roboto;
-        font-size: 15px;
-        font-weight: 300;
-      }
+.pac-card {
+	margin: 10px 10px 0 0;
+	border-radius: 2px 0 0 2px;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	outline: none;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+	background-color: #fff;
+	font-family: Roboto;
+}
 
-      #infowindow-content .title {
-        font-weight: bold;
-      }
+#pac-container {
+	padding-bottom: 12px;
+	margin-right: 12px;
+}
 
-      #infowindow-content {
-        display: none;
-      }
+.pac-controls {
+	display: inline-block;
+	padding: 5px 11px;
+}
 
-      #map #infowindow-content {
-        display: inline;
-      }
+.pac-controls label {
+	font-family: Roboto;
+	font-size: 13px;
+	font-weight: 300;
+}
 
-      .pac-card {
-        margin: 10px 10px 0 0;
-        border-radius: 2px 0 0 2px;
-        box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        outline: none;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-        background-color: #fff;
-        font-family: Roboto;
-      }
+#pac-input {
+	background-color: #fff;
+	font-size: 15px;
+	font-weight: 300;
+	margin-left: 12px;
+	padding: 0 11px 0 13px;
+	text-overflow: ellipsis;
+	width: 200px;
+}
 
-      #pac-container {
-        padding-bottom: 12px;
-        margin-right: 12px;
-      }
+#pac-input:focus {
+	border-color: #4d90fe;
+}
 
-      .pac-controls {
-        display: inline-block;
-        padding: 5px 11px;
-      }
+#title {
+	color: #fff;
+	background-color: #4d90fe;
+	font-size: 25px;
+	font-weight: 500;
+	padding: 6px 12px;
+}
 
-      .pac-controls label {
-        font-family: Roboto;
-        font-size: 13px;
-        font-weight: 300;
-      }
+#target {
+	width: 345px;
+}
 
-      #pac-input {
-        background-color: #fff;
-        font-size: 15px;
-        font-weight: 300;
-        margin-left: 12px;
-        padding: 0 11px 0 13px;
-        text-overflow: ellipsis;
-        width: 200px;
-      }
-
-      #pac-input:focus {
-        border-color: #4d90fe;
-      }
-
-      #title {
-        color: #fff;
-        background-color: #4d90fe;
-        font-size: 25px;
-        font-weight: 500;
-        padding: 6px 12px;
-      }
-      #target {
-        width: 345px;
-      }
-
-.ss-main .ss-multi-selected{
+.ss-main .ss-multi-selected {
 	min-height: 50px !important;
 }

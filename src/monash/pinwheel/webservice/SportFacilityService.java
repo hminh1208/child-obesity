@@ -43,5 +43,11 @@ public class SportFacilityService {
 		return new Gson().toJson(SportFacilityDbUtil.getInstance().getAllSportsDetailBySuburbOrPostCode(suburbName, postCode));
 	}
 	
+	@GET
+	@Path("/all/suburb")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getAllSuburb() throws SQLException, NamingException {
+		return new Gson().toJson(SportFacilityDbUtil.getInstance().getAllSuburb());
+	}
 	
 }

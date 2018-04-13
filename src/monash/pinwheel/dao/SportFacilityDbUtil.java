@@ -17,6 +17,7 @@ import org.apache.taglibs.standard.tag.common.sql.SetDataSourceTagSupport;
 
 import monash.pinwheel.entity.Kid;
 import monash.pinwheel.entity.SportFacility;
+import monash.pinwheel.entity.Suburb;
 
 public class SportFacilityDbUtil {
 	
@@ -207,6 +208,29 @@ public class SportFacilityDbUtil {
 		}
 
 		return sports;
+	}
+	
+	public List<Suburb> getAllSuburb() throws SQLException{
+		List<Suburb> suburbs = new ArrayList<>();
+
+		Connection conn = null;
+		Statement statement = null;
+		ResultSet result = null;
+
+		try {
+			conn = getConnection();
+		String sql = "SELECT DISTINCT suburb, postCode FROM sports_rec ORDER BY suburb";
+			statement = conn.createStatement();
+			result = statement.executeQuery(sql);
+
+			while (result.next()) {
+				suburbs.add(new Suburb(result.getString("suburb"), result.getInt("postCode")));
+			}
+		} finally {
+			close(conn, statement, result);
+		}
+
+		return suburbs;
 	}
 	
 	private int checkExistSportFacilityInList(List<SportFacility> list, String id) {
