@@ -307,3 +307,6 @@ blockquote{
         width: 345px;
       }
 
+.ss-main .ss-multi-selected{
+	min-height: 50px !important;
+}

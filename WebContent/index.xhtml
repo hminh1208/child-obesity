@@ -23,6 +23,9 @@
 	<h:outputStylesheet library="css" name="style.css" />
 	<h:outputStylesheet library="css" name="responsive.css" />
 
+	<link rel="stylesheet" type="text/css"
+		href="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.12.1/slimselect.min.css" />
+
 	<title>Obe-verse</title>
 
 	<h:outputScript library="js" name="modernizr-2.8.3.min.js" />
@@ -60,7 +63,8 @@
 			<!--Logo/-->
 			<nav class="collapse navbar-collapse" id="primary-menu">
 			<ul class="nav navbar-nav navbar-right">
-				<li class="active" id="check-bmi"><a href="#home-page">Check BMI</a></li>
+				<li class="active" id="check-bmi"><a href="#home-page">Check
+						BMI</a></li>
 				<li id="summary"><a href="#feature-page">Summary</a></li>
 				<li id="sport-facility"><a href="#facility-page">Facility</a></li>
 			</ul>
@@ -90,7 +94,7 @@
 
 			<div class="col-xs-12 col-md-5 ">
 				<h2>Please Enter Details To Begin</h2>
-				<br/>
+				<br />
 				<form name="check-bmi-kid" onsubmit="return false"
 					id="check-bmi-kid">
 
@@ -155,26 +159,30 @@
 	<section class="section-padding" id="feature-page">
 	<div class="container full-height">
 		<div class="col-12 full-height">
-			<iframe class="full-height" src="" id="iFrame" style="border-style: none "></iframe>
+			<iframe class="full-height" src="" id="iFrame"
+				style="border-style: none"></iframe>
 		</div>
 	</div>
 	</section>
 	<!-- End BMI chart area - End Summary section -->
-	
+
 	<!-- Sport facilities sections -->
 	<section class="section-padding" id="facility-page">
 	<div class="container full-height">
-	
+
 		<!-- Map Section  -->
 		<div class="col-xs-12 col-md-6" style="height: 85%">
-			<input id="pac-input" class="controls form-control" type="text" style="width: 50% !important; margin: 20px !important"/>
+			<input id="pac-input" class="controls form-control" type="text"
+				style="width: 50% !important; margin: 20px !important" />
 			<div id="map" class="" style="height: 100%"></div>
 		</div>
 		<!-- End Map Section  -->
-		
+
 		<!-- Filter section  -->
 		<div class="col-xs-12 col-md-6">
-			
+			<select multiple="multiple" id="selectedMultiple" tabindex="-1"
+				 >
+				 </select>
 		</div>
 		<!-- End Filter Section  -->
 	</div>
@@ -195,10 +203,14 @@
 	<!--Main-active-JS-->
 	<h:outputScript library="js" name="main.js" />
 	<!--Js file for Google Map section-->
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.12.1/slimselect.min.js"></script>
 	<h:outputScript library="js" name="g-map.js" />
-	<script async="async defer" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4h0hNg9UtSxtO6cLXzTNB4dI-MihXpsA&amp;libraries=places&amp;callback=initMap">
-    </script>
-	
+	<script async="async defer"
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4h0hNg9UtSxtO6cLXzTNB4dI-MihXpsA&amp;libraries=places&amp;callback=initMap">
+		
+	</script>
+
 </h:body>
 
 </html>

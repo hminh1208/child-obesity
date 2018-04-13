@@ -139,7 +139,7 @@ public class SportFacilityDbUtil {
 
 		try {
 			conn = getConnection();
-			String sql = "SELECT DISTINCT sport FROM sports_rec WHERE suburb LIKE ? OR postcode = ?";
+			String sql = "SELECT DISTINCT sport FROM sports_rec WHERE suburb LIKE ? AND postcode = ?";
 			statement = conn.prepareStatement(sql);
 			statement.setString(1, suburb);
 			statement.setInt(2, postCode);
