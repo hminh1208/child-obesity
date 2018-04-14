@@ -2,6 +2,7 @@ var selectSport;
 var selectSuburb;
 var map;
 var autocomplete;
+var table;
 var searchInput = document.getElementById('pac-card');
 
 var sportFacilitiesList = [];
@@ -11,7 +12,27 @@ var infowindow;
 
 var selectData = [];
 
+
 $(document).ready(function() {
+	
+	table = $('#sport-table').DataTable({
+		"bLengthChange": false,
+		"bFilter": false
+	});
+	
+	$('#sport-table tbody').on( 'click', 'tr', function () {
+		var index = table.row( this ).index();
+		
+        if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+        }
+        else {
+            table.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+            
+            google.maps.event.trigger(sportFacilitiesMarker[index], 'click');
+        }
+    } );
 	
 	jQuery.ajax({
 		url : "rest/facility/all/suburb",
@@ -154,7 +175,9 @@ function loadingSportFacilities(suburb, postCode) {
 		dataType : 'json',
 		success : function(response) {
 			sportFacilitiesList = response;
-
+			
+//			updateTableSportFacility();
+			
 			loadingMarkerToMap(null);
 		}
 	});
@@ -190,24 +213,29 @@ function loadingMarkerToMap(sportList) {
 
 	clearMarker();
 	
+	//List of Marker will be added to the map
 	sportFacilitiesMarker = [];
+	
+	//List of Facility will be in the Table
+	var sportInTable = [];
 
 	for (var i = 0; i < sportFacilitiesList.length; i++) {
 
 		var willAddToMap = true;
 		
+		// if no sprt specified, displays alls facilities
 		if(sportList){
-			
-			console.log(sportList)
-			
 			willAddToMap = false;
 			
 			for (var j = 0; j < sportList.length; j++) {
-				if(sportFacilitiesList[i].sportListAndType.includes(sportList[j])){
+				if(sportFacilitiesList[i].sportListAndType.indexOf(sportList[j]) != -1){
 					willAddToMap = true;
+					sportInTable.push(sportFacilitiesList[i]);
 					break;
 				}
 			}
+		}else{
+			sportInTable = sportFacilitiesList;
 		}
 		
 		if(willAddToMap){
@@ -229,11 +257,29 @@ function loadingMarkerToMap(sportList) {
 					+ sportFacilitiesList[i].name + "</b><br>"
 					+ sportFacilitiesList[i].address
 					+ "<br>This facility contains "
-					+ sportFacilitiesList[i].sportListAndType + "<div");
+					+ sportFacilitiesList[i].sportListAndType + "<div", i);
 
 			sportFacilitiesMarker.push(marker);
 		}
 	}
+	
+	//update Table Facilities
+	updateTable(sportInTable);
+	
+}
+
+function updateTable(sportInTable){
+	table.destroy();
+	table = $('#sport-table').DataTable({
+        "data": sportInTable,
+        "bLengthChange": false,
+        "bFilter": false,
+        "columns": [
+            { "data": "name" },
+            { "data": "address" },
+            { "data": "sportListAndType" }
+        ]
+    });
 }
 
 function clearMarker() {
@@ -242,10 +288,13 @@ function clearMarker() {
 	}
 }
 
-var bindInfoWindow = function(marker, map, infowindow, html) {
+var bindInfoWindow = function(marker, map, infowindow, html, index) {
 	google.maps.event.addListener(marker, 'click', function() {
 		infowindow.setContent(html);
 		infowindow.open(map, marker);
+		map.setCenter(marker.getPosition()); 
+		table.rows().deselect();
+		table.row(index).select();
 	});
 }
 

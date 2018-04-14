@@ -23,6 +23,8 @@
 	<h:outputStylesheet library="css" name="style.css" />
 	<h:outputStylesheet library="css" name="responsive.css" />
 	<h:outputStylesheet library="css" name="slimselect.min.css" />
+	<link rel="stylesheet" type="text/css"
+		href="https://cdn.datatables.net/v/bs4/dt-1.10.16/sl-1.2.5/datatables.min.css" />
 
 	<title>Obe-verse</title>
 
@@ -173,12 +175,12 @@
 			<!-- <input id="pac-input" class="controls form-control" type="text"
 				style="width: 50% !important; margin: 20px !important" /> -->
 
-			
-				<select id="suburbSelect" tabindex="-1" class="pac-card">
-					<option value="0" disabled="disabled" selected="selected">Please
-						select a suburb from the list to start</option>
-				</select>
-			
+
+			<select id="suburbSelect" tabindex="-1" class="pac-card">
+				<option value="0" disabled="disabled" selected="selected">Please
+					select a suburb from the list to start</option>
+			</select>
+
 
 			<div id="map" class="" style="height: 100%"></div>
 		</div>
@@ -186,8 +188,25 @@
 
 		<!-- Filter section  -->
 		<div class="col-xs-12 col-md-6">
-			<select multiple="multiple" id="selectedMultiple" tabindex="-1">
-			</select>
+			<div>
+				<select multiple="multiple" id="selectedMultiple" tabindex="-1">
+				</select>
+			</div>
+			<hr/>
+			<div style="margin-top: 20px">
+				<h4>List of Facilities</h4>
+				<table id="sport-table" class="display table-striped table-hover"
+					style="width: 100%; margin-top: 20px">
+					<thead>
+						<tr>
+							<th>Facility Name</th>
+							<th>Address</th>
+							<th>List of Sports</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+
 		</div>
 		<!-- End Filter Section  -->
 	</div>
@@ -212,9 +231,10 @@
 		src="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.12.1/slimselect.min.js"></script>
 	<h:outputScript library="js" name="g-map.js" />
 	<script async="async defer"
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4h0hNg9UtSxtO6cLXzTNB4dI-MihXpsA&amp;libraries=places&amp;callback=initMap">
-		
-	</script>
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4h0hNg9UtSxtO6cLXzTNB4dI-MihXpsA&amp;libraries=places&amp;callback=initMap"></script>
+	<script type="text/javascript"
+		src="https://cdn.datatables.net/v/bs4/dt-1.10.16/sl-1.2.5/datatables.min.js"></script>
+
 
 </h:body>
 
