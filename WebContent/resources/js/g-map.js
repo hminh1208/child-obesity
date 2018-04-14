@@ -218,6 +218,7 @@ function loadingMarkerToMap(sportList) {
 	
 	//List of Facility will be in the Table
 	var sportInTable = [];
+	var realIndex = 0;
 
 	for (var i = 0; i < sportFacilitiesList.length; i++) {
 
@@ -257,8 +258,8 @@ function loadingMarkerToMap(sportList) {
 					+ sportFacilitiesList[i].name + "</b><br>"
 					+ sportFacilitiesList[i].address
 					+ "<br>This facility contains "
-					+ sportFacilitiesList[i].sportListAndType + "<div", i);
-
+					+ sportFacilitiesList[i].sportListAndType + "<div", realIndex);
+			realIndex = realIndex + 1;
 			sportFacilitiesMarker.push(marker);
 		}
 	}
