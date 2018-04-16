@@ -1,5 +1,8 @@
 package monash.pinwheel.entity;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 public class SportFacility {
 	
 	private String id;
@@ -14,6 +17,7 @@ public class SportFacility {
 	private String sportListAndType;
 	private String lga;
 	private String address;
+	private float distance;
 	
 	
 	public SportFacility() {
@@ -82,6 +86,33 @@ public class SportFacility {
 		return street_name;
 	}
 
+	public float getDistance() {
+		return distance;
+	}
+
+	public void setDistance(float distance) {
+		this.distance = distance;
+	}
+	
+	public void setDistanceFromPoint(float lat, float lon) {
+		 double theta = this.longitude - lon;
+	        double dist = Math.sin(deg2rad(this.latitude)) * Math.sin(deg2rad(lat)) + Math.cos(deg2rad(this.latitude)) * Math.cos(deg2rad(lat)) * Math.cos(deg2rad(theta));
+	        dist = Math.acos(dist);
+	        dist = rad2deg(dist);
+	        dist = dist * 60 * 1.1515;
+	        dist = dist * 1.609344;
+
+	        NumberFormat formatter = new DecimalFormat("#0.00");
+	        this.distance = Float.valueOf(formatter.format(dist));
+	}
+	
+	private static double rad2deg(double rad) {
+        return (rad * 180 / Math.PI);
+    }
+
+    private static double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
 
 	public void setStreet_name(String street_name) {
 		this.street_name = street_name;

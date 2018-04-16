@@ -5,7 +5,7 @@ $.validator.addMethod("australianDate", function(value, element) {
 			return true;
 		}
 		return value.match(/^\d\d\d\d-\d\d?-\d\d?$/);
-	}, "Please enter a date in the format dd/mm/yyyy.");
+	}, "*Please enter a date in the format dd/mm/yyyy.");
 
 	$.validator.addMethod("rangeDate", function(value, element) {	
 	if(value.match(/^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/)){
@@ -288,7 +288,6 @@ $(document)
 											dob : {
 												australianDate : true,
 												rangeDate: true
-												
 											},
 											weight : {
 												required : true,
@@ -302,12 +301,12 @@ $(document)
 										messages : {
 											
 											weight : {
-												required : "Current Weight cannot be empty",
-												range : "Current weight must between	1.0 and 200.0"
+												required : "*Current Weight cannot be empty",
+												range : "*Current weight must between 1.0 and 200.0"
 											},
 											height : {
-												required : "Current Height cannot be empty",
-												range : "Current weight must between	1.0 and 200.0"
+												required : "*Current Height cannot be empty",
+												range : "*Current height must between 1.0 and 200.0"
 											}
 										},
 										errorElement : "em",
@@ -377,8 +376,8 @@ $(document)
 											var bmi = weight / height / height * 10000;
 											if(bmi < 13.21253 || bmi > 35.10556){
 												$("#check-bmi-kid").validate().showErrors({
-									                "weight": "BMI result is invalid, please check Weight and Height.",
-									                "height": "BMI result is invalid, please check Weight and Height."
+									                "weight": "*BMI result is invalid, please check Weight and Height.",
+									                "height": "*BMI result is invalid, please check Weight and Height."
 									            });
 												console.log('invalid bmi');
 									            return false;
@@ -423,15 +422,14 @@ $(document)
 											$('#summary').addClass('active');
 											
 										}
-
 									});
 					
 					$('#input-weight').focusin(function(){
-						$("#check-bmi-kid").validate().resetForm();
+//						$("#check-bmi-kid").validate().resetForm();
 					});
 					
 					$('#input-height').focusin(function(){
-						$("#check-bmi-kid").validate().resetForm();
+//						$("#check-bmi-kid").validate().resetForm();
 					});
 
 					$('li').click(function(){

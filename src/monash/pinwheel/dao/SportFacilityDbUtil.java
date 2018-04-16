@@ -158,7 +158,7 @@ public class SportFacilityDbUtil {
 		return sports;
 	}
 	
-	public List<SportFacility> getAllSportsDetailBySuburbOrPostCode(String suburb, int postCode) throws SQLException{
+	public List<SportFacility> getAllSportsDetailBySuburbOrPostCode(String suburb, int postCode, float lat, float lon) throws SQLException{
 		List<SportFacility> sports = new ArrayList<>();
 
 		Connection conn = null;
@@ -200,6 +200,7 @@ public class SportFacilityDbUtil {
 					newFacility.concatSportType(sport, type);
 					newFacility.setLga(result.getString("lga"));
 					newFacility.setAddress(result.getString("address"));
+					newFacility.setDistanceFromPoint(lat, lon);
 					sports.add(newFacility);
 				}
 			}

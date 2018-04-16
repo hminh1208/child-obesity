@@ -989,6 +989,7 @@ input.error { border: 5px red; }
 	/* remove the next line when you have trouble in IE6 with labels in list */
 	color: white !important;
 	font-style: italic;
+	font-weight: bold;'
 }
 
 .is-invalid {
