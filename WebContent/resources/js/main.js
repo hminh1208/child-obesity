@@ -405,7 +405,7 @@ $(document)
 											
 											$("#iFrame").attr(
 													"src",
-													"https://yke13.shinyapps.io/bmi_chart_v3/?age_weeks="
+													"https://yke13.shinyapps.io/bmi_chart_v4/?age_weeks="
 															+ weeks
 															+ "&gender="
 															+ gender
