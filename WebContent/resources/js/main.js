@@ -277,8 +277,7 @@ $(document)
 		.ready(
 				function() {
 					
-					$('#feature-page').css('display','none');
-					
+					$('#feature-page').css('display','none');				
 					$('#summary').css('display','none');
 
 					$("#check-bmi-kid")
@@ -405,17 +404,17 @@ $(document)
 											
 											$("#iFrame").attr(
 													"src",
-													"https://yke13.shinyapps.io/bmi_chart_v4/?age_weeks="
-															+ weeks
-															+ "&gender="
+													"https://yke13.shinyapps.io/bmi_chart_v4/?gender="
 															+ gender
+															+ "&age_weeks="
+															+ weeks
 															+ "&bmi="+bmi.toFixed(2)+"&height="
 															+ height
 															+ "&weight="
 															+ weight);
 											
 											$('html, body').animate({
-										        scrollTop: $("#feature-page").offset().top
+										        scrollTop: $("#feature-page").offset().top + 10
 										    }, 2000);
 											
 											$('li').removeClass('active');

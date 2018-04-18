@@ -200,7 +200,9 @@ public class SportFacilityDbUtil {
 					newFacility.concatSportType(sport, type);
 					newFacility.setLga(result.getString("lga"));
 					newFacility.setAddress(result.getString("address"));
-					newFacility.setDistanceFromPoint(lat, lon);
+					if(lat != 0 && lon != 0) {
+						newFacility.setDistanceFromPoint(lat, lon);
+					}
 					sports.add(newFacility);
 				}
 			}

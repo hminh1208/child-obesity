@@ -14,8 +14,35 @@ var infowindow;
 var selectData = [];
 var currentLocation;
 
+var currentLocationMarker;
+
 
 $(document).ready(function() {
+	
+	//
+	 $(document).on("scroll", onScroll);
+	    
+	    //smoothscroll
+	    $('a[href^="#"]').on('click', function (e) {
+	        e.preventDefault();
+	        $(document).off("scroll");
+	        
+	        $('a').each(function () {
+	            $(this).removeClass('active');
+	        })
+	        $(this).addClass('active');
+	      
+	        var target = this.hash,
+	            menu = target;
+	        $target = $(target);
+	        $('html, body').stop().animate({
+	            'scrollTop': $target.offset().top+2
+	        }, 1000, 'swing', function () {
+	            window.location.hash = target;
+	            $(document).on("scroll", onScroll);
+	        });
+	    });
+	//
 	
 	table = $('#sport-table').DataTable({
 		"bLengthChange": false,
@@ -239,19 +266,20 @@ function onPlaceChanged() {
 	var place = autocomplete.getPlace();
     if (place.geometry) {
       map.panTo(place.geometry.location);
-      map.setZoom(15);
-      
-     console.log(place.geometry.location.lat(),place.geometry.location.lng());
+      map.setZoom(12);
       
      currentLocation = place.geometry.location
      
      var image = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
-     var currentLocationMarker = new google.maps.Marker({
+     if (currentLocationMarker) {
+    	 currentLocationMarker.setMap(null);
+	}
+     currentLocationMarker = new google.maps.Marker({
        position: {lat: place.geometry.location.lat(), lng: place.geometry.location.lng()},
        map: map,
        icon: image
      });
-     bindInfoWindow(currentLocationMarker, map, infowindow, "You are here", -1);
+     bindInfoWindow(currentLocationMarker, map, infowindow, "Your Entered Address Is Here", -1);
 	     
 	 	jQuery.ajax({
 			url : "https://maps.googleapis.com/maps/api/geocode/json?latlng="+place.geometry.location.lat()+","+place.geometry.location.lng()+"&key=AIzaSyA4h0hNg9UtSxtO6cLXzTNB4dI-MihXpsA",
@@ -284,8 +312,16 @@ function loadingSportFacilities(suburb, postCode) {
 	// sportFacilitiesList = data;
 	// });
 	
+	var lat = 0;
+	var lng = 0;
+	
+	if (currentLocation) {
+		lat = currentLocation.lat();
+		lng = currentLocation.lng();
+	}
+	
 	jQuery.ajax({
-		url : "rest/facility/all/sport_facilities/" + postCode + "/" + suburb + "/" + currentLocation.lat() + "/" + currentLocation.lng(),
+		url : "rest/facility/all/sport_facilities/" + postCode + "/" + suburb + "/" + lat + "/" + lng,
 		dataType : 'json',
 		success : function(response) {
 			sportFacilitiesList = response;
@@ -379,17 +415,47 @@ function loadingMarkerToMap(sportList) {
 
 function updateTable(sportInTable){
 	table.destroy();
-	table = $('#sport-table').DataTable({
-        "data": sportInTable,
-        "bLengthChange": false,
-        "bFilter": false,
-        "columns": [
-            { "data": "name" },
-            { "data": "address" },
-            { "data": "sportListAndType" },
-            { "data": "distance" }
-        ]
-    });
+	if (currentLocation) {
+		table = $('#sport-table').DataTable({
+	        "data": sportInTable,
+	        "bLengthChange": false,
+	        "bFilter": false,
+	        "pageLength": 6,
+	        "columns": [
+	            { "data": "name" },
+	            { "data": "address" },
+	            { "data": "sportListAndType" },
+	            { "data": "distance" }
+	        ],
+			"columnDefs":[{
+				"targets": [ 3 ],
+                "visible": true
+			}]
+	    });
+	}else{
+		table = $('#sport-table').DataTable({
+	        "data": sportInTable,
+	        "bLengthChange": false,
+	        "bFilter": false,
+	        "pageLength": 6,
+	        "columns": [
+	            { "data": "name" },
+	            { "data": "address" },
+	            { "data": "sportListAndType" },
+	            { "data": "distance" }
+	        ],
+			"columnDefs":[{
+				"targets": [ 3 ],
+                "visible": false
+			},
+			{ "width": "25%", "targets": 0 },
+		      { "width": "25%", "targets": 1 },
+		      { "width": "25%", "targets": 2 },
+		      { "width": "10%", "targets": 3 },
+		      ]
+	    });
+	}
+	
 }
 
 function clearMarker() {
@@ -412,4 +478,27 @@ var bindInfoWindow = function(marker, map, infowindow, html, index) {
 
 function loadingSportDropDownList() {
 
+}
+
+function onScroll(event){
+    var scrollPos = $(document).scrollTop();
+    
+    $('#primary-menu a').each(function () {
+        var currLink = $(this);
+        var refElement = $(currLink.attr("href"));
+       
+        if (refElement.position().top <= scrollPos + 10 && refElement.position().top + refElement.height() > scrollPos - 10 && currLink.parent().css('display') != 'none') {
+            $('#primary-menu ul li').removeClass("active");
+            currLink.parent().addClass("active");
+            console.log(currLink.parent().attr('id'));
+            if (currLink.parent().attr('id') == 'summary') {
+				$('#myBtn').css('display', 'block') ;
+			}else{
+				$('#myBtn').css('display', 'none');
+			}
+        }
+        else{
+            currLink.parent().removeClass("active");
+        }
+    });
 }
