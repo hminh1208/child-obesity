@@ -1,9 +1,10 @@
 var selectSport;
 var selectSuburb;
 var map;
-var autocomplete;
 var table;
 var searchInput = document.getElementById('pac-card');
+var autocomplete;
+var autocompleteInput= document.getElementById('pac-input');
 
 var sportFacilitiesList = [];
 var sportFacilitiesMarker = [];
@@ -137,60 +138,65 @@ $(document).ready(function() {
 		}
 	});
 	
-	$('#current-location').click(function(){
-		var $this = $(this);
-	    var loadingText = '<i class="fa fa-spinner fa-spin"></i>';
-	    if ($(this).html() !== loadingText) {
-	      $this.data('original-text', $(this).html());
-	      $this.html(loadingText);
-	    }
-	      
-		 if (navigator.geolocation) {
-		        navigator.geolocation.getCurrentPosition(function(position) {
-		          var pos = {
-		            lat: position.coords.latitude,
-		            lng: position.coords.longitude
-		          };
-		          
-		          currentLocation = pos;
-		          
-		          $this.html($this.data('original-text'));
-		          
-			  		var image = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
-				     var currentLocationMarker = new google.maps.Marker({
-				       position: {lat: position.coords.latitude, lng: position.coords.longitude},
-				       map: map,
-				       icon: image
-				     });
-				     bindInfoWindow(currentLocationMarker, map, infowindow, "You are here", -1);
-				     
-				 	jQuery.ajax({
-						url : "https://maps.googleapis.com/maps/api/geocode/json?latlng="+position.coords.latitude+","+position.coords.longitude+"&key=AIzaSyA4h0hNg9UtSxtO6cLXzTNB4dI-MihXpsA",
-						dataType : 'json',
-						success : function(response) {
-							var suburb;
-							var postCode;
-							for (var i = 0; i < response.results[0].address_components.length; i++) {
-								if(response.results[0].address_components[i].types[0] == "postal_code"){
-									postCode = response.results[0].address_components[i].long_name;
-								}else if(response.results[0].address_components[i].types[0] == "locality"){
-									suburb = response.results[0].address_components[i].long_name;
-								}
-								
-								selectSuburb.set((suburb + "_" + postCode).toUpperCase());
-							}
-						}
-					});
-		          
-		        }, function() {
-		          handleLocationError(true, infoWindow, map.getCenter());
-		        });
-		      } else {
-		        // Browser doesn't support Geolocation
-		        handleLocationError(false, infoWindow, map.getCenter());
-		      }
-		 
-	});
+	
+	
+	/*
+	 * Detect location button has been disabled due to SSL certificate issues
+	 */
+//	$('#current-location').click(function(){
+//		var $this = $(this);
+//	    var loadingText = '<i class="fa fa-spinner fa-spin"></i>';
+//	    if ($(this).html() !== loadingText) {
+//	      $this.data('original-text', $(this).html());
+//	      $this.html(loadingText);
+//	    }
+//	      
+//		 if (navigator.geolocation) {
+//		        navigator.geolocation.getCurrentPosition(function(position) {
+//		          var pos = {
+//		            lat: position.coords.latitude,
+//		            lng: position.coords.longitude
+//		          };
+//		          
+//		          currentLocation = pos;
+//		          
+//		          $this.html($this.data('original-text'));
+//		          
+//			  		var image = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
+//				     var currentLocationMarker = new google.maps.Marker({
+//				       position: {lat: position.coords.latitude, lng: position.coords.longitude},
+//				       map: map,
+//				       icon: image
+//				     });
+//				     bindInfoWindow(currentLocationMarker, map, infowindow, "You are here", -1);
+//				     
+//				 	jQuery.ajax({
+//						url : "https://maps.googleapis.com/maps/api/geocode/json?latlng="+position.coords.latitude+","+position.coords.longitude+"&key=AIzaSyA4h0hNg9UtSxtO6cLXzTNB4dI-MihXpsA",
+//						dataType : 'json',
+//						success : function(response) {
+//							var suburb;
+//							var postCode;
+//							for (var i = 0; i < response.results[0].address_components.length; i++) {
+//								if(response.results[0].address_components[i].types[0] == "postal_code"){
+//									postCode = response.results[0].address_components[i].long_name;
+//								}else if(response.results[0].address_components[i].types[0] == "locality"){
+//									suburb = response.results[0].address_components[i].long_name;
+//								}
+//								
+//								selectSuburb.set((suburb + "_" + postCode).toUpperCase());
+//							}
+//						}
+//					});
+//		          
+//		        }, function() {
+//		          handleLocationError(true, infoWindow, map.getCenter());
+//		        });
+//		      } else {
+//		        // Browser doesn't support Geolocation
+//		        handleLocationError(false, infoWindow, map.getCenter());
+//		      }
+//		 
+//	});
 	
 });
 
@@ -217,13 +223,57 @@ function initMap() {
 	});
 
 	var options = {
-		types : [ '(cities)' ],
+		
 		componentRestrictions : {
 			country : 'au'
 		}
 	};
+	
+	autocomplete = new google.maps.places.Autocomplete(autocompleteInput, options);
+	autocomplete.addListener('place_changed', onPlaceChanged);
 
 	map.controls[google.maps.ControlPosition.TOP_LEFT].push(searchInput);
+}
+
+function onPlaceChanged() {
+	var place = autocomplete.getPlace();
+    if (place.geometry) {
+      map.panTo(place.geometry.location);
+      map.setZoom(15);
+      
+     console.log(place.geometry.location.lat(),place.geometry.location.lng());
+      
+     currentLocation = place.geometry.location
+     
+     var image = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
+     var currentLocationMarker = new google.maps.Marker({
+       position: {lat: place.geometry.location.lat(), lng: place.geometry.location.lng()},
+       map: map,
+       icon: image
+     });
+     bindInfoWindow(currentLocationMarker, map, infowindow, "You are here", -1);
+	     
+	 	jQuery.ajax({
+			url : "https://maps.googleapis.com/maps/api/geocode/json?latlng="+place.geometry.location.lat()+","+place.geometry.location.lng()+"&key=AIzaSyA4h0hNg9UtSxtO6cLXzTNB4dI-MihXpsA",
+			dataType : 'json',
+			success : function(response) {
+				var suburb;
+				var postCode;
+				for (var i = 0; i < response.results[0].address_components.length; i++) {
+					if(response.results[0].address_components[i].types[0] == "postal_code"){
+						postCode = response.results[0].address_components[i].long_name;
+					}else if(response.results[0].address_components[i].types[0] == "locality"){
+						suburb = response.results[0].address_components[i].long_name;
+					}
+					
+					selectSuburb.set((suburb + "_" + postCode).toUpperCase());
+				}
+			}
+		});
+      
+    } else {
+      document.getElementById('autocomplete').placeholder = 'Enter a city';
+    }
 }
 
 function loadingSportFacilities(suburb, postCode) {
@@ -234,10 +284,8 @@ function loadingSportFacilities(suburb, postCode) {
 	// sportFacilitiesList = data;
 	// });
 	
-	console.log(currentLocation);
-
 	jQuery.ajax({
-		url : "rest/facility/all/sport_facilities/" + postCode + "/" + suburb + "/" + currentLocation.lat + "/" + currentLocation.lng,
+		url : "rest/facility/all/sport_facilities/" + postCode + "/" + suburb + "/" + currentLocation.lat() + "/" + currentLocation.lng(),
 		dataType : 'json',
 		success : function(response) {
 			sportFacilitiesList = response;

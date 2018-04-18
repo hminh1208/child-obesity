@@ -23,7 +23,8 @@
 	<h:outputStylesheet library="css" name="style.css" />
 	<h:outputStylesheet library="css" name="responsive.css" />
 	<h:outputStylesheet library="css" name="slimselect.min.css" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 	<link rel="stylesheet" type="text/css"
 		href="https://cdn.datatables.net/v/bs4/dt-1.10.16/sl-1.2.5/datatables.min.css" />
 
@@ -176,16 +177,20 @@
 			<!-- <input id="pac-input" class="controls form-control" type="text"
 				style="width: 50% !important; margin: 20px !important" /> -->
 
-			<div style="margin-bottom: 10px">
-				<button id="current-location" class="btn"
+			<div style="margin-bottom: 10px" class="">
+				<!-- <button id="current-location" class="btn"
 					style="height: 50px; align-content: right; width: 50px">
 					<h:graphicImage value="resources/images/locate.png" />
-				</button>
-				<select id="suburbSelect" tabindex="-1">
-					<option value="0" disabled="disabled" selected="selected">Please
-						select a suburb from the list to start</option>
-				</select>
+				</button> -->
+				<div id="pac-card" style="width: 50%; margin: 5px; padding: 5px" class="jumbotron">
+					<input class="controls form-control" type="text" id="pac-input"
+						style="width: 100% !important; margin-bottom: 5px !important" placeholder="Enter Your Address Here" />
 
+					<select id="suburbSelect" tabindex="-1" style="width: 100% !important; font-size: 14px">
+						<option value="0" disabled="disabled" selected="selected">Please
+							select a suburb from the list to start</option>
+					</select>
+				</div>
 			</div>
 
 			<div id="map" class="" style="height: 100%"></div>
