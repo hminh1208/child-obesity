@@ -384,9 +384,13 @@ $(document)
 											
 											// create dob
 											var from = $("#input-dob").val()
-													.split("/");
-											var dob = new Date(from[2] + "/"
-													+ from[1] + "/" + from[0]);
+													.split("-");
+											var dob = new Date(from[2] + " "
+													+ from[1] + " " + from[0]);
+											if(isNaN(dob.getDay())){
+												dob = new Date(from[2] + "-"
+														+ from[1] + "-" + from[0]);
+										    }
 											var now = new Date();
 
 											var weeks = Math
@@ -402,6 +406,10 @@ $(document)
 											$('#feature-page').css('display','block');
 											$('#summary').css('display','block');
 											
+											console.log('input ',$("#input-dob").val());
+											console.log('from ' + from);
+											console.log('weeks ' + dob);
+											
 											$("#iFrame").attr(
 													"src",
 													"https://yke13.shinyapps.io/bmi_chart_v4/?gender="
@@ -412,6 +420,15 @@ $(document)
 															+ height
 															+ "&weight="
 															+ weight);
+									
+//											setTimeout(function() {
+//												$("#iFrame").attr(
+//												"src",
+//												"https://yke13.shinyapps.io/bmi_chart_v4/");
+//												}, 5000);
+
+											
+											
 											
 											$('html, body').animate({
 										        scrollTop: $("#feature-page").offset().top + 10
