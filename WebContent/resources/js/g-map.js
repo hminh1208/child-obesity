@@ -609,14 +609,14 @@ function prepareWeatherAPI(lat, lng){
 			weatherForecast = []
 			
 			for (var i = 0; i < response.daily.data.length; i++) {
-//				weatherForecast.push(response.daily.data[i].icon);
+				weatherForecast.push(response.daily.data[i].icon);
 				
 				//THIS IS ONLY FOR TESTTING
-				if (i % 2 == 0) {
-					weatherForecast.push(response.daily.data[i].icon);
-				}else{
-					weatherForecast.push('rain');
-				}
+//				if (i % 2 == 0) {
+//					weatherForecast.push(response.daily.data[i].icon);
+//				}else{
+//					weatherForecast.push('rain');
+//				}
 			}
 		}
 	});
