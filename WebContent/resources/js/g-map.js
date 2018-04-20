@@ -15,9 +15,60 @@ var selectData = [];
 var currentLocation;
 
 var currentLocationMarker;
-
+var DarkSkyAPIKey = '8eae2674f730a59184acdd74c73660cc';
+var weatherForecast = [];
+var sportInTable;
+var currentFacilityOption = 'all';
 
 $(document).ready(function() {
+	
+	prepareDateSelection();
+	
+	$('.date-label').each(function(index) {
+	    $(this).on("click", function(){
+	    	console.log($(this).attr('data'));
+	    	
+	    	var summary = weatherIconToSummary(weatherForecast[$(this).attr('data')]);
+	    	console.log(summary);
+	    	if (summary == "What a beautiful day to do exercises.") {
+	    		$( "#success-weather-alert" ).empty();
+	    		$( "#success-weather-alert" ).text(summary);
+	    		$( "#warning-weather-alert" ).css('display','none');
+		    	$( "#success-weather-alert" ).fadeIn( "slow");
+			}else{
+				$( "#warning-weather-alert" ).empty();
+				$( "#warning-weather-alert" ).text(summary);
+				$( "#warning-weather-alert" ).append(summary);
+				$( "#warning-weather-alert" ).append(' Do you want to ');
+				$( "#warning-weather-alert" ).append('<button id="btn-indoor-facilities" class="btn btn-outline-primary">Show Indoor Facilities Only</button');
+				$( "#warning-weather-alert" ).append(' or ');
+	    		$( "#warning-weather-alert" ).append('<button id="btn-all-facilities" class="btn btn-outline-primary">Show All Facilities</button');
+		    	$( "#success-weather-alert" ).css('display','none');
+		    	$( "#warning-weather-alert" ).fadeIn( "slow");
+		    	
+		    	$('#btn-indoor-facilities').click(function(){
+		    		currentFacilityOption = 'indoor';
+		    		if($('#selectedMultiple :selected').length != 0){
+		    			loadingMarkerToMap(selectSport.selected(), currentFacilityOption);
+		    		}else{
+		    			loadingMarkerToMap(null, currentFacilityOption);
+		    		}
+		    	});
+		    	
+		    	$('#btn-all-facilities').click(function(){
+		    		currentFacilityOption = 'all';
+		    		if($('#selectedMultiple :selected').length != 0){
+		    			loadingMarkerToMap(selectSport.selected(), currentFacilityOption);
+		    		}else{
+		    			loadingMarkerToMap(null, currentFacilityOption);
+		    		}
+		    	});
+			}
+	    	
+	    });
+	});
+	
+	
 	
 	//
 	 $(document).on("scroll", onScroll);
@@ -118,6 +169,8 @@ $(document).ready(function() {
 						}
 					}
 					
+					prepareWeatherAPI(response.results[0].geometry.location.lat,response.results[0].geometry.location.lng);
+					
 					loadingSportFacilities(suburb, postCode);
 
 					if (!place.geometry) {
@@ -135,14 +188,17 @@ $(document).ready(function() {
 				}
 			}
 		});
+		
+		
+		
 	});
 	
 	$('#selectedMultiple').change(function(){
 		//reflect marker on the map based on selection
 		if($('#selectedMultiple :selected').length != 0){
-			loadingMarkerToMap(selectSport.selected());
+			loadingMarkerToMap(selectSport.selected(), currentFacilityOption);
 		}else{
-			loadingMarkerToMap(null);
+			loadingMarkerToMap(null, currentFacilityOption);
 		}
 		
 		//disabled all option when there are 3 selected
@@ -328,7 +384,7 @@ function loadingSportFacilities(suburb, postCode) {
 			
 //			updateTableSportFacility();
 			
-			loadingMarkerToMap(null);
+			loadingMarkerToMap(null, currentFacilityOption);
 		}
 	});
 	
@@ -359,15 +415,17 @@ function refreshSelectList(){
 	}
 }
 
-function loadingMarkerToMap(sportList) {
+function loadingMarkerToMap(sportList, weatherFilter) {
 
+	console.log('loadingMarkerToMap',sportList, weatherFilter);
+	
 	clearMarker();
 	
 	//List of Marker will be added to the map
 	sportFacilitiesMarker = [];
 	
 	//List of Facility will be in the Table
-	var sportInTable = [];
+	sportInTable = [];
 	var realIndex = 0;
 
 	for (var i = 0; i < sportFacilitiesList.length; i++) {
@@ -379,14 +437,21 @@ function loadingMarkerToMap(sportList) {
 			willAddToMap = false;
 			
 			for (var j = 0; j < sportList.length; j++) {
-				if(sportFacilitiesList[i].sportListAndType.indexOf(sportList[j]) != -1){
-					willAddToMap = true;
-					sportInTable.push(sportFacilitiesList[i]);
-					break;
-				}
+					if(sportFacilitiesList[i].sportListAndType.indexOf(sportList[j]) != -1){
+						if ( weatherFilter == 'all' || weatherFilter == 'indoor' && sportFacilitiesList[i].sportListAndType.indexOf('indoor') != -1) {
+							willAddToMap = true;
+							sportInTable.push(sportFacilitiesList[i]);
+							break;
+						}
+					}
 			}
 		}else{
-			sportInTable = sportFacilitiesList;
+			willAddToMap = false;
+
+			if ( weatherFilter == 'all' || weatherFilter == 'indoor' && sportFacilitiesList[i].sportListAndType.indexOf('indoor') != -1) {
+				willAddToMap = true;
+				sportInTable.push(sportFacilitiesList[i]);
+			}
 		}
 		
 		if(willAddToMap){
@@ -409,15 +474,37 @@ function loadingMarkerToMap(sportList) {
 	}
 	
 	//update Table Facilities
-	updateTable(sportInTable);
+	updateTable(sportInTable, weatherFilter);
+	
+	if (sportInTable.length == 0) {
+		$( "#danger-weather-alert" ).fadeIn( "slow");
+		setTimeout(function(){
+			$( "#danger-weather-alert" ).fadeOut( "slow");
+		}, 5000);
+	}
 	
 }
 
-function updateTable(sportInTable){
+function updateTable(sportInTable, filter){
+	
+	var tempSportInTable = [];
+	
+	console.log('updateTable',filter,sportInTable);
+	
+	if(filter == 'indoor'){
+		for (var i = 0; i < sportInTable.length; i++) {
+			if (sportInTable[i].sportListAndType.indexOf('indoor') != -1) {
+				tempSportInTable.push(sportInTable[i]);
+			}
+		}
+	}else{
+		tempSportInTable = sportInTable;
+	}
+	
 	table.destroy();
 	if (currentLocation) {
 		table = $('#sport-table').DataTable({
-	        "data": sportInTable,
+	        "data": tempSportInTable,
 	        "bLengthChange": false,
 	        "bFilter": false,
 	        "pageLength": 6,
@@ -434,25 +521,20 @@ function updateTable(sportInTable){
 	    });
 	}else{
 		table = $('#sport-table').DataTable({
-	        "data": sportInTable,
+	        "data": tempSportInTable,
 	        "bLengthChange": false,
 	        "bFilter": false,
 	        "pageLength": 6,
 	        "columns": [
-	            { "data": "name" },
-	            { "data": "address" },
-	            { "data": "sportListAndType" },
-	            { "data": "distance" }
+	            { "data": "name", "width": "20%" },
+	            { "data": "address", "width": "35%" },
+	            { "data": "sportListAndType", "width": "35%" },
+	            { "data": "distance", "width": "10%" }
 	        ],
 			"columnDefs":[{
 				"targets": [ 3 ],
                 "visible": false
-			},
-			{ "width": "25%", "targets": 0 },
-		      { "width": "25%", "targets": 1 },
-		      { "width": "25%", "targets": 2 },
-		      { "width": "10%", "targets": 3 },
-		      ]
+			}]
 	    });
 	}
 	
@@ -501,4 +583,73 @@ function onScroll(event){
             currLink.parent().removeClass("active");
         }
     });
+}
+
+function prepareDateSelection(){
+	var now = new Date();
+	var currentDate = now.getDate();
+	var currentMonth = now.getMonth() + 1;
+	var currentDay = now.getDay();
+	
+	for (var i = 0; i <= 6; i++) {
+		if (i == 0) {
+			$('#date-button-group').append('<label class="btn btn-secondary date-label" data="'+i+'"> <input type="radio" name="options" id="option1" autocomplete="off"> '+numbertoDay(currentDay+i)+'<p>'+(currentDate+i)+'/'+currentMonth+'</p><p>(Today)</p> </input></label> ');
+		}
+		else{
+			$('#date-button-group').append('<label class="btn btn-secondary date-label" data="'+i+'"> <input type="radio" name="options" id="option1" autocomplete="off"> '+numbertoDay(currentDay+i)+'<p>'+(currentDate+i)+'/'+currentMonth+'</p></input></label> ');
+		}
+	}
+}
+
+function prepareWeatherAPI(lat, lng){
+	jQuery.ajax({
+		url : "https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/" + DarkSkyAPIKey + "/"+lat+","+lng,
+		dataType : 'json',
+		success : function(response) {
+			weatherForecast = []
+			
+			for (var i = 0; i < response.daily.data.length; i++) {
+//				weatherForecast.push(response.daily.data[i].icon);
+				
+				//THIS IS ONLY FOR TESTTING
+				if (i % 2 == 0) {
+					weatherForecast.push(response.daily.data[i].icon);
+				}else{
+					weatherForecast.push('rain');
+				}
+			}
+		}
+	});
+	
+}
+
+function numbertoDay(number){
+	if (number >= 7) {
+		number = number - 7;
+	}
+	
+	switch(number){
+		case 1: return '<p>Monday</p>'
+		case 2: return '<p>Tuesday</p>'
+		case 3: return '<p>Wednesday</p>'
+		case 4: return '<p>Thursday</p>'
+		case 5: return '<p>Friday</p>'
+		case 6: return '<p>Saturday</p>'
+		case 0: return '<p>Sunday</p>'
+	}
+}
+
+function weatherIconToSummary(icon){
+	switch(icon){
+		case "clear-day":
+		case "clear-night":
+		case "partly-cloudy-day":
+		case "partly-cloudy-night":
+		case "cloudy":
+			return "What a beautiful day to do exercises."
+		case "rain":
+			return "It is forecasted that rainy on this day."
+		case "wind":
+			return "It is forecasted that windy on this day."
+	}
 }

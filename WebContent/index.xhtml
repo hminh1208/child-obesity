@@ -23,6 +23,7 @@
 	<h:outputStylesheet library="css" name="style.css" />
 	<h:outputStylesheet library="css" name="responsive.css" />
 	<h:outputStylesheet library="css" name="slimselect.min.css" />
+
 	<link rel="stylesheet"
 		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 	<link rel="stylesheet" type="text/css"
@@ -164,7 +165,9 @@
 			<iframe class="full-height" src="" id="iFrame"
 				style="border-style: none"></iframe>
 		</div>
-		<a href="#facility-page" id="myBtn" style="display: none; color: #0000EE;">Click here to find out sport facilities nearby</a>
+		<a href="#facility-page" id="myBtn"
+			style="display: none; color: #0000EE;">Click here to find out
+			sport facilities nearby</a>
 	</div>
 	</section>
 	<!-- End BMI chart area - End Summary section -->
@@ -183,11 +186,13 @@
 					style="height: 50px; align-content: right; width: 50px">
 					<h:graphicImage value="resources/images/locate.png" />
 				</button> -->
-				<div id="pac-card" style="width: 80%; margin: 5px; padding: 5px" class="jumbotron">
+				<div id="pac-card" style="width: 80%; margin: 5px; padding: 5px"
+					class="jumbotron">
 					<input class="controls form-control" type="text" id="pac-input"
-						style="width: 100% !important; margin-bottom: 5px !important" placeholder="Enter Your Address Here" />
-
-					<select id="suburbSelect" tabindex="-1" style="width: 100% !important; font-size: 14px">
+						style="width: 100% !important; margin-bottom: 5px !important"
+						placeholder="Enter Your Address Here" /> <select
+						id="suburbSelect" tabindex="-1"
+						style="width: 100% !important; font-size: 14px">
 						<option value="0" disabled="disabled" selected="selected">Please
 							select a suburb from the list to start</option>
 					</select>
@@ -203,6 +208,23 @@
 			<div>
 				<select multiple="multiple" id="selectedMultiple" tabindex="-1">
 				</select>
+			</div>
+			<hr />
+			<div style="margin-top: 20px">
+				<h4>Planning Date</h4>
+				<div class="btn-group btn-group-toggle justify-content-start"
+					data-toggle="buttons" style="height: 100px" id="date-button-group">
+					
+				</div>
+				<div class="alert alert-success" role="alert" id="success-weather-alert" style="display: none; margin-top: 5px">
+						
+					</div>
+					<div class="alert alert-warning" role="alert" id="warning-weather-alert" style="display: none; margin-top: 5px">
+						
+					</div>
+					<div class="alert alert-danger" role="alert" id="danger-weather-alert" style="display: none; margin-top: 5px">
+						It seems there is no facilities match your filter. Please try different options.
+					</div>
 			</div>
 			<hr />
 			<div style="margin-top: 20px">
