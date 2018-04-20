@@ -26,19 +26,28 @@ $(document).ready(function() {
 	
 	$('.date-label').each(function(index) {
 	    $(this).on("click", function(){
-	    	console.log($(this).attr('data'));
 	    	
 	    	var summary = weatherIconToSummary(weatherForecast[$(this).attr('data')]);
-	    	console.log(summary);
+	    	
+	    	if (summary == null && selectSuburb.selected() == 0) {
+	    		$( "#danger-suburb-alert" ).fadeIn( "slow");
+		    	setTimeout(function(){
+					$( "#danger-suburb-alert" ).fadeOut( "slow");
+				}, 5000);
+				return;
+			}
+	    	
 	    	if (summary == "What a beautiful day to do exercises.") {
 	    		$( "#success-weather-alert" ).empty();
 	    		$( "#success-weather-alert" ).text(summary);
 	    		$( "#warning-weather-alert" ).css('display','none');
 		    	$( "#success-weather-alert" ).fadeIn( "slow");
+		    	setTimeout(function(){
+					$( "#success-weather-alert" ).fadeOut( "slow");
+				}, 5000);
 			}else{
 				$( "#warning-weather-alert" ).empty();
 				$( "#warning-weather-alert" ).text(summary);
-				$( "#warning-weather-alert" ).append(summary);
 				$( "#warning-weather-alert" ).append(' Do you want to ');
 				$( "#warning-weather-alert" ).append('<button id="btn-indoor-facilities" class="btn btn-outline-primary">Show Indoor Facilities Only</button');
 				$( "#warning-weather-alert" ).append(' or ');
@@ -573,11 +582,11 @@ function onScroll(event){
             $('#primary-menu ul li').removeClass("active");
             currLink.parent().addClass("active");
             console.log(currLink.parent().attr('id'));
-            if (currLink.parent().attr('id') == 'summary') {
-				$('#myBtn').css('display', 'block') ;
-			}else{
-				$('#myBtn').css('display', 'none');
-			}
+//            if (currLink.parent().attr('id') == 'summary') {
+//				$('#myBtn').css('display', 'block') ;
+//			}else{
+//				$('#myBtn').css('display', 'none');
+//			}
         }
         else{
             currLink.parent().removeClass("active");
@@ -642,6 +651,7 @@ function numbertoDay(number){
 function weatherIconToSummary(icon){
 	switch(icon){
 		case "clear-day":
+			return "What a beautiful day to do exercises. Be careful due to high temperature out side"
 		case "clear-night":
 		case "partly-cloudy-day":
 		case "partly-cloudy-night":
@@ -651,5 +661,7 @@ function weatherIconToSummary(icon){
 			return "It is forecasted that rainy on this day."
 		case "wind":
 			return "It is forecasted that windy on this day."
+		case "fog":
+			return "It is forecasted that there is a fog during the day."
 	}
 }
