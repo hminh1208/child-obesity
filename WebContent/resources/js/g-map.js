@@ -82,26 +82,26 @@ $(document).ready(function() {
 	//
 	 $(document).on("scroll", onScroll);
 	    
-	    //smoothscroll
-	    $('a[href^="#"]').on('click', function (e) {
-	        e.preventDefault();
-	        $(document).off("scroll");
-	        
-	        $('a').each(function () {
-	            $(this).removeClass('active');
-	        })
-	        $(this).addClass('active');
-	      
-	        var target = this.hash,
-	            menu = target;
-	        $target = $(target);
-	        $('html, body').stop().animate({
-	            'scrollTop': $target.offset().top+2
-	        }, 1000, 'swing', function () {
-	            window.location.hash = target;
-	            $(document).on("scroll", onScroll);
-	        });
-	    });
+    //smoothscroll
+    $('a[href^="#"]').on('click', function (e) {
+        e.preventDefault();
+        $(document).off("scroll");
+        
+        $('a').each(function () {
+            $(this).removeClass('active');
+        })
+        $(this).addClass('active');
+      
+        var target = this.hash,
+            menu = target;
+        $target = $(target);
+        $('html, body').stop().animate({
+            'scrollTop': $target.offset().top+2
+        }, 1000, 'swing', function () {
+            window.location.hash = target;
+            $(document).on("scroll", onScroll);
+        });
+    });
 	//
 	
 	table = $('#sport-table').DataTable({
@@ -147,10 +147,17 @@ $(document).ready(function() {
 	selectSport.disable();
 	
 	$('#suburbSelect').change(function(){
+		
+		var suburbName = selectSuburb.selected();
+		
+		if(suburbName == "BANGHOLME_3175")
+			suburbName = "BANGHOLME";
+		
 		jQuery.ajax({
-			url : "https://maps.googleapis.com/maps/api/geocode/json?&address=" + selectSuburb.selected()+'&key=AIzaSyA4h0hNg9UtSxtO6cLXzTNB4dI-MihXpsA',
+			url : "https://maps.googleapis.com/maps/api/geocode/json?&address=" + suburbName+'&key=AIzaSyA4h0hNg9UtSxtO6cLXzTNB4dI-MihXpsA',
 			dataType : 'json',
 			success : function(response) {
+				console.log(response.status);
 				if(response.status == "OK"){
 					console.log(response.results[0].geometry.location);
 					
@@ -195,11 +202,11 @@ $(document).ready(function() {
 						map.setCenter(place.geometry.location);
 						map.setZoom(13); // Why 17? Because it looks good.
 				}
+				if(response.status == "ZERO_RESULTS"){
+					
+				}
 			}
 		});
-		
-		
-		
 	});
 	
 	$('#selectedMultiple').change(function(){
@@ -331,7 +338,7 @@ function onPlaceChanged() {
 	var place = autocomplete.getPlace();
     if (place.geometry) {
       map.panTo(place.geometry.location);
-      map.setZoom(12);
+      map.setZoom(13);
       
      currentLocation = place.geometry.location
      
@@ -516,12 +523,12 @@ function updateTable(sportInTable, filter){
 	        "data": tempSportInTable,
 	        "bLengthChange": false,
 	        "bFilter": false,
-	        "pageLength": 6,
+	        "pageLength": 5,
 	        "columns": [
-	            { "data": "name" },
-	            { "data": "address" },
-	            { "data": "sportListAndType" },
-	            { "data": "distance" }
+	        	 { "data": "name", "width": "25%" },
+	            { "data": "address", "width": "35%" },
+	            { "data": "sportListAndType", "width": "30%" },
+	            { "data": "distance", "width": "10%" }
 	        ],
 			"columnDefs":[{
 				"targets": [ 3 ],
@@ -535,9 +542,9 @@ function updateTable(sportInTable, filter){
 	        "bFilter": false,
 	        "pageLength": 6,
 	        "columns": [
-	            { "data": "name", "width": "20%" },
+	            { "data": "name", "width": "25%" },
 	            { "data": "address", "width": "35%" },
-	            { "data": "sportListAndType", "width": "35%" },
+	            { "data": "sportListAndType", "width": "30%" },
 	            { "data": "distance", "width": "10%" }
 	        ],
 			"columnDefs":[{
