@@ -83,9 +83,6 @@ shinyServer(function(input, output, session) {
       closest_bmi <- subset[abs(subset$value - bmi) == min(abs(bmi - subset$value)), "value"]
       closest_percentile <- subset[subset$value==closest_bmi, "variable"]
       exact_percentile <<- round(pnorm((((bmi/M)^L) - 1) / (L*S)) * 100)
-      #exact_percentile_10 <<- round(exact_percentile/10)
-      #if(exact_percentile_10==10) exact_percentile_10 <<- exact_percentile_10-1
-      #if(exact_percentile_10==0) exact_percentile_10 <<- exact_percentile_10+1
       if(exact_percentile==100) exact_percentile <<- exact_percentile - 1
       if(exact_percentile==0) exact_percentile <<- exact_percentile + 1
       group <<- subset[subset$value==closest_bmi, "group"]
@@ -140,6 +137,7 @@ shinyServer(function(input, output, session) {
                                             "A few kilos heavier<br>than the healthy range!", 
                                             "A bit on the<br>heavier side!"))
     
+    # annotation config
     a <- list(x = c(0), y = c(exact_percentile),
       text = paste("You are here!"),
       xref = "x", yref = "y",
@@ -147,7 +145,8 @@ shinyServer(function(input, output, session) {
       ax = 90, ay = 0,
       arrowcolor="#d6d6d6"
     )
-
+    
+    # margin 
     m <- list(l=40, r=50, b=20, t=0, pad=0)
 
     percentile_bar <- plot_ly(bar, width=260) %>%
@@ -161,26 +160,6 @@ shinyServer(function(input, output, session) {
              xaxis=list(title="", showticklabels=FALSE, showgrid=FALSE, zeroline=FALSE, showline=FALSE)) %>%
       config(displayModeBar=FALSE)
     
-    # a <- list(x = c(exact_percentile), y = c(0),
-    #           text = paste("You are here!"),
-    #           xref = "x", yref = "y",
-    #           showarrow = TRUE, arrowhead = 6,
-    #           ax = 0, ay = -50
-    # )
-    # 
-    # m <- list(l=10, r=10, b=30, t=0, pad=0)
-    # 
-    # percentile_bar <- plot_ly(bar, height=120) %>% 
-    #   add_bars(y=~a, x=~values, color=~group, hovertext=~group, width=10, hoverinfo="text",
-    #            marker=list(color=c(rgb(0,84,124, maxColorValue = 255), rgb(0,173,167, maxColorValue = 255), 
-    #                                rgb(255,207,92, maxColorValue = 255), rgb(239,72,116, maxColorValue = 255)))) %>%
-    #   layout(barmode="stack", annotations=a, margin=m, showlegend=FALSE,
-    #          legend = list(orientation = 'h', y=-0.5),
-    #          xaxis=list(title="Percentiles", showticklabels=TRUE, showgrid=FALSE, zeroline=FALSE, showline=FALSE,
-    #                     tickvals=c(0,5, 85, 95)),
-    #          yaxis=list(title="", showticklabels=FALSE, showgrid=FALSE, zeroline=FALSE, showline=FALSE)) %>%
-    #   config(displayModeBar=FALSE)
-    
     
     percentile_bar
   })
@@ -188,9 +167,6 @@ shinyServer(function(input, output, session) {
   output$percentile_text <- renderInfoBox({
     infoBox(tags$h3("Current", tags$br(), "Percentile"),
             tags$p(exact_percentile, style = "font-size: 250%;"),
-            # paste("This means out of every 100 children, your child weighs more than (or the same as)",
-            #       exact_percentile, "kids, and lighter than",
-            #       100-exact_percentile, "kids."),
             icon=icon("percent"),
             addTooltip(session, id="percentile_text",
                        title=paste("This means out of every 100 children, your child weighs more than (or the same as)",
@@ -206,7 +182,6 @@ shinyServer(function(input, output, session) {
   output$bmi_text <- renderInfoBox({
     infoBox(tags$h3("Current", tags$br(), "BMI"),
             tags$p(bmi, style = "font-size: 250%;"),
-            # paste("BMI is a measure used to determine if you are at a healthy weight for your height"),
             icon=icon("tasks"),
             color="aqua"
     )
@@ -239,7 +214,7 @@ shinyServer(function(input, output, session) {
                          tags$p("Keep up the good work!", tags$br(), 
                                 "Still, it is important to remember that children need a healthy diet and at least 60 
                                 minutes of physical activity per day!", tags$br(), tags$br(),
-                                "Have a look at our Nutrition and Physical Activity tabs!",
+                                "Have a look at the Nutrition and Physical Activity tabs!",
                                 style="line-height: 200%; padding-right: 2rem"),
                          icon=icon("heartbeat"),
                          fill=TRUE,
@@ -255,7 +230,7 @@ shinyServer(function(input, output, session) {
                                 but rather slow their weight gain compared to height growth.", tags$br(),
                                 "Other then an appropriate diet, make sure your child is getting 60 minutes of exercise per day!",
                                 tags$br(), tags$br(),
-                                "Have a look at our Nutrition and Physical Activity tabs!",
+                                "Have a look at the Nutrition and Physical Activity tabs!",
                                 style="line-height: 200%; padding-right: 2rem"),
                          icon=icon("heartbeat"),
                          fill=TRUE,
@@ -271,7 +246,7 @@ shinyServer(function(input, output, session) {
                                 to tell the whole story.", tags$br(),
                                 "Nevertheless, your child should be eating a healthy diet and getting at least 60 minutes
                                 of exercise per day!", tags$br(), tags$br(),
-                                "Have a look at our Nutrition and Physical Activity tabs!",
+                                "Have a look at the Nutrition and Physical Activity tabs!",
                                 style="line-height: 200%; padding-right: 2rem"),
                          icon=icon("heartbeat"),
                          fill=TRUE,

@@ -1,5 +1,6 @@
 # bmi chart v5
 
+# load libraries
 library(shiny)
 library(plotly)
 library(RMySQL)
@@ -9,7 +10,7 @@ library(shinydashboard)
 library(shinyBS)
 library(reshape2)
 
-# Define UI for application that draws a histogram
+# Define UI for application shiny dashboard
 shinyUI(fluidPage(
  
   tags$style(HTML("@import url('https://fonts.googleapis.com/css?family=Poppins:300');")),
