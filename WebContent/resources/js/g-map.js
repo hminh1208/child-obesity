@@ -27,6 +27,9 @@ $(document).ready(function() {
 	$('.date-label').each(function(index) {
 	    $(this).on("click", function(){
 	    	
+	    	currentFacilityOption = 'all'
+	    	loadingMarkerToMap(null, currentFacilityOption);
+	    	
 	    	var summary = weatherIconToSummary(weatherForecast[$(this).attr('data')]);
 	    	
 	    	if (summary == null && selectSuburb.selected() == 0) {

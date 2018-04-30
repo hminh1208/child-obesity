@@ -383,16 +383,20 @@ $(document)
 											}
 											
 											// create dob
+											console.log('mike-test', $("#input-dob").val());
 											var from = $("#input-dob").val()
 													.split("-");
-											var dob = new Date(from[2] + " "
-													+ from[1] + " " + from[0]);
+											var dob = new Date( parseInt(from[0]), parseInt(from[1]) - 1, from[2]);
+											console.log('dob ',dob);
 											if(isNaN(dob.getDay())){
 												dob = new Date(from[2] + "-"
 														+ from[1] + "-" + from[0]);
 										    }
 											var now = new Date();
 
+											console.log('dob ',dob);
+											console.log('from ' + from);
+											
 											var weeks = Math
 													.round((now - dob) / 604800000);
 											var weight = $('#input-weight')
@@ -406,9 +410,7 @@ $(document)
 											$('#feature-page').css('display','block');
 											$('#summary').css('display','block');
 											
-											console.log('input ',$("#input-dob").val());
-											console.log('from ' + from);
-											console.log('weeks ' + dob);
+											
 											
 											$("#iFrame").attr(
 													"src",
