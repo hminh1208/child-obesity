@@ -179,6 +179,14 @@ input:-webkit-autofill:focus {
     color: #ffffff;
 }
 
+.sky-bg-1 {
+    background: #75cbe7;
+    background: -webkit-gradient(linear, left top, left bottom, from(#75cbe7), to(#138fc2));
+    background: linear-gradient(to bottom, #75cbe7 0%, #138fc2 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#75cbe7', endColorstr='#138fc2', GradientType=0);
+    color: #000000;
+}
+
 .gray-bg {
     background-color: #f2fefe;
 }
@@ -369,6 +377,11 @@ input:-webkit-autofill:focus {
 .client-area,
 .header-area {
     background: #000000 url('images/parallax-2.jpg') no-repeat scroll center center / cover;
+}
+
+.client-area,
+.header-area-1 {
+    background: #000000 no-repeat scroll center center / cover;
 }
 
 .anlge-bg {

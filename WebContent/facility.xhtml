@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+	<meta charset="utf-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<!-- Title -->
+
+	<!-- Place favicon.ico in the root directory -->
+	<!-- Plugin-CSS -->
+	<h:outputStylesheet library="css" name="bootstrap.min.css" />
+	<h:outputStylesheet library="css" name="owl.carousel.min.css" />
+	<h:outputStylesheet library="css" name="themify-icons.css" />
+	<h:outputStylesheet library="css" name="magnific-popup.css" />
+	<h:outputStylesheet library="css" name="animate.css" />
+
+	<h:outputStylesheet library="css" name="normalize.css" />
+	<h:outputStylesheet library="css" name="style.css" />
+	<h:outputStylesheet library="css" name="responsive.css" />
+	<h:outputStylesheet library="css" name="slimselect.min.css" />
+
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" type="text/css"
+		href="https://cdn.datatables.net/v/bs4/dt-1.10.16/sl-1.2.5/datatables.min.css" />
+
+	<title>Obe-verse</title>
+
+	<h:outputScript library="js" name="modernizr-2.8.3.min.js" />
+
+	<!--[if lt IE 9]>
+        <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</h:head>
+
+<h:body data-spy="scroll" data-target="#primary-menu">
+
+	<div class="preloader">
+		<div class="sk-folding-cube">
+			<div class="sk-cube1 sk-cube"></div>
+			<div class="sk-cube2 sk-cube"></div>
+			<div class="sk-cube4 sk-cube"></div>
+			<div class="sk-cube3 sk-cube"></div>
+		</div>
+	</div>
+	<!--Mainmenu-area-->
+	<div class="mainmenu-area" data-spy="affix" data-offset-top="100">
+		<div class="container">
+			<!--Logo-->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#primary-menu">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a href="#" class="navbar-brand logo">
+					<h2>Obe-verse</h2>
+				</a>
+			</div>
+			<!--Logo/-->
+			<nav class="collapse navbar-collapse" id="primary-menu">
+			<ul class="nav navbar-nav navbar-right">
+				<li id="check-bmi"><a href="index.xhtml">Check
+						BMI</a></li>
+				<li id="summary"><a href="#feature-page">Summary</a></li>
+				<li id="sport-facility" class="active"><a href="facility.xhtml">Facility</a></li>
+			</ul>
+			</nav>
+		</div>
+	</div>
+	<!--Mainmenu-area/-->
+
+	<!-- Sport facilities sections -->
+	<section class="section-padding sky-bg full-height">
+	<div class="container-fluid" style="height: 100%;" >
+
+		<!-- Map Section  -->
+		<div class="col-xs-12 col-md-6" style="height: 100%;">
+			<!-- <input id="pac-input" class="controls form-control" type="text"
+				style="width: 50% !important; margin: 20px !important" /> -->
+
+			<div style="margin-bottom: 10px" class="">
+				<!-- <button id="current-location" class="btn"
+					style="height: 50px; align-content: right; width: 50px">
+					<h:graphicImage value="resources/images/locate.png" />
+				</button> -->
+				<div id="pac-card" style="width: 80%; margin: 5px; padding: 5px"
+					class="jumbotron">
+					<input class="controls form-control" type="text" id="pac-input"
+						style="width: 100% !important; margin-bottom: 5px !important"
+						placeholder="Enter Your Address Here" /> <select
+						id="suburbSelect" tabindex="-1"
+						style="width: 100% !important; font-size: 14px">
+						<option value="0" disabled="disabled" selected="selected">Please
+							select a suburb from the list to start</option>
+					</select>
+				</div>
+			</div>
+
+			<div id="map" class="" style="height: 100%; color: black"></div>
+		</div>
+		<!-- End Map Section  -->
+
+		<!-- Filter section  -->
+		<div class="col-xs-12 col-md-6" disabled="true">
+			<div>
+				<select multiple="multiple" id="selectedMultiple" tabindex="-1">
+				</select>
+			</div>
+			<hr />
+			<div style="margin-top: 20px">
+				<h4>Planning Date</h4>
+				<div class="btn-group btn-group-toggle justify-content-start"
+					data-toggle="buttons" style="height: auto" id="date-button-group">
+
+				</div>
+				<div class="alert alert-success" role="alert"
+					id="success-weather-alert" style="display: none; margin-top: 5px">
+
+				</div>
+				<div class="alert alert-warning" role="alert"
+					id="warning-weather-alert" style="display: none; margin-top: 5px">
+
+				</div>
+				<div class="alert alert-danger" role="alert"
+					id="danger-weather-alert" style="display: none; margin-top: 5px">
+					It seems there is no facilities match your filter. Please try
+					different options.</div>
+				<div class="alert alert-danger" role="alert"
+					id="danger-suburb-alert" style="display: none; margin-top: 5px">
+					Please select the suburb first to fetch the weather data.</div>
+			</div>
+			<hr />
+			<div style="margin-top: 20px">
+				<h4>List of Facilities</h4>
+				<table id="sport-table" class="display table-hover"
+					style="width: 100%; margin-top: 20px">
+					<thead>
+						<tr>
+							<th>Facility Name</th>
+							<th>Address</th>
+							<th>List of Sports</th>
+							<th>Distance(in Km)</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+
+		</div>
+		<!-- End Filter Section  -->
+	</div>
+	</section>
+	<!-- End sport facilities sections -->
+
+	<!--Vendor-JS-->
+	<h:outputScript library="js" name="jquery-1.12.4.min.js" />
+	<h:outputScript library="js" name="bootstrap.min.js" />
+	<!--Plugin-JS-->
+	<h:outputScript library="js" name="owl.carousel.min.js" />
+	<h:outputScript library="js" name="contact-form.js" />
+	<h:outputScript library="js" name="jquery.parallax-1.1.3.js" />
+	<h:outputScript library="js" name="scrollUp.min.js" />
+	<h:outputScript library="js" name="magnific-popup.min.js" />
+	<h:outputScript library="js" name="wow.min.js" />
+	<h:outputScript library="js" name="jquery.validate.min.js" />
+	<!--Main-active-JS-->
+	<h:outputScript library="js" name="main.js" />
+	<!--Js file for Google Map section-->
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.12.1/slimselect.min.js"></script>
+	<h:outputScript library="js" name="g-map.js" />
+	<script async="async defer"
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4h0hNg9UtSxtO6cLXzTNB4dI-MihXpsA&amp;libraries=places&amp;callback=initMap"></script>
+	<script type="text/javascript"
+		src="https://cdn.datatables.net/v/bs4/dt-1.10.16/sl-1.2.5/datatables.min.js"></script>
+
+
+</h:body>
+
+</html>

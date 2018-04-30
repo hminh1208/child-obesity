@@ -66,10 +66,10 @@
 			<!--Logo/-->
 			<nav class="collapse navbar-collapse" id="primary-menu">
 			<ul class="nav navbar-nav navbar-right">
-				<li class="active" id="check-bmi"><a href="#home-page">Check
+				<li class="active" id="check-bmi"><a href="index.xhtml">Check
 						BMI</a></li>
 				<li id="summary"><a href="#feature-page">Summary</a></li>
-				<li id="sport-facility"><a href="#facility-page">Facility</a></li>
+				<li id="sport-facility"><a href="facility.xhtml">Facility</a></li>
 			</ul>
 			</nav>
 		</div>
@@ -173,83 +173,82 @@
 	<!-- End BMI chart area - End Summary section -->
 
 	<!-- Sport facilities sections -->
-	<section class="section-padding" id="facility-page">
-	<div class="container full-height">
-
-		<!-- Map Section  -->
-		<div class="col-xs-12 col-md-6" style="height: 80%">
-			<!-- <input id="pac-input" class="controls form-control" type="text"
-				style="width: 50% !important; margin: 20px !important" /> -->
-
-			<div style="margin-bottom: 10px" class="">
-				<!-- <button id="current-location" class="btn"
-					style="height: 50px; align-content: right; width: 50px">
-					<h:graphicImage value="resources/images/locate.png" />
-				</button> -->
-				<div id="pac-card" style="width: 80%; margin: 5px; padding: 5px"
-					class="jumbotron">
-					<input class="controls form-control" type="text" id="pac-input"
-						style="width: 100% !important; margin-bottom: 5px !important"
-						placeholder="Enter Your Address Here" /> <select
-						id="suburbSelect" tabindex="-1"
-						style="width: 100% !important; font-size: 14px">
-						<option value="0" disabled="disabled" selected="selected">Please
-							select a suburb from the list to start</option>
-					</select>
-				</div>
-			</div>
-
-			<div id="map" class="" style="height: 100%"></div>
-		</div>
-		<!-- End Map Section  -->
-
-		<!-- Filter section  -->
-		<div class="col-xs-12 col-md-6" disabled="true">
-			<div>
-				<select multiple="multiple" id="selectedMultiple" tabindex="-1">
-				</select>
-			</div>
-			<hr />
-			<div style="margin-top: 20px">
-				<h4>Planning Date</h4>
-				<div class="btn-group btn-group-toggle justify-content-start"
-					data-toggle="buttons" style="height: auto" id="date-button-group">
-					
-				</div>
-				<div class="alert alert-success" role="alert" id="success-weather-alert" style="display: none; margin-top: 5px">
-						
-					</div>
-					<div class="alert alert-warning" role="alert" id="warning-weather-alert" style="display: none; margin-top: 5px">
-						
-					</div>
-					<div class="alert alert-danger" role="alert" id="danger-weather-alert" style="display: none; margin-top: 5px">
-						It seems there is no facilities match your filter. Please try different options.
-					</div>
-					<div class="alert alert-danger" role="alert" id="danger-suburb-alert" style="display: none; margin-top: 5px">
-						Please select the suburb first to fetch the weather data.
-					</div>
-			</div>
-			<hr />
-			<div style="margin-top: 20px">
-				<h4>List of Facilities</h4>
-				<table id="sport-table" class="display table-striped table-hover"
-					style="width: 100%; margin-top: 20px">
-					<thead>
-						<tr>
-							<th>Facility Name</th>
-							<th>Address</th>
-							<th>List of Sports</th>
-							<th>Distance(in Km)</th>
-						</tr>
-					</thead>
-				</table>
-			</div>
-
-		</div>
-		<!-- End Filter Section  -->
-	</div>
-	</section>
+	
 	<!-- End sport facilities sections -->
+	
+	<section class="angle-bg sky-bg section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div id="caption_slide" class="carousel slide caption-slider" data-ride="carousel">
+                        <div class="carousel-inner" role="listbox">
+                            <div class="item active row">
+                                <div class="v-center">
+                                    <div class="col-xs-12 col-md-6">
+                                        <div class="caption-title" data-animation="animated fadeInUp">
+                                            <h2>Sport Facilities</h2>
+                                        </div>
+                                        <div class="caption-desc" data-animation="animated fadeInUp">
+                                            <p>By entering your location, we will give you nearby sport facilities near your location. You can filter facilities by sport type and distance.<br/>We also give you suggestion after you choosing date</p>
+                                        </div>
+                                        <div class="caption-button" data-animation="animated fadeInUp">
+                                            <a href="#" class="button">Read more</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-md-6">
+                                        <div class="caption-photo one" data-animation="animated fadeInRight">
+                                            <h:graphicImage library="images" name="map.PNG" />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item row">
+                                <div class="v-center">
+                                    <div class="col-xs-12 col-md-6">
+                                        <div class="caption-title" data-animation="animated fadeInUp">
+                                            <h2>Calories Burning</h2>
+                                        </div>
+                                        <div class="caption-desc" data-animation="animated fadeInUp">
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute</p>
+                                        </div>
+                                        <div class="caption-button" data-animation="animated fadeInUp">
+                                            <a href="#" class="button">Read more</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-md-3">
+                                        <div class="caption-photo one" data-animation="animated fadeInRight">
+                                            <img src="images/screen-3.jpg" alt=""/>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-md-3">
+                                        <div class="caption-photo two" data-animation="animated fadeInRight">
+                                            <img src="images/screen-4.jpg" alt=""/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Indicators -->
+                        <ol class="carousel-indicators caption-indector">
+                            <li data-target="#caption_slide" data-slide-to="0" class="active">
+                                <strong>Sport Facilities</strong>Exploring sport facilities nearby your location.
+                            </li>
+                            <li data-target="#caption_slide" data-slide-to="1">
+                                <strong>Calories Burning</strong>Exploring how much calories when you do exercises.
+                            </li>
+                            <li data-target="#caption_slide" data-slide-to="1">
+                               
+                            </li>
+                            <li data-target="#caption_slide" data-slide-to="1">
+                                
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
 	<!--Vendor-JS-->
 	<h:outputScript library="js" name="jquery-1.12.4.min.js" />

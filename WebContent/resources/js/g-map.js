@@ -27,18 +27,18 @@ $(document).ready(function() {
 	$('.date-label').each(function(index) {
 	    $(this).on("click", function(){
 	    	
-	    	currentFacilityOption = 'all'
-	    	loadingMarkerToMap(null, currentFacilityOption);
-	    	
-	    	var summary = weatherIconToSummary(weatherForecast[$(this).attr('data')]);
-	    	
-	    	if (summary == null && selectSuburb.selected() == 0) {
+	    	if (selectSuburb.selected() == 0) {
 	    		$( "#danger-suburb-alert" ).fadeIn( "slow");
 		    	setTimeout(function(){
 					$( "#danger-suburb-alert" ).fadeOut( "slow");
 				}, 5000);
 				return;
 			}
+	    	
+	    	currentFacilityOption = 'all'
+		    	loadingMarkerToMap(null, currentFacilityOption);
+		    	
+		    	var summary = weatherIconToSummary(weatherForecast[$(this).attr('data')]);
 	    	
 	    	if (summary == "What a beautiful day to do exercises.") {
 	    		$( "#success-weather-alert" ).empty();
