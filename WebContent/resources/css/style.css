@@ -200,6 +200,22 @@ input:-webkit-autofill:focus {
 *Default Button
 **/
 
+.button-non-hover {
+    display: inline-block;
+    padding: 8px 30px;
+    border-radius: 50px;
+    color: #ffffff;
+    background-color: #2f60c3;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+    border: none;
+    -webkit-box-shadow: 2px 5px 20px -5px rgba(0, 0, 0, 0.1);
+    box-shadow: 2px 5px 20px -5px rgba(0, 0, 0, 0.1);
+}
+.button-non-hover:hover{
+	color: #ffffff;
+}
+
 .button {
     display: inline-block;
     padding: 8px 30px;

@@ -279,6 +279,7 @@ $(document)
 					
 					$('#feature-page').css('display','none');				
 					$('#summary').css('display','none');
+					$('#service-page').css('display','none');
 
 					$("#check-bmi-kid")
 							.validate(
@@ -409,6 +410,8 @@ $(document)
 
 											$('#feature-page').css('display','block');
 											$('#summary').css('display','block');
+											$('#service-page').css('display','block');
+											
 											
 											
 											
