@@ -1026,3 +1026,5 @@ input.error { border: 5px red; }
 	font-weight: bold;
 	white-space: normal;
 }
+
+iframe { overflow-x: scroll; }

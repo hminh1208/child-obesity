@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+	<meta charset="utf-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<!-- Title -->
+
+	<!-- Place favicon.ico in the root directory -->
+	<!-- Plugin-CSS -->
+	<h:outputStylesheet library="css" name="bootstrap.min.css" />
+	<h:outputStylesheet library="css" name="owl.carousel.min.css" />
+	<h:outputStylesheet library="css" name="themify-icons.css" />
+	<h:outputStylesheet library="css" name="magnific-popup.css" />
+	<h:outputStylesheet library="css" name="animate.css" />
+
+	<h:outputStylesheet library="css" name="normalize.css" />
+	<h:outputStylesheet library="css" name="style.css" />
+	<h:outputStylesheet library="css" name="responsive.css" />
+	<h:outputStylesheet library="css" name="slimselect.min.css" />
+
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" type="text/css"
+		href="https://cdn.datatables.net/v/bs4/dt-1.10.16/sl-1.2.5/datatables.min.css" />
+
+	<title>Obe-verse</title>
+
+	<h:outputScript library="js" name="modernizr-2.8.3.min.js" />
+
+	<!--[if lt IE 9]>
+        <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</h:head>
+
+<h:body data-spy="scroll" data-target="#primary-menu">
+
+	<div class="preloader">
+		<div class="sk-folding-cube">
+			<div class="sk-cube1 sk-cube"></div>
+			<div class="sk-cube2 sk-cube"></div>
+			<div class="sk-cube4 sk-cube"></div>
+			<div class="sk-cube3 sk-cube"></div>
+		</div>
+	</div>
+	<!--Mainmenu-area-->
+	<div class="mainmenu-area affix" data-offset-top="100">
+		<div class="container">
+			<!--Logo-->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#primary-menu">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a href="#" class="navbar-brand logo">
+					<h2>Calories burning by Sport</h2>
+				</a>
+			</div>
+			<!--Logo/-->
+			<nav class="collapse navbar-collapse" id="primary-menu">
+			<ul class="nav navbar-nav navbar-right">
+				<li id="check-bmi"><a href="index.xhtml">Check BMI</a></li>
+				<li id="summary"><a href="#feature-page">Summary</a></li>
+				<li class="active" id="calories"><a href="calories.xhtml">Sport
+						&amp; Calories</a></li>
+				<li id="sport-facility"><a href="facility.xhtml">Facility</a></li>
+			</ul>
+			</nav>
+		</div>
+	</div>
+	<!--Mainmenu-area/-->
+
+	<!--Header-area/-->
+	<section class="section-padding gray-bg full-height">
+	<div class="container-fluid" style="height: 100%;">
+			
+	</div>
+	</section>
+	<!--Header-area/-->
+
+	<!-- BMI chart area - Summary section -->
+	<section class="section-padding" id="feature-page">
+	<div class="container full-height">
+		<div class="col-12" style="height: 80%">
+			<a href="#facility-page" id="myBtn"
+				style="color: white; float: right;" class="btn btn-primary">Find
+				Nearby Sport Facilities</a>
+			<iframe class="full-height" src="" id="iFrame"
+				style="border-style: none"></iframe>
+		</div>
+
+	</div>
+	</section>
+
+	<!--Vendor-JS-->
+	<h:outputScript library="js" name="jquery-1.12.4.min.js" />
+	<h:outputScript library="js" name="bootstrap.min.js" />
+	<!--Plugin-JS-->
+	<h:outputScript library="js" name="owl.carousel.min.js" />
+	<h:outputScript library="js" name="contact-form.js" />
+	<h:outputScript library="js" name="jquery.parallax-1.1.3.js" />
+	<h:outputScript library="js" name="scrollUp.min.js" />
+	<h:outputScript library="js" name="magnific-popup.min.js" />
+	<h:outputScript library="js" name="wow.min.js" />
+	<h:outputScript library="js" name="jquery.validate.min.js" />
+	<!--Main-active-JS-->
+	<h:outputScript library="js" name="main.js" />
+	<h:outputScript library="js" name="calories.js" />
+</h:body>
+
+</html>
