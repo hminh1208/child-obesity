@@ -1,4 +1,4 @@
-Welcome to Moasnh - IE2018 - Pinwheel - Child-Obeverse website
+Welcome to Monash - IE2018 - Pinwheel - Child-Obeverse website
 
 This is the repository is a combination of Website coding(Backend & Frontend) and Shiny app (R) for statistics.
 
