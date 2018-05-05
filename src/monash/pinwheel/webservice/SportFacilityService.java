@@ -37,6 +37,13 @@ public class SportFacilityService {
 	}
 	
 	@GET
+	@Path("/all/sport_type")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getSportList() throws SQLException, NamingException {
+		return new Gson().toJson(SportFacilityDbUtil.getInstance().getAllSports());
+	}
+	
+	@GET
 	@Path("/all/sport_facilities/{postcode}/{name}/{lat}/{lon}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getSportListDetail(@PathParam("postcode") int postCode, @PathParam("name") String suburbName, @PathParam("lat") float latitude, @PathParam("lon") float longitude) throws SQLException, NamingException {
@@ -49,5 +56,14 @@ public class SportFacilityService {
 	public String getAllSuburb() throws SQLException, NamingException {
 		return new Gson().toJson(SportFacilityDbUtil.getInstance().getAllSuburb());
 	}
+	
+	@GET
+	@Path("/all/sport_facilities_suggest/{sportList}/{lat}/{lon}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getSportListDetailForSuggestMode(@PathParam("sportList") String sportList, @PathParam("lat") float latitude, @PathParam("lon") float longitude) throws SQLException, NamingException {
+		return new Gson().toJson(SportFacilityDbUtil.getInstance().getAllFacilitiesBySportList(sportList, latitude, longitude));
+	}
+	
+
 	
 }

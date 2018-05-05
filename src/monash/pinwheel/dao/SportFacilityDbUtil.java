@@ -1,5 +1,6 @@
 package monash.pinwheel.dao;
 
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -234,6 +235,72 @@ public class SportFacilityDbUtil {
 		}
 
 		return suburbs;
+	}
+	
+	public List<SportFacility> getAllFacilitiesBySportList(String sportList, float lat, float lon) throws SQLException{
+		List<SportFacility> facilities = new ArrayList<>();
+		
+		Connection conn = null;
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		
+		String[] sports = sportList.split(",");
+		StringBuilder builder = new StringBuilder();
+		
+		for( int i = 0 ; i < sports.length; i++ ) {
+		    builder.append("?,");
+		}
+
+		try {
+			conn = getConnection();
+			String sql = "SELECT * FROM sports_rec WHERE sport IN (" + builder.deleteCharAt( builder.length() -1 ).toString() +")";
+			statement = conn.prepareStatement(sql);
+			
+			for( int i = 0 ; i < sports.length; i++ ) {
+				statement.setString(i+1, sports[i]);
+			}
+			
+			System.out.println(statement.toString());
+			System.out.println(sportList);
+			result = statement.executeQuery();
+
+			while (result.next()) {
+				
+				String id = result.getString("id");
+				
+				// the facility already in the list, we only need to add sport and type to the facility detail
+				int index = checkExistSportFacilityInList(facilities, id);
+				if (index != -1 && sportList.indexOf(result.getString("sport")) != -1) {
+					String sport = result.getString("sport");
+					String type = result.getString("type");
+					facilities.get(index).concatSportType(sport, type);
+				}else {
+					SportFacility newFacility = new SportFacility();
+					newFacility.setId(id);
+					newFacility.setLatitude(result.getFloat("lat"));
+					newFacility.setLongitude(result.getFloat("lon"));
+					newFacility.setName(result.getString("name"));
+					newFacility.setStreet_no(result.getInt("street_no"));
+					newFacility.setStreet_name(result.getString("street_name"));
+					newFacility.setStreet_type(result.getString("street_type"));
+					newFacility.setSuburb(result.getString("suburb"));
+					newFacility.setPostCode(result.getInt("postCode"));
+					String sport = result.getString("sport");
+					String type = result.getString("type");
+					newFacility.concatSportType(sport, type);
+					newFacility.setLga(result.getString("lga"));
+					newFacility.setAddress(result.getString("address"));
+					if(lat != 0 && lon != 0) {
+						newFacility.setDistanceFromPoint(lat, lon);
+					}
+					facilities.add(newFacility);
+				}
+			}
+		} finally {
+			close(conn, statement, result);
+		}
+		
+		return facilities;
 	}
 	
 	private int checkExistSportFacilityInList(List<SportFacility> list, String id) {

@@ -16,102 +16,78 @@ var currentLocation;
 
 var currentLocationMarker;
 var DarkSkyAPIKey = '8eae2674f730a59184acdd74c73660cc';
-var weatherForecast = [];
 var sportInTable;
 var currentFacilityOption = 'all';
 
+var currentMapType;
+
 $(document).ready(function() {
-	
-	prepareDateSelection();
-	
-	$('.date-label').each(function(index) {
-	    $(this).on("click", function(){
-	    	
-	    	if (selectSuburb.selected() == 0) {
-	    		$( "#danger-suburb-alert" ).fadeIn( "slow");
-		    	setTimeout(function(){
-					$( "#danger-suburb-alert" ).fadeOut( "slow");
-				}, 5000);
-				return;
-			}
-	    	
-	    	currentFacilityOption = 'all'
-		    	loadingMarkerToMap(null, currentFacilityOption);
-		    	
-		    	var summary = weatherIconToSummary(weatherForecast[$(this).attr('data')]);
-	    	
-	    	if (summary == "What a beautiful day to do exercises.") {
-	    		$( "#success-weather-alert" ).empty();
-	    		$( "#success-weather-alert" ).text(summary);
-	    		$( "#warning-weather-alert" ).css('display','none');
-		    	$( "#success-weather-alert" ).fadeIn( "slow");
-		    	setTimeout(function(){
-					$( "#success-weather-alert" ).fadeOut( "slow");
-				}, 5000);
-			}else{
-				$( "#warning-weather-alert" ).empty();
-				$( "#warning-weather-alert" ).text(summary);
-				$( "#warning-weather-alert" ).append(' Do you want to ');
-				$( "#warning-weather-alert" ).append('<button id="btn-indoor-facilities" class="btn btn-outline-primary">Show Indoor Facilities Only</button');
-				$( "#warning-weather-alert" ).append(' or ');
-	    		$( "#warning-weather-alert" ).append('<button id="btn-all-facilities" class="btn btn-outline-primary">Show All Facilities</button');
-		    	$( "#success-weather-alert" ).css('display','none');
-		    	$( "#warning-weather-alert" ).fadeIn( "slow");
-		    	
-		    	$('#btn-indoor-facilities').click(function(){
-		    		currentFacilityOption = 'indoor';
-		    		if($('#selectedMultiple :selected').length != 0){
-		    			loadingMarkerToMap(selectSport.selected(), currentFacilityOption);
-		    		}else{
-		    			loadingMarkerToMap(null, currentFacilityOption);
-		    		}
-		    	});
-		    	
-		    	$('#btn-all-facilities').click(function(){
-		    		currentFacilityOption = 'all';
-		    		if($('#selectedMultiple :selected').length != 0){
-		    			loadingMarkerToMap(selectSport.selected(), currentFacilityOption);
-		    		}else{
-		    			loadingMarkerToMap(null, currentFacilityOption);
-		    		}
-		    	});
-			}
-	    	
-	    });
-	});
-	
-	
-	
-	//
-	 $(document).on("scroll", onScroll);
-	    
-    //smoothscroll
-    $('a[href^="#"]').on('click', function (e) {
-        e.preventDefault();
-        $(document).off("scroll");
-        
-        $('a').each(function () {
-            $(this).removeClass('active');
-        })
-        $(this).addClass('active');
-      
-        var target = this.hash,
-            menu = target;
-        $target = $(target);
-        $('html, body').stop().animate({
-            'scrollTop': $target.offset().top+2
-        }, 1000, 'swing', function () {
-            window.location.hash = target;
-            $(document).on("scroll", onScroll);
-        });
-    });
-	//
-	
+    
+	// Two type of flow explore or suggest
+    currentMapType = getUrlParameter('type');
+    //EXPLORE MODE - START BY DEFAULT
+    if (currentMapType == null || currentMapType == 'explore') {
+    	currentMapType = 'explore'
+    	$('#suburbSelect').css('display','block');
+    	
+    	jQuery.ajax({
+    		url : "rest/facility/all/suburb",
+    		dataType : 'json',
+    		success : function(response) {
+    			$('#selectedMultiple').empty();
+    			for (var i = 0; i < response.length; i++) {
+    				selectData = response;
+    				$('#suburbSelect').append('<option value="'+selectData[i].suburbName+'_'+selectData[i].postCode+'">'+selectData[i].suburbName+', ' + selectData[i].postCode + '</option>');
+    			}
+    			
+    			selectSuburb = new SlimSelect({
+    				select : '#suburbSelect'
+    			});
+    		}
+    	});
+    	
+    	selectSport = new SlimSelect({
+    		select : '#selectedMultiple',
+    		placeholder: 'Please select the suburb before using this function'
+    	});
+    	
+    	selectSport.disable();
+    	
+    	
+	}
+    //SUGGEST MODE - ONLY START FROM CALORIES PAGE
+    else if(currentMapType == 'suggest'){
+    	$('#suburbSelect').css('display','none');
+    	
+    	jQuery.ajax({
+    		url : "rest/facility/all/sport_type",
+    		dataType : 'json',
+    		success : function(response) {
+    			$('#selectedMultiple').empty();
+    			for (var i = 0; i < response.length; i++) {
+    				selectData = response;
+    				$('#selectedMultiple').append('<option value="'+selectData[i]+'">'+selectData[i]+'</option>');
+    			}
+    			
+    			selectSport = new SlimSelect({
+    	    		select : '#selectedMultiple',
+    	    		placeholder: 'Please select your favourite sports'
+    	    	});
+    			
+    			selectSport.set(getUrlParameter('sport').split(','))
+    		}
+    	});
+    	
+    	
+    	
+    }
+    
+    
+    //Start Init Facilities Table
 	table = $('#sport-table').DataTable({
 		"bLengthChange": false,
 		"bFilter": false
 	});
-	
 	$('#sport-table tbody').on( 'click', 'tr', function () {
 		var index = table.row( this ).index();
 		
@@ -124,30 +100,8 @@ $(document).ready(function() {
             
             google.maps.event.trigger(sportFacilitiesMarker[index], 'click');
         }
-    } );
-	
-	jQuery.ajax({
-		url : "rest/facility/all/suburb",
-		dataType : 'json',
-		success : function(response) {
-			$('#selectedMultiple').empty();
-			for (var i = 0; i < response.length; i++) {
-				selectData = response;
-				$('#suburbSelect').append('<option value="'+selectData[i].suburbName+'_'+selectData[i].postCode+'">'+selectData[i].suburbName+', ' + selectData[i].postCode + '</option>');
-			}
-			
-			selectSuburb = new SlimSelect({
-				select : '#suburbSelect'
-			});
-		}
-	});
-	
-	selectSport = new SlimSelect({
-		select : '#selectedMultiple',
-		placeholder: 'Please select the suburb before using this function'
-	});
-	
-	selectSport.disable();
+    });
+	//End Init Facilities Table
 	
 	$('#suburbSelect').change(function(){
 		
@@ -188,8 +142,6 @@ $(document).ready(function() {
 						}
 					}
 					
-					prepareWeatherAPI(response.results[0].geometry.location.lat,response.results[0].geometry.location.lng);
-					
 					loadingSportFacilities(suburb, postCode);
 
 					if (!place.geometry) {
@@ -213,6 +165,11 @@ $(document).ready(function() {
 	});
 	
 	$('#selectedMultiple').change(function(){
+		if (currentMapType == 'suggest') {
+			loadingSportFacilities_suggest();
+			return;
+		}
+		
 		//reflect marker on the map based on selection
 		if($('#selectedMultiple :selected').length != 0){
 			loadingMarkerToMap(selectSport.selected(), currentFacilityOption);
@@ -340,52 +297,74 @@ function initMap() {
 function onPlaceChanged() {
 	var place = autocomplete.getPlace();
     if (place.geometry) {
-      map.panTo(place.geometry.location);
-      map.setZoom(13);
-      
-     currentLocation = place.geometry.location
-     
-     var image = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
-     if (currentLocationMarker) {
-    	 currentLocationMarker.setMap(null);
-	}
-     currentLocationMarker = new google.maps.Marker({
-       position: {lat: place.geometry.location.lat(), lng: place.geometry.location.lng()},
-       map: map,
-       icon: image
-     });
-     bindInfoWindow(currentLocationMarker, map, infowindow, "Your Entered Address Is Here", -1);
+	      map.panTo(place.geometry.location);
+	      map.setZoom(13);
+	      
+	      currentLocation = place.geometry.location
 	     
-	 	jQuery.ajax({
-			url : "https://maps.googleapis.com/maps/api/geocode/json?latlng="+place.geometry.location.lat()+","+place.geometry.location.lng()+"&key=AIzaSyA4h0hNg9UtSxtO6cLXzTNB4dI-MihXpsA",
-			dataType : 'json',
-			success : function(response) {
-				var suburb;
-				var postCode;
-				for (var i = 0; i < response.results[0].address_components.length; i++) {
-					if(response.results[0].address_components[i].types[0] == "postal_code"){
-						postCode = response.results[0].address_components[i].long_name;
-					}else if(response.results[0].address_components[i].types[0] == "locality"){
-						suburb = response.results[0].address_components[i].long_name;
-					}
-					
-					selectSuburb.set((suburb + "_" + postCode).toUpperCase());
-				}
-			}
-		});
-      
+	      var image = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
+	      if (currentLocationMarker) {
+	    	  currentLocationMarker.setMap(null);
+	      }
+	      currentLocationMarker = new google.maps.Marker({
+	    	  position: {lat: place.geometry.location.lat(), lng: place.geometry.location.lng()},
+	    	  map: map,
+	    	  icon: image
+	      });
+	      bindInfoWindow(currentLocationMarker, map, infowindow, "Your Entered Address Is Here", -1);
+		     
+	     if (currentMapType == 'explore') {
+	    	 jQuery.ajax({
+	 			url : "https://maps.googleapis.com/maps/api/geocode/json?latlng="+place.geometry.location.lat()+","+place.geometry.location.lng()+"&key=AIzaSyA4h0hNg9UtSxtO6cLXzTNB4dI-MihXpsA",
+	 			dataType : 'json',
+	 			success : function(response) {
+	 				var suburb;
+	 				var postCode;
+	 				for (var i = 0; i < response.results[0].address_components.length; i++) {
+	 					if(response.results[0].address_components[i].types[0] == "postal_code"){
+	 						postCode = response.results[0].address_components[i].long_name;
+	 					}else if(response.results[0].address_components[i].types[0] == "locality"){
+	 						suburb = response.results[0].address_components[i].long_name;
+	 					}
+	 					
+	 					selectSuburb.set((suburb + "_" + postCode).toUpperCase());
+	 				}
+	 			}
+	 		});
+	     }else if (currentMapType == 'suggest'){
+	    	 loadingSportFacilities_suggest()
+	     }
     } else {
       document.getElementById('autocomplete').placeholder = 'Enter a city';
     }
 }
 
+//SUGGEST MODE
+function loadingSportFacilities_suggest(){
+	var lat = 0;
+	var lng = 0;
+	
+	if (currentLocation) {
+		lat = currentLocation.lat();
+		lng = currentLocation.lng();
+	}
+	
+	console.log('Suggest Mode');
+	console.log("rest/facility/all/sport_facilities_suggest/"+selectSport.selected()+"/"+lat+"/"+lng);
+	
+	jQuery.ajax({
+		url : "rest/facility/all/sport_facilities_suggest/"+selectSport.selected()+"/"+lat+"/"+lng,
+		dataType : 'json',
+		success : function(response) {
+			sportFacilitiesList = response;
+			
+			loadingMarkerToMap(null, currentFacilityOption);
+		}
+	});
+}
+
+//EXPLORE MODE
 function loadingSportFacilities(suburb, postCode) {
-	// $.ajax(
-	// {
-	// url : "rest/facility/all/sport_facilities/" + postCode + "/" + suburb
-	// }).done(function(data) {
-	// sportFacilitiesList = data;
-	// });
 	
 	var lat = 0;
 	var lng = 0;
@@ -395,13 +374,14 @@ function loadingSportFacilities(suburb, postCode) {
 		lng = currentLocation.lng();
 	}
 	
+	console.log('Explore Mode');
+	console.log("rest/facility/all/sport_facilities/" + postCode + "/" + suburb + "/" + lat + "/" + lng);
+	
 	jQuery.ajax({
 		url : "rest/facility/all/sport_facilities/" + postCode + "/" + suburb + "/" + lat + "/" + lng,
 		dataType : 'json',
 		success : function(response) {
 			sportFacilitiesList = response;
-			
-//			updateTableSportFacility();
 			
 			loadingMarkerToMap(null, currentFacilityOption);
 		}
@@ -456,21 +436,15 @@ function loadingMarkerToMap(sportList, weatherFilter) {
 			willAddToMap = false;
 			
 			for (var j = 0; j < sportList.length; j++) {
-					if(sportFacilitiesList[i].sportListAndType.indexOf(sportList[j]) != -1){
-						if ( weatherFilter == 'all' || weatherFilter == 'indoor' && sportFacilitiesList[i].sportListAndType.indexOf('indoor') != -1) {
-							willAddToMap = true;
-							sportInTable.push(sportFacilitiesList[i]);
-							break;
-						}
-					}
+				if(sportFacilitiesList[i].sportListAndType.indexOf(sportList[j]) != -1){
+					willAddToMap = true;
+					sportInTable.push(sportFacilitiesList[i]);
+					break;
+				}
 			}
 		}else{
-			willAddToMap = false;
-
-			if ( weatherFilter == 'all' || weatherFilter == 'indoor' && sportFacilitiesList[i].sportListAndType.indexOf('indoor') != -1) {
-				willAddToMap = true;
-				sportInTable.push(sportFacilitiesList[i]);
-			}
+			willAddToMap = true;
+			sportInTable.push(sportFacilitiesList[i]);
 		}
 		
 		if(willAddToMap){
@@ -526,7 +500,8 @@ function updateTable(sportInTable, filter){
 	        "data": tempSportInTable,
 	        "bLengthChange": false,
 	        "bFilter": false,
-	        "pageLength": 5,
+	        "pageLength": 10,
+	        "order": [[ 3, "asc" ]],
 	        "columns": [
 	        	 { "data": "name", "width": "25%" },
 	            { "data": "address", "width": "35%" },
@@ -543,7 +518,7 @@ function updateTable(sportInTable, filter){
 	        "data": tempSportInTable,
 	        "bLengthChange": false,
 	        "bFilter": false,
-	        "pageLength": 6,
+	        "pageLength": 10,
 	        "columns": [
 	            { "data": "name", "width": "25%" },
 	            { "data": "address", "width": "35%" },
@@ -604,44 +579,6 @@ function onScroll(event){
     });
 }
 
-function prepareDateSelection(){
-	var now = new Date();
-	var currentDate = now.getDate();
-	var currentMonth = now.getMonth() + 1;
-	var currentDay = now.getDay();
-	
-	for (var i = 0; i <= 6; i++) {
-		if (i == 0) {
-			$('#date-button-group').append('<label class="btn btn-secondary date-label" data="'+i+'"> <input type="radio" name="options" id="option1" autocomplete="off"> '+numbertoDay(currentDay+i)+'<p>'+(currentDate+i)+'/'+currentMonth+'</p><p>(Today)</p> </input></label> ');
-		}
-		else{
-			$('#date-button-group').append('<label class="btn btn-secondary date-label" data="'+i+'"> <input type="radio" name="options" id="option1" autocomplete="off"> '+numbertoDay(currentDay+i)+'<p>'+(currentDate+i)+'/'+currentMonth+'</p></input></label> ');
-		}
-	}
-}
-
-function prepareWeatherAPI(lat, lng){
-	jQuery.ajax({
-		url : "https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/" + DarkSkyAPIKey + "/"+lat+","+lng,
-		dataType : 'json',
-		success : function(response) {
-			weatherForecast = []
-			
-			for (var i = 0; i < response.daily.data.length; i++) {
-				weatherForecast.push(response.daily.data[i].icon);
-				
-				//THIS IS ONLY FOR TESTTING
-//				if (i % 2 == 0) {
-//					weatherForecast.push(response.daily.data[i].icon);
-//				}else{
-//					weatherForecast.push('rain');
-//				}
-			}
-		}
-	});
-	
-}
-
 function numbertoDay(number){
 	if (number >= 7) {
 		number = number - 7;
@@ -658,20 +595,17 @@ function numbertoDay(number){
 	}
 }
 
-function weatherIconToSummary(icon){
-	switch(icon){
-		case "clear-day":
-			return "What a beautiful day to do exercises. Be careful due to high temperature out side"
-		case "clear-night":
-		case "partly-cloudy-day":
-		case "partly-cloudy-night":
-		case "cloudy":
-			return "What a beautiful day to do exercises."
-		case "rain":
-			return "It is forecasted that rainy on this day."
-		case "wind":
-			return "It is forecasted that windy on this day."
-		case "fog":
-			return "It is forecasted that there is a fog during the day."
-	}
-}
+var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};
