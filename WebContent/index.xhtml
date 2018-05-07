@@ -66,7 +66,7 @@
 			<!--Logo/-->
 			<nav class="collapse navbar-collapse" id="primary-menu">
 			<ul class="nav navbar-nav navbar-right">
-				<li class="active" id="check-bmi"><a href="index.xhtml">Check BMI</a></li>
+				<li class="active" id="check-bmi"><a href="index.xhtml">Home</a></li>
 				<li id="summary"><a href="#feature-page">Summary</a></li>
 				<li id="calories"><a href="calories.xhtml">Sport &amp; Calories</a></li>
 				<li id="sport-facility"><a href="facility.xhtml?type=explore">Facility</a></li>
@@ -80,10 +80,20 @@
 
 
 	<!--Header-area-->
-	<header class="header-area overlay full-height-1 relative v-center"
+	<header class="header-area overlay full-height relative v-center masthead"
 		id="home-page">
-	<div class="absolute anlge-bg"></div>
-	<div class="container">
+	<div class="absolute anlge-bg">
+		<div class="intro-text">
+          <div class="intro-lead-in">Welcome To Our Studio!</div>
+          <div class="intro-heading text-uppercase">It's Nice To Meet You</div>
+          <a class="button-non-hover" href="#check-bmi-section" id="tell-me-more">Tell Me More</a>
+        </div>
+	</div>	
+	</header>
+	<!--Header-area/-->
+	
+	<section class="section-padding full-height check-bmi" style="background-color: #e9ecef;" id="check-bmi-section">
+	<div class="container" >
 		<div class="row v-center">
 			<div class="col-xs-12 col-md-8 header-text">
 				<h2>One in every four child in Australia is overweight.</h2>
@@ -156,7 +166,7 @@
 					<div class="row">
 						<div class="col-md-12">
 							<input type="submit" value="Check now!"
-								class="form-control w-100 btn btn-primary" id="input-check" />
+								class="form-control w-100 button-non-hover" id="input-check" />
 							<div class="valid-feedback" name="dob">&nbsp;</div>
 						</div>
 					</div>
@@ -165,8 +175,7 @@
 			</div>
 		</div>
 	</div>
-	</header>
-	<!--Header-area/-->
+	</section>
 
 	<!-- BMI chart area - Summary section -->
 	<section class="section-padding" id="feature-page">
@@ -182,7 +191,7 @@
 	</section>
 	<!-- End BMI chart area - End Summary section -->
 
-	<section class="gray-bg section-padding" id="service-page">
+	<section class="section-padding" id="service-page" style="background-color: #e9ecef;">
         <div class="container">
             <div class="row">
                 <div class="col-xs-12 col-sm-6">
@@ -193,7 +202,7 @@
                         <h4>Sport and Calories</h4>
                         <p>In this section we will show you.....</p>
                         <div class="caption-button" data-animation="animated fadeInUp">
-                          	 <a href="calories.xhtml" class="button-non-hover">Explore Now!</a>
+                          	 <a href="calories.xhtml" class="button">Explore Now!</a>
                        	</div>
                     </div>
                 </div>
@@ -205,7 +214,7 @@
                         <h4>Nearby Sport Facilities</h4>
                         <p>You can jump straight to find ......</p>
                         <div class="caption-button" data-animation="animated fadeInUp">
-                             <a href="facility.xhtml?type=explore" class="button-non-hover">Find Now!</a>
+                             <a href="facility.xhtml?type=explore" class="button">Find Now!</a>
                         </div>
                     </div>
                 </div>
@@ -213,7 +222,7 @@
         </div>
     </section>
 	
-	<section class="angle-bg sky-bg section-padding">
+	<section class="section-padding">
         <div class="container">
             <div class="row">
                 <div class="col-xs-12">

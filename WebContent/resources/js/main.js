@@ -281,6 +281,12 @@ $(document)
 					$('#summary').css('display','none');
 					$('#service-page').css('display','none');
 
+					$("#tell-me-more").click(function() {
+					    $('html, body').animate({
+					        scrollTop: $("#check-bmi-section").offset().top
+					    }, 2000);
+					});
+					
 					$("#check-bmi-kid")
 							.validate(
 									{

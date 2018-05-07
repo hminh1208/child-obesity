@@ -260,8 +260,6 @@ public class SportFacilityDbUtil {
 				statement.setString(i+1, sports[i]);
 			}
 			
-			System.out.println(statement.toString());
-			System.out.println(sportList);
 			result = statement.executeQuery();
 
 			while (result.next()) {

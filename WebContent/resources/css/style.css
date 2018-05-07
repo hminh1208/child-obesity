@@ -205,7 +205,7 @@ input:-webkit-autofill:focus {
     padding: 8px 30px;
     border-radius: 50px;
     color: #ffffff;
-    background-color: #2f60c3;
+    background-color: #fec503;
     -webkit-transition: 0.3s;
     transition: 0.3s;
     border: none;
@@ -219,9 +219,9 @@ input:-webkit-autofill:focus {
 .button {
     display: inline-block;
     padding: 8px 30px;
-    border-radius: 50px;
+    border-radius: 50px; 
     color: #ffffff;
-    background-color: #2f60c3;
+    background-color: #fec503; /*Changed #2f60c3;*/
     -webkit-transition: 0.3s;
     transition: 0.3s;
     border: none;
@@ -231,7 +231,10 @@ input:-webkit-autofill:focus {
 
 .button.white,
 .button:hover {
-    background-color: #ffffff;
+    background-color: #ffffff; /*Changed #ffffff;*/
+    border-color: #fec503;
+    border-width: 2px;
+    border-style: solid;
     color: #138fc2;
 }
 
@@ -351,7 +354,7 @@ input:-webkit-autofill:focus {
 
 .mainmenu-area #primary-menu > ul > li > a {
     background: none;
-    padding: 30px 15px;
+    padding: 15px 15px; /*changed 15px 15px*/
     position: relative;
     border-top: 3px solid transparent;
     text-align: center;
@@ -386,7 +389,7 @@ input:-webkit-autofill:focus {
 }
 
 .mainmenu-area.affix {
-    background-color: #138fc2;
+    background-color: #fec503; /*changed #138fc2*/
 }
 
 
@@ -1021,7 +1024,6 @@ input.error { border: 5px red; }
 
 .error {
 	/* remove the next line when you have trouble in IE6 with labels in list */
-	color: white !important;
 	font-style: italic;
 	font-weight: bold;'
 }
@@ -1044,3 +1046,51 @@ input.error { border: 5px red; }
 }
 
 iframe { overflow-x: scroll; }
+
+/**/
+header.masthead {
+  text-align: center;
+  color: white;
+}
+
+header.masthead .intro-text {
+  padding-top: 150px;
+  padding-bottom: 100px;
+}
+
+header.masthead .intro-text .intro-lead-in {
+  font-size: 22px;
+  font-style: italic;
+  line-height: 22px;
+  margin-bottom: 25px;
+  font-family: 'Droid Serif', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+header.masthead .intro-text .intro-heading {
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 50px;
+  margin-bottom: 25px;
+  font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+@media (min-width: 768px) {
+  header.masthead .intro-text {
+    padding-top: 300px;
+    padding-bottom: 200px;
+  }
+  header.masthead .intro-text .intro-lead-in {
+    font-size: 40px;
+    font-style: italic;
+    line-height: 40px;
+    margin-bottom: 25px;
+    font-family: 'Droid Serif', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+  header.masthead .intro-text .intro-heading {
+    font-size: 75px;
+    font-weight: 700;
+    line-height: 75px;
+    margin-bottom: 50px;
+    font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+}
