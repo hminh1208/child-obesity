@@ -3,7 +3,6 @@
 library(shiny)
 library(plotly)
 library(RMySQL)
-library(shinythemes)
 library(shinycssloaders)
 library(shinydashboard)
 library(reshape2)
@@ -49,6 +48,19 @@ diet <- melt(diet)
 BMI <<- boy_bmi
   
 shinyServer(function(input, output, session) {
+  ## menu buttons
+  observeEvent(input$results_bttn,{
+    updateTabItems(session, "tabs", "results")
+  })
+  observeEvent(input$diet_bttn,{
+    updateTabItems(session, "tabs", "diet")
+  })
+  observeEvent(input$vic_bttn,{
+    updateTabItems(session, "tabs", "vic")
+  })
+  observeEvent(input$pa_bttn,{
+    updateTabItems(session, "tabs", "pa")
+  })
   
   observe({
     #url <- "https://yke13.shinyapps.io/bmi_chart_v3/?gender=0&age_weeks=930&bmi=25.51&height=140&weight=50"
@@ -138,55 +150,83 @@ shinyServer(function(input, output, session) {
                                             "A bit on the<br>heavier side!"))
     
     # annotation config
-    a <- list(x = c(0), y = c(exact_percentile),
-      text = paste("You are here!"),
-      xref = "x", yref = "y",
-      showarrow = TRUE, arrowhead = 6,
-      ax = 90, ay = 0,
-      arrowcolor="#d6d6d6"
+    # a <- list(x = c(0), y = c(exact_percentile),
+    #   text = paste("You are here!"),
+    #   xref = "x", yref = "y",
+    #   showarrow = TRUE, arrowhead = 6,
+    #   ax = 90, ay = 0,
+    #   arrowcolor="#d6d6d6"
+    # )
+    a <- list(x = c(exact_percentile), y = c(0),
+              text = paste("Your child is here!"),
+              xref = "x", yref = "y",
+              showarrow = TRUE, arrowhead = 6,
+              ax = 0, ay = -50,
+              arrowcolor="#d6d6d6",
+              font = list(color = '#264E86', size = 20)
     )
     
     # margin 
-    m <- list(l=40, r=50, b=20, t=0, pad=0)
-
-    percentile_bar <- plot_ly(bar, width=260) %>%
-      add_bars(x=~a, y=~values, color=~group, hovertext=~group, width=10, hoverinfo="text",
+    # m <- list(l=40, r=50, b=20, t=0, pad=0)
+    m <- list(l=10, r=10, b=30, t=30, pad=0)
+    
+    percentile_bar <- plot_ly(bar, height=150) %>%
+      add_bars(x=~values, y=~a, color=~group, hovertext=~group, width=10, hoverinfo="text",
                marker=list(color=c(rgb(0,84,124, maxColorValue = 255), rgb(0,173,167, maxColorValue = 255),
                                    rgb(255,207,92, maxColorValue = 255), rgb(239,72,116, maxColorValue = 255)))) %>%
       layout(barmode="stack", annotations=a, margin=m, showlegend=FALSE,
              legend = list(orientation = 'v', y=-0.5),
-             yaxis=list(title="Percentiles", showticklabels=TRUE, showgrid=FALSE, zeroline=FALSE, showline=FALSE,
+             xaxis=list(title="Percentiles", showticklabels=TRUE, showgrid=FALSE, zeroline=FALSE, showline=FALSE,
                         tickvals=c(0,5, 85, 95, 100)),
-             xaxis=list(title="", showticklabels=FALSE, showgrid=FALSE, zeroline=FALSE, showline=FALSE)) %>%
+             yaxis=list(title="", showticklabels=FALSE, showgrid=FALSE, zeroline=FALSE, showline=FALSE)) %>%
       config(displayModeBar=FALSE)
+
+    # percentile_bar <- plot_ly(bar, width=260) %>%
+    #   add_bars(x=~a, y=~values, color=~group, hovertext=~group, width=10, hoverinfo="text",
+    #            marker=list(color=c(rgb(0,84,124, maxColorValue = 255), rgb(0,173,167, maxColorValue = 255),
+    #                                rgb(255,207,92, maxColorValue = 255), rgb(239,72,116, maxColorValue = 255)))) %>%
+    #   layout(barmode="stack", annotations=a, margin=m, showlegend=FALSE,
+    #          legend = list(orientation = 'v', y=-0.5),
+    #          yaxis=list(title="Percentiles", showticklabels=TRUE, showgrid=FALSE, zeroline=FALSE, showline=FALSE,
+    #                     tickvals=c(0,5, 85, 95, 100)),
+    #          xaxis=list(title="", showticklabels=FALSE, showgrid=FALSE, zeroline=FALSE, showline=FALSE)) %>%
+    #   config(displayModeBar=FALSE)
     
     
     percentile_bar
   })
   ###### percentile_text ######
   output$percentile_text <- renderInfoBox({
-    infoBox(tags$h3("Current", tags$br(), "Percentile"),
-            tags$p(exact_percentile, style = "font-size: 250%;"),
-            icon=icon("percent"),
-            addTooltip(session, id="percentile_text",
-                       title=paste("This means out of every 100 children, your child weighs more than (or the same as)",
-                                   exact_percentile, "kid(s), and lighter than",
-                                   100-exact_percentile, "kid(s)."),
-                       placement = "bottom", trigger = "hover",
-                       options = NULL),
-            color="aqua"
+    percentile_text <- infoBox("Current BMI Percentile", color="aqua", icon=icon("percent"),
+                               p(exact_percentile, style = "font-size: 250%; line-height: 1;"),
+                               href="#"
+           
             )
+    percentile_text$children[[1]]$attribs$class<-"action-button"
+    percentile_text$children[[1]]$attribs$id<-"percentile_text_button"
+    
+    percentile_text
   })
   
   ###### bmi_text ######
   output$bmi_text <- renderInfoBox({
-    infoBox(tags$h3("Current", tags$br(), "BMI"),
-            tags$p(bmi, style = "font-size: 250%;"),
-            icon=icon("tasks"),
-            color="aqua"
+    bmi_text <- infoBox("Current BMI", icon=icon("tasks"), color="aqua",
+                        tags$p(bmi, style="font-size: 250%; line-height: 1;"),
+                        href="#"     
     )
+    bmi_text$children[[1]]$attribs$class<-"action-button"
+    bmi_text$children[[1]]$attribs$id<-"bmi_text_button"
+    
+    bmi_text
   })
   
+  observeEvent(input$percentile_text_button, {
+    toggleModal(session,"percentile_explain","open")
+    })
+  
+  observeEvent(input$bmi_text_button, {
+    toggleModal(session,"bmi_explain","open")
+  })
   ###### summary ######
   output$summary <- renderInfoBox({
     if(exact_percentile<5){
@@ -443,9 +483,9 @@ shinyServer(function(input, output, session) {
                             x=~reorder(sub_cat,pa), y=~pa, color=~sub_cat, type="bar", orientation="v", 
                             hoverinfo="x+y") %>%
               layout(hovermode="x", showlegend=FALSE,
-                     yaxis=list(title="Areas", tickformat = ".1%"),
+                     yaxis=list(title="Percentage", tickformat = ".1%"),
                      title="Proportion of Children Getting Required Exercise in Victoria",
-                     xaxis=list(title="Percentage")) %>%
+                     xaxis=list(title="Area")) %>%
               config(displayModeBar=FALSE)
           }
           if(input$area_filter=="metro"){
@@ -501,6 +541,110 @@ shinyServer(function(input, output, session) {
             config(displayModeBar=FALSE)
         }
       }
+      
+      ############# fruit vege ##################
+      # if(input$choice=="vic_fv"){
+      #   fv <- data.frame(cat=vcams$category, sub_cat=vcams$sub_cat, 
+      #                    fruit_child=vcams$fruit_child, vege_child=vcams$vege_child, both_child=vcams$both_child,
+      #                    fruit_young=vcams$fruit_young, vege_young=vcams$vege_young, both_young=vcams$both_young)
+      #   fv <- fv[fv$sub_cat!="Loddon", ]
+      #   fv$cat <- as.character(fv$cat)
+      #   fv$sub_cat <- as.character(fv$sub_cat)
+      #   
+      #   gen <- c("Female", "Male")
+      #   year <- c("Year 5", "Year 8", "Year 11", "4 to 8 years old", "9 to 12 years old")
+      #   area <- c("Victoria", "Metropolitan", "Regional")
+      #   
+      #   ####### area fruit
+      #   if(input$filter=="area" && input$intake=="fruit"){
+      #     if(input$area_filter=="overall"){
+      #       plot <- plot_ly(fv[fv$sub_cat %in% area, ], type="bar",
+      #                       x=~sub_cat, y=~fruit_child, name="Children") %>%
+      #         add_trace(y=~fruit_young, name="Young People") %>%
+      #         layout(hovermode="x+y+label", 
+      #                title="Proportion of Kids in Victoria Eating Recommended Serves of Fruit",
+      #                xaxis=list(title="Areas"),
+      #                yaxis=list(title="Percentage", tickformat=".1%")) %>%
+      #         config(displayModeBar=FALSE)
+      #     }
+      #     if(input$area_filter=="metro"){
+      #       plot <- plot_ly(fv[fv$cat=="metropolitan",], type="bar", orientation="h",
+      #                       y=~reorder(sub_cat,fruit_child), x=~fruit_child, name="Children") %>%
+      #         add_trace(x=~fruit_young, name="Young People") %>%
+      #         layout(hovermode="x+y+label", barmode="stack", margin=list(l=155, r=5),
+      #                title="Proportion of Kids in Metropolitan Areas Eating Recommended Serves of Fruit",
+      #                yaxis=list(title=""),
+      #                xaxis=list(title="Percentage", tickformat=".1%")) %>%
+      #         config(displayModeBar=FALSE)
+      #     }
+      #     if(input$area_filter=="reg"){
+      #       plot <- plot_ly(fv[fv$cat=="regional",], type="bar", orientation="h",
+      #                       y=~reorder(sub_cat,fruit_child), x=~fruit_child, name="Children") %>%
+      #         add_trace(x=~fruit_young, name="Young People") %>%
+      #         layout(hovermode="x+y+label", barmode="stack", margin=list(l=155, r=5),
+      #                title="Proportion of Kids in Regional Areas Eating Recommended Serves of Fruit",
+      #                yaxis=list(title=""),
+      #                xaxis=list(title="Percentage", tickformat=".1%")) %>%
+      #         config(displayModeBar=FALSE)
+      #     }
+      #     if(input$area_filter=="vic"){
+      #       plot <- plot_ly(fv[!(fv$sub_cat %in% year) & !(fv$sub_cat %in% gen) & !(fv$sub_cat %in% area), ],
+      #                       type="bar", orientation="h", text=~cat, 
+      #                       y=~reorder(sub_cat, fruit_child), x=~fruit_child, name="Children") %>%
+      #         add_trace(x=~fruit_young, name="Young People") %>%
+      #         layout(hovermode="x+y+label+text",  margin=list(l=155, r=5), barmode="stack",
+      #                yaxis=list(title="", showticklabels=TRUE), 
+      #                title="Comparison of Kids in Metropolitan and Regional Areas Eating Recommended Serves of Fruit",
+      #                xaxis=list(title="Percentage", tickformat = ".1%")) %>%
+      #         config(displayModeBar=FALSE)
+      #     }
+      #   }
+      #   
+      #   ####### area vege
+      #   if(input$filter=="area" && input$intake=="vege"){
+      #     if(input$area_filter=="overall"){
+      #       plot <- plot_ly(fv[fv$sub_cat %in% area, ], type="bar",
+      #                       x=~sub_cat, y=~vege_child, name="Children") %>%
+      #         add_trace(y=~vege_young, name="Young People") %>%
+      #         layout(hovermode="x+y+label", 
+      #                title="Proportion of Kids in Victoria Eating Recommended Serves of Vegetables",
+      #                xaxis=list(title=""),
+      #                yaxis=list(title="Percentage", tickformat=".1%")) %>%
+      #         config(displayModeBar=FALSE)
+      #     }
+      #     if(input$area_filter=="metro"){
+      #       plot <- plot_ly(fv[fv$cat=="metropolitan",], type="bar", orientation="h",
+      #                       y=~reorder(sub_cat,vege_child), x=~vege_child, name="Children") %>%
+      #         add_trace(x=~vege_young, name="Young People") %>%
+      #         layout(hovermode="x+y+label", barmode="stack", margin=list(l=155, r=5),
+      #                title="Proportion of Kids in Metropolitan Areas Eating Recommended Serves of Vegetables",
+      #                yaxis=list(title=""),
+      #                xaxis=list(title="Percentage", tickformat=".1%")) %>%
+      #         config(displayModeBar=FALSE)
+      #     }
+      #     if(input$area_filter=="reg"){
+      #       plot <- plot_ly(fv[fv$cat=="regional",], type="bar", orientation="h",
+      #                       y=~reorder(sub_cat,vege_child), x=~vege_child, name="Children") %>%
+      #         add_trace(x=~vege_young, name="Young People") %>%
+      #         layout(hovermode="x+y+label", barmode="stack", margin=list(l=155, r=5),
+      #                title="Proportion of Kids in Regional Areas Eating Recommended Serves of Vegetables",
+      #                yaxis=list(title=""),
+      #                xaxis=list(title="Percentage", tickformat=".1%")) %>%
+      #         config(displayModeBar=FALSE)
+      #     }
+      #     if(input$area_filter=="vic"){
+      #       plot <- plot_ly(fv[!(fv$sub_cat %in% year) & !(fv$sub_cat %in% gen) & !(fv$sub_cat %in% area), ],
+      #                       type="bar", orientation="h", text=~cat, 
+      #                       y=~reorder(sub_cat, vege_child), x=~vege_child, name="Children") %>%
+      #         add_trace(x=~vege_young, name="Young People") %>%
+      #         layout(hovermode="x+y+label+text",  margin=list(l=155, r=5), barmode="stack",
+      #                yaxis=list(title="", showticklabels=TRUE), 
+      #                title="Comparison of Kids in Metropolitan and Regional Areas Eating Recommended Serves of Vegetables",
+      #                xaxis=list(title="Percentage", tickformat = ".1%")) %>%
+      #         config(displayModeBar=FALSE)
+      #     }
+      #   }
+      # }
       plot
     })
     
