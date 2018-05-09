@@ -1095,3 +1095,13 @@ header.masthead .intro-text .intro-heading {
     font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
 }
+
+.modal {
+   top: 100px;
+   right: 100px;
+   bottom: 0;
+   left: 0;
+   z-index: 10040;
+   overflow: auto;
+   overflow-y: auto;
+}

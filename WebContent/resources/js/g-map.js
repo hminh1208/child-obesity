@@ -27,6 +27,7 @@ $(document).ready(function() {
     currentMapType = getUrlParameter('type');
     //EXPLORE MODE - START BY DEFAULT
     if (currentMapType == null || currentMapType == 'explore') {
+    	$('#instructionExploreModal').modal('show');
     	currentMapType = 'explore'
     	$('#suburbSelect').css('display','block');
     	
@@ -57,6 +58,7 @@ $(document).ready(function() {
 	}
     //SUGGEST MODE - ONLY START FROM CALORIES PAGE
     else if(currentMapType == 'suggest'){
+    	$('#instructionSuggestModal').modal('show');
     	$('#suburbSelect').css('display','none');
     	
     	jQuery.ajax({
@@ -184,7 +186,7 @@ $(document).ready(function() {
 			});
 			selectSport = new SlimSelect({
 				select : '#selectedMultiple',
-				placeholder: 'Please select upto 3 sports to view on the map'
+				placeholder: 'Filter results by sports'
 			});
 		}else if($('#selectedMultiple :selected').length < 3){
 			$('#selectedMultiple option').not(':selected').each(function(){
@@ -192,7 +194,7 @@ $(document).ready(function() {
 			});
 			selectSport = new SlimSelect({
 				select : '#selectedMultiple',
-				placeholder: 'Please select upto 3 sports to view on the map'
+				placeholder: 'Filter results by sports'
 			});
 		}
 	});
@@ -402,7 +404,7 @@ function loadingSportFacilities(suburb, postCode) {
 
 	selectSport = new SlimSelect({
 		select : '#selectedMultiple',
-		placeholder: 'Please select upto 3 sports to view on the map'
+		placeholder: 'Filter results by sports'
 	});
 	selectSport.enable();
 	
