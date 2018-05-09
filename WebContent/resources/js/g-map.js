@@ -351,11 +351,12 @@ function loadingSportFacilities_suggest(){
 		lng = currentLocation.lng();
 	}
 	
+	var sport = selectSport.selected();
 	console.log('Suggest Mode');
-	console.log("rest/facility/all/sport_facilities_suggest/"+selectSport.selected()+"/"+lat+"/"+lng);
+	console.log("rest/facility/all/sport_facilities_suggest/"+sport.toString().replace('/','-')+"/"+lat+"/"+lng);
 	
 	jQuery.ajax({
-		url : "rest/facility/all/sport_facilities_suggest/"+selectSport.selected()+"/"+lat+"/"+lng,
+		url : "rest/facility/all/sport_facilities_suggest/"+sport.toString().replace('/','-')+"/"+lat+"/"+lng,
 		dataType : 'json',
 		success : function(response) {
 			sportFacilitiesList = response;

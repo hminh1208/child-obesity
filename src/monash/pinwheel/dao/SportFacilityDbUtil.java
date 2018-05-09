@@ -257,8 +257,10 @@ public class SportFacilityDbUtil {
 			statement = conn.prepareStatement(sql);
 			
 			for( int i = 0 ; i < sports.length; i++ ) {
-				statement.setString(i+1, sports[i]);
+				statement.setString(i+1, sports[i].toString().replace('-', '/'));
 			}
+			
+			System.out.println(statement.toString());
 			
 			result = statement.executeQuery();
 
