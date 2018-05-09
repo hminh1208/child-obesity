@@ -382,8 +382,8 @@ $(document)
 											var bmi = weight / height / height * 10000;
 											if(bmi < 13.21253 || bmi > 35.10556){
 												$("#check-bmi-kid").validate().showErrors({
-									                "weight": "*BMI result is invalid, please check Weight and Height.",
-									                "height": "*BMI result is invalid, please check Weight and Height."
+									                "weight": "*Are you sure? Please enter correct Weight.",
+									                "height": "*Are you sure? Please enter correct Height."
 									            });
 												console.log('invalid bmi');
 									            return false;
