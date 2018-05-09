@@ -445,7 +445,7 @@ $(document)
 										        scrollTop: $("#feature-page").offset().top + 10
 										    }, 2000);
 											
-											$('li').removeClass('active');
+											$('#check-bmi').removeClass('active');
 											$('#summary').addClass('active');
 											
 										}
@@ -458,10 +458,5 @@ $(document)
 					$('#input-height').focusin(function(){
 //						$("#check-bmi-kid").validate().resetForm();
 					});
-
-					$('li').click(function(){
-						$('li').removeClass('active');
-						$(this).addClass('active');
-					})
 					
 				});
