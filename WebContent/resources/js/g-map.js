@@ -48,7 +48,7 @@ $(document).ready(function() {
     	
     	selectSport = new SlimSelect({
     		select : '#selectedMultiple',
-    		placeholder: 'Please select the suburb before using this function'
+    		placeholder: 'Please select your suburb first'
     	});
     	
     	selectSport.disable();
@@ -500,7 +500,7 @@ function updateTable(sportInTable, filter){
 	        "data": tempSportInTable,
 	        "bLengthChange": false,
 	        "bFilter": false,
-	        "pageLength": 10,
+	        "pageLength": 7,
 	        "order": [[ 3, "asc" ]],
 	        "columns": [
 	        	 { "data": "name", "width": "25%" },
@@ -518,7 +518,7 @@ function updateTable(sportInTable, filter){
 	        "data": tempSportInTable,
 	        "bLengthChange": false,
 	        "bFilter": false,
-	        "pageLength": 10,
+	        "pageLength": 7,
 	        "columns": [
 	            { "data": "name", "width": "25%" },
 	            { "data": "address", "width": "35%" },

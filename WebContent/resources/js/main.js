@@ -308,11 +308,11 @@ $(document)
 											
 											weight : {
 												required : "*Current Weight cannot be empty",
-												range : "*Current weight must between 1.0 and 200.0"
+												range : "*Are you sure? Please enter correct Weight."
 											},
 											height : {
 												required : "*Current Height cannot be empty",
-												range : "*Current height must between 1.0 and 200.0"
+												range : "*Are you sure? Please enter correct Height."
 											}
 										},
 										errorElement : "em",
