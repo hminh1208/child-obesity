@@ -297,7 +297,7 @@ $(document)
 											},
 											weight : {
 												required : true,
-												range : [ 1, 200 ]
+												range : [ 1, 150 ]
 											},
 											height : {
 												required : true,
@@ -382,8 +382,8 @@ $(document)
 											var bmi = weight / height / height * 10000;
 											if(bmi < 13.21253 || bmi > 35.10556){
 												$("#check-bmi-kid").validate().showErrors({
-									                "weight": "*Are you sure? Please enter correct Weight.",
-									                "height": "*Are you sure? Please enter correct Height."
+									                "height": "*The BMI of " + bmi.toFixed(2) + " is highly unlikely. Please check Weight and Height again.",
+									                "weight": ""
 									            });
 												console.log('invalid bmi');
 									            return false;
