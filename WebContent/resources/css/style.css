@@ -358,6 +358,8 @@ input:-webkit-autofill:focus {
     position: relative;
     border-top: 3px solid transparent;
     text-align: center;
+    font-size: 18px;
+    font-weight: 600;
 }
 
 .mainmenu-area #primary-menu > ul > li > a:before {
