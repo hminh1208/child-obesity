@@ -32,6 +32,14 @@ public class SportFacility {
 		}
 	}
 	
+	public void concatSportType(String sport) {
+		if (sportListAndType == null) {
+			sportListAndType =sport;
+		}else {
+			sportListAndType += ", " + sport;
+		}
+	}
+	
 	public String getId() {
 		return id;
 	}

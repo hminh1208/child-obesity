@@ -183,8 +183,7 @@ public class SportFacilityDbUtil {
 				int index = checkExistSportFacilityInList(sports, id);
 				if (index != -1) {
 					String sport = result.getString("sport");
-					String type = result.getString("type");
-					sports.get(index).concatSportType(sport, type);
+					sports.get(index).concatSportType(sport);
 				}else {
 					SportFacility newFacility = new SportFacility();
 					newFacility.setId(id);
@@ -197,8 +196,7 @@ public class SportFacilityDbUtil {
 					newFacility.setSuburb(result.getString("suburb"));
 					newFacility.setPostCode(result.getInt("postCode"));
 					String sport = result.getString("sport");
-					String type = result.getString("type");
-					newFacility.concatSportType(sport, type);
+					newFacility.concatSportType(sport);
 					newFacility.setLga(result.getString("lga"));
 					newFacility.setAddress(result.getString("address"));
 					if(lat != 0 && lon != 0) {
@@ -272,8 +270,7 @@ public class SportFacilityDbUtil {
 				int index = checkExistSportFacilityInList(facilities, id);
 				if (index != -1 && sportList.indexOf(result.getString("sport")) != -1) {
 					String sport = result.getString("sport");
-					String type = result.getString("type");
-					facilities.get(index).concatSportType(sport, type);
+					facilities.get(index).concatSportType(sport);
 				}else {
 					SportFacility newFacility = new SportFacility();
 					newFacility.setId(id);
@@ -286,8 +283,7 @@ public class SportFacilityDbUtil {
 					newFacility.setSuburb(result.getString("suburb"));
 					newFacility.setPostCode(result.getInt("postCode"));
 					String sport = result.getString("sport");
-					String type = result.getString("type");
-					newFacility.concatSportType(sport, type);
+					newFacility.concatSportType(sport);
 					newFacility.setLga(result.getString("lga"));
 					newFacility.setAddress(result.getString("address"));
 					if(lat != 0 && lon != 0) {

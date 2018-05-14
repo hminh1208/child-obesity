@@ -144,7 +144,7 @@ $(document).ready(function() {
 						}
 					}
 					
-					loadingSportFacilities(suburb, postCode);
+					loadingSportFacilities(suburbName.substring(0,suburbName.length - 5), postCode);
 
 					if (!place.geometry) {
 						// User entered the name of a Place that was not suggested and
