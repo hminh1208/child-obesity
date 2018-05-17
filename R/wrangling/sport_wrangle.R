@@ -44,6 +44,9 @@ sports[sports$sport=="Cricket (Indoor)", "sport"] <- "Cricket"
 sports[sports$sport=="Rock Climbing / Abseiling (Indoor)", "sport"] <- "Rock Climbing"
 sports[sports$sport=="Roller Sports - Other", "sport"] <- "Roller Sports"
 sports[sports$sport=="Open Space", "sport"] <- "Playground"
+sports[sports$sport=="Tae Kwon Do", "sport"] <- "Martial Arts"
+sports[sports$sport=="Karate", "sport"] <- "Martial Arts"
+sports[sports$sport=="Judo", "sport"] <- "Martial Arts"
 
 # drop NA
 sports <- sports[sports$sport!="", ]
