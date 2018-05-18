@@ -137,7 +137,7 @@ shinyServer(function(input, output, session) {
     
     if(nrow(subset)==0){
       heading <- "Opps! We cannot find anything that satisfies your search critera"
-      text <- "Please try changing the intensity level!"
+      text <- "Please try changing the intensity level or choose a different category!"
       }
     
     else{

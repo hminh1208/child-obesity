@@ -54,6 +54,17 @@ shinyServer(function(input, output, session) {
   })
   observeEvent(input$diet_bttn,{
     updateTabItems(session, "tabs", "diet")
+    
+    # update select input -- age group
+    if(24<=age_months & age_months<=36) updateSelectInput(session, "age_group", selected="2-3")
+    if(36<age_months & age_months<=96) updateSelectInput(session, "age_group", selected="4-8")
+    if(96<age_months & age_months<=132) updateSelectInput(session, "age_group", selected="9-11")
+    if(132<age_months & age_months<=156) updateSelectInput(session, "age_group", selected="12-13")
+    if(156<age_months) updateSelectInput(session, "age_group", selected="14-18")
+    
+    # update radio button --gender
+    if(gender==0) updateRadioButtons(session, "gender", selected="boy")
+    if(gender==1) updateRadioButtons(session, "gender", selected="girl")
   })
   observeEvent(input$vic_bttn,{
     updateTabItems(session, "tabs", "vic")
@@ -100,6 +111,7 @@ shinyServer(function(input, output, session) {
       group <<- subset[subset$value==closest_bmi, "group"]
       target_bmi <- subset[subset$variable=="85_percentile", "value"]
       target_weight <<- target_bmi * (height/100)**2
+      
     }
   })
   

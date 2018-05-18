@@ -34,8 +34,13 @@ shinyUI(fluidPage(
         tags$style(HTML(".shiny-output-error-validation {color: #ef5b73;}"))
         ),
       bsModal("startupModal", "There are numerous physical activities, what should I choose?", "", 
-              p("The Australian Department of Health recommends children age 5 to 17 to engage in activities that 
-                                 strengthen muscle and bone on at least 3 days a week.", style="line-height: 1.4"),
+              p(tags$a(href="http://www.health.gov.au/internet/main/publishing.nsf/content/health-pubhlth-strateg-phys-act-guidelines",
+                       "The Australian Department of Health",
+                       target="_blank"), 
+                "recommends children age 5 to 17 to engage in activities that", 
+                tags$b("strengthen muscle and bone"), "on at least", tags$b("3 days a week"), "and accumulate at 
+                least", tags$b("60 minutes of moderate to vigorous intensity"), "physical activity", tags$b("every day."), 
+                style="line-height: 1.4"),
               p("Here we've grouped physical activities into 5 categories to help you
                                  find the ideal activitiy for your child!", style="line-height: 1.4;")),
         tabItems(
@@ -43,12 +48,12 @@ shinyUI(fluidPage(
                   fluidRow(
                     column(width=4,
                            box(width=NULL, background="teal", 
-                               h3("Find a sport now!")
-                               # h3("There are numerous physical activities, what should I choose?"),
-                               # p("The Australian Department of Health recommends children age 5 to 17 to engage in activities that 
-                               #   strengthen muscle and bone on at least 3 days a week.", style="line-height: 1.4"),
-                               # p("Here we've grouped physical activities into 5 categories to help you
-                               #   find the ideal activitiy for your child!", style="line-height: 1.4;")
+                               h3("Find a sport now!"),
+                               p("Start by selecting what you'd like your child to focus on: ", 
+                                 tags$b("bone strengthening, muscle strengthening, high calorie burn, 
+                                        light activities."), 
+                                "Or if you don't feel like heading out today, we also have an option for that!", 
+                                style="line-height: 1.5")
                                ),
                            box(width=NULL, status="warning",
                                selectInput("group", "Select the most important factor: ", selected=NULL,
