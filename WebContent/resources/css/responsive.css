@@ -99,6 +99,9 @@
     .check-bmi{
     	min-height: 1250px;
     }
+    .bmi-content-height{
+    	min-height: 1800px;
+    }
 }
 
 

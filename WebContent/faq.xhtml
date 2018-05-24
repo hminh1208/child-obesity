@@ -39,7 +39,8 @@
     <![endif]-->
 </h:head>
 
-<h:body data-spy="scroll" data-target="#primary-menu" ><!-- style="background-color: #e9ecef;" -->
+<h:body data-spy="scroll" data-target="#primary-menu">
+	<!-- style="background-color: #e9ecef;" -->
 
 	<div class="preloader">
 		<div class="sk-folding-cube">
@@ -69,7 +70,8 @@
 				<li id="check-bmi"><a href="index.xhtml">Home</a></li>
 				<li id="summary"><a href="#feature-page">Summary</a></li>
 				<li id="calories"><a href="calories.xhtml">Find a Sport</a></li>
-				<li id="sport-facility"><a href="facility.xhtml?type=explore">Facilities Near Me</a></li>
+				<li id="sport-facility"><a href="facility.xhtml?type=explore">Facilities
+						Near Me</a></li>
 				<li id="faq" class="active"><a href="faq.xhtml">FAQ</a></li>
 			</ul>
 			</nav>
@@ -78,53 +80,87 @@
 	<!--Mainmenu-area/-->
 
 	<!--Header-area/-->
-    <section class="section-padding full-height" id="faq-page" >
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12 col-sm-6 col-sm-offset-3 text-center">
-                    <div class="page-title">
-                        <h2>Frequently Asked Questions</h2>
-                        <p>You can find answers to common questions in our website here!</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
-                    <div class="panel-group" id="accordion">
-                        <div class="panel">
-                            <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse1" aria-expanded="true">It seems like there is no sport facilities around my area, what happened?</a>
-                            </h4>
-                            <div id="collapse1" class="panel-collapse collapse in">
-                                <p>As flattered as we are to know how eager you are to use features of our website, currently we only provide sports facilities for Greater Melbourne. We are looking forward to updating it for other areas.</p>
-                            </div>
-                        </div>
-                        <div class="panel">
-                            <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">How you calculate the calories burned for those sports? Can you tell me the formula behind it?</a>
-                            </h4>
-                            <div id="collapse2" class="panel-collapse collapse">
-                                <p>This calculation relies on a key value known as a MET, which stands for metabolic equivalent. One “MET” is roughly equivalent to the energy cost of sitting quietly, and can be considered 1 kcal/kg/hour. Since sitting quietly is one MET, a 70 kg person would burn 70 calories (kcal) if they sat quietly for an hour. 
-									<br/><br/>Calories = METS x weight (kg) x time (hours)
-									<br/><br/><a href="http://download.lww.com/wolterskluwer_vitalstream_com/permalink/mss/a/mss_43_8_2011_06_13_ainsworth_202093_sdc1.pdf" style="color: blue">Read more about Estimating MET values for Physical Activities</a>
-								</p>
-                            </div>
-                        </div>
-                        <div class="panel">
-                            <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse3"> Are you storing my child’s information? I feel that is not safe</a>
-                            </h4>
-                            
-                            <div id="collapse3" class="panel-collapse collapse">
-                                <p>Don’t worry! we only use your child’s information to calculate his/her BMI, and we won’t store any data from our end</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+	<section class="section-padding full-height" id="faq-page">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-6 col-sm-offset-3 text-center">
+				<div class="page-title">
+					<h2>Frequently Asked Questions</h2>
+					<p>You can find answers to common questions in our website
+						here!</p>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div
+				class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+				<div class="panel-group" id="accordion">
+					<div class="panel">
+						<h4 class="panel-title">
+							<a data-toggle="collapse" data-parent="#accordion"
+								href="#collapse1" aria-expanded="true">It seems like there
+								is no sport facilities around my area, what happened?</a>
+						</h4>
+						<div id="collapse1" class="panel-collapse collapse in">
+							<p>As flattered as we are to know how eager you are to use
+								features of our website, currently we only provide sports
+								facilities for Greater Melbourne. We are looking forward to
+								updating it for other areas.</p>
+						</div>
+					</div>
+					<div class="panel">
+						<h4 class="panel-title">
+							<a data-toggle="collapse" data-parent="#accordion"
+								href="#collapse2">How you calculate the calories burned for
+								those sports? Can you tell me the formula behind it?</a>
+						</h4>
+						<div id="collapse2" class="panel-collapse collapse">
+							<p>
+								This calculation relies on a key value known as a MET, which
+								stands for metabolic equivalent. One “MET” is roughly equivalent
+								to the energy cost of sitting quietly, and can be considered 1
+								kcal/kg/hour. Since sitting quietly is one MET, a 70 kg person
+								would burn 70 calories (kcal) if they sat quietly for an hour. <br />
+								<br />Calories = METS x weight (kg) x time (hours) <br /> <br />
+								<a
+									href="http://download.lww.com/wolterskluwer_vitalstream_com/permalink/mss/a/mss_43_8_2011_06_13_ainsworth_202093_sdc1.pdf"
+									style="color: blue">Read more about Estimating MET values
+									for Physical Activities</a>
+							</p>
+						</div>
+					</div>
+					<div class="panel">
+						<h4 class="panel-title">
+							<a data-toggle="collapse" data-parent="#accordion"
+								href="#collapse3"> Are you storing my child’s information? I
+								feel that is not safe</a>
+						</h4>
+
+						<div id="collapse3" class="panel-collapse collapse">
+							<p>Don’t worry! we only use your child’s information to
+								calculate his/her BMI, and we won’t store any data from our end</p>
+						</div>
+					</div>
+					<br />
+					<div class="alert alert-warning" role="alert">
+						The information on this website is sourced by Australian
+						Department of Health, Victorian State Government, Victorian Child
+						and Adolescent Monitoring System. <br /> Calorie burn by different
+						activities, Food and Nutrition groups for the child is just an
+						indication of the actual value. Please consult experts for best
+						guidance.
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	</section>
 	<!--Header-area/-->
+
+
 
 	<!--Vendor-JS-->
 	<h:outputScript library="js" name="jquery-1.12.4.min.js" />
